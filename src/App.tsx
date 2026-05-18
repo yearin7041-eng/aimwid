@@ -46,7 +46,7 @@ const Navbar = () => {
       <div className="w-full px-0 flex items-center justify-between container-custom !px-0 relative">
         {/* Logo (Left) */}
         <div className="flex items-center z-10">
-          <img src="/logo_horizontal.png" alt="AIMWID" className="w-[164px] h-auto" />
+          <img src="logo_horizontal.png" alt="AIMWID" className="w-[164px] h-auto" />
         </div>
 
         {/* Menu (Center) */}
@@ -104,7 +104,7 @@ const Hero = () => {
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="/main_video.mp4" type="video/mp4" />
+          <source src="main_video.mp4" type="video/mp4" />
         </video>
         {/* Overlay to ensure text readability if needed, or just a dark tint */}
         <div className="absolute inset-0 bg-black/40" />
@@ -146,7 +146,7 @@ const WorkflowDetails = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/main_bg_01.png"
+          src="main_bg_01.png"
           alt="Workflow Background"
           className="w-full h-full object-cover"
         />
@@ -179,19 +179,19 @@ const WorkflowDetails = () => {
 
               {/* Top (12 o'clock) → points right */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <img src="/arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(0deg)' }} />
+                <img src="arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(0deg)' }} />
               </div>
               {/* Right (3 o'clock) → points down */}
               <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2">
-                <img src="/arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(90deg)' }} />
+                <img src="arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(90deg)' }} />
               </div>
               {/* Bottom (6 o'clock) → points left */}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-                <img src="/arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(180deg)' }} />
+                <img src="arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(180deg)' }} />
               </div>
               {/* Left (9 o'clock) → points up */}
               <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <img src="/arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(270deg)' }} />
+                <img src="arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(270deg)' }} />
               </div>
             </motion.div>
 
@@ -205,7 +205,7 @@ const WorkflowDetails = () => {
                   boxShadow: activeIcon === 0 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
-                <img src="/icon_01.png" alt="Icon 01" className="w-6 h-6" />
+                <img src="icon_01.png" alt="Icon 01" className="w-6 h-6" />
                 <span className="absolute right-full mr-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">구상 및 정의</span>
               </div>
             </div>
@@ -219,7 +219,7 @@ const WorkflowDetails = () => {
                   boxShadow: activeIcon === 1 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
-                <img src="/icon_02.png" alt="Icon 02" className="w-6 h-6" />
+                <img src="icon_02.png" alt="Icon 02" className="w-6 h-6" />
                 <span className="absolute left-full ml-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">지능형 조립</span>
               </div>
             </div>
@@ -233,7 +233,7 @@ const WorkflowDetails = () => {
                   boxShadow: activeIcon === 2 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
-                <img src="/icon_03.png" alt="Icon 03" className="w-6 h-6" />
+                <img src="icon_03.png" alt="Icon 03" className="w-6 h-6" />
                 <span className="absolute right-full mr-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">코드 검증</span>
               </div>
             </div>
@@ -247,7 +247,7 @@ const WorkflowDetails = () => {
                   boxShadow: activeIcon === 3 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
-                <img src="/icon_04.png" alt="Icon 04" className="w-6 h-6" />
+                <img src="icon_04.png" alt="Icon 04" className="w-6 h-6" />
                 <span className="absolute left-full ml-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">화이트라벨 배포</span>
               </div>
             </div>
@@ -255,7 +255,7 @@ const WorkflowDetails = () => {
 
           {/* Center Image & Overlay */}
           <div className="relative z-10 w-[380px] h-[380px] rounded-full overflow-hidden border-2 border-brand-blue/30 shadow-[0_0_50px_rgba(59,130,246,0.3)] flex items-center justify-center">
-            <img src="/img_01.png" alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
+            <img src="img_01.png" alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-center">
               <h3 className="text-white text-3xl font-bold tracking-tight">AI-Native Master</h3>
               <p className="text-white/80 text-lg font-medium mt-1">Workflow</p>
@@ -368,10 +368,10 @@ const SolutionShowcase = () => {
   }, [scrollYProgress, activeIndex]);
 
   const solutions = [
-    { logo: "/aimnis_logo_horizontal.png" },
-    { logo: "/aimguard_logo_horizontal.png" },
-    { logo: "/aimnis_logo_horizontal.png" },
-    { logo: "/aimnis_logo_horizontal.png" },
+    { logo: "aimnis_logo_horizontal.png" },
+    { logo: "aimguard_logo_horizontal.png" },
+    { logo: "aimnis_logo_horizontal.png" },
+    { logo: "aimnis_logo_horizontal.png" },
   ];
 
   return (
@@ -422,7 +422,7 @@ const SolutionShowcase = () => {
                 <div className="flex-1 z-10 flex items-center justify-center">
                   <div className="relative w-full max-w-[650px]">
                     <img 
-                      src="/img_02.png" 
+                      src="img_02.png" 
                       alt="Solution Visual" 
                       className="w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(59,130,246,0.3)]" 
                     />
@@ -442,17 +442,17 @@ const VisionSection = () => {
     {
       title: "그리드 기반의 고속 조립",
       desc: <>규격화된 위젯과 AI 검증 공정으로<br />구축 시간을 60% 이상 단축</>,
-      img: "/our vision_01.png"
+      img: "our vision_01.png"
     },
     {
       title: "완벽한 화이트라벨링",
       desc: <>헤드리스 SDK를 통해 기술은 공유하되,<br />디자인 주권은 완벽히 고객에게 드립니다</>,
-      img: "/our vision_02.png"
+      img: "our vision_02.png"
     },
     {
       title: "AI 에이전트와의 협업",
       desc: <>AI 에이전트를 통해 누구나 쉽고 자유롭게<br />시스템을 수정하고 발전시킵니다</>,
-      img: "/our vision_03.png"
+      img: "our vision_03.png"
     }
   ];
 
@@ -501,7 +501,7 @@ const NewsSection = () => {
   ];
 
   return (
-    <section id="business" className="py-32 bg-[url('/main_news_bg.png')] bg-cover bg-center">
+    <section id="business" className="py-32 bg-[url('main_news_bg.png')] bg-cover bg-center">
       <div className="container-custom grid md:grid-cols-[350px_1fr] gap-20">
         <div>
           <h2 className="text-[40px] font-bold font-display mb-2">AIMWID News</h2>
@@ -541,37 +541,37 @@ const UseCases = () => {
       tag: "AIM GUARD",
       sub: "일반기업",
       title: "TMS 대기환경 모니터링 시스템",
-      img: "/use_case_01.png"
+      img: "use_case_01.png"
     },
     {
       tag: "AIM ECO",
       sub: "일반기업",
       title: "배터리 화재 모니터링 시스템",
-      img: "/use_case_02.png"
+      img: "use_case_02.png"
     },
     {
       tag: "AIM GUARD",
       sub: "일반기업",
       title: "도시형 에너지 모니터링 시스템",
-      img: "/use_case_03.png"
+      img: "use_case_03.png"
     },
     {
       tag: "AIM TOOLS",
       sub: "일반기업",
       title: "실내공기질 모니터링 시스템",
-      img: "/use_case_04.png"
+      img: "use_case_04.png"
     },
     {
       tag: "AIM GUARD",
       sub: "일반기업",
       title: "스마트 팩토리 모니터링 시스템",
-      img: "/use_case_05.png"
+      img: "use_case_05.png"
     },
     {
       tag: "AIM TOOLS",
       sub: "일반기업",
       title: "스마트 물류 관제 시스템",
-      img: "/use_case_01.png"
+      img: "use_case_01.png"
     }
   ];
 
@@ -613,7 +613,7 @@ const ContactSection = () => {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[600px] bg-brand-cyan/5 rounded-full blur-[140px] -z-10" />
 
       <div className="relative flex justify-center items-center mb-0 mt-[200px] h-[730px] w-full">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1237px] bg-[url('/main_partner_bg.png')] bg-center bg-no-repeat bg-contain pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1237px] bg-[url('main_partner_bg.png')] bg-center bg-no-repeat bg-contain pointer-events-none"></div>
         <h1 className="relative z-10 text-[110px] font-bold font-display text-center leading-[1.1] tracking-[0.16em] text-white drop-shadow-xl pl-[0.16em] -translate-y-[150px]">
           YOUR<br />AI PLATFORM<br />PARTNER
         </h1>
@@ -688,7 +688,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-start gap-16 md:gap-32">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <img src="/logo_horizontal.png" alt="AIMWID" className="w-[164px] h-auto" />
+            <img src="logo_horizontal.png" alt="AIMWID" className="w-[164px] h-auto" />
           </div>
 
           {/* Right Content */}
