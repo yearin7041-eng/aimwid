@@ -29,6 +29,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, animate } from "motion/react";
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
 // --- Components ---
 
 const Navbar = () => {
@@ -46,7 +48,7 @@ const Navbar = () => {
       <div className="w-full px-0 flex items-center justify-between container-custom !px-0 relative">
         {/* Logo (Left) */}
         <div className="flex items-center z-10">
-          <img src="logo_horizontal.png" alt="AIMWID" className="w-[164px] h-auto" />
+          <img src={asset("logo_horizontal.png")} alt="AIMWID" className="w-[164px] h-auto" />
         </div>
 
         {/* Menu (Center) */}
@@ -104,7 +106,7 @@ const Hero = () => {
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src="main_video.mp4" type="video/mp4" />
+          <source src={asset("main_video.mp4")} type="video/mp4" />
         </video>
         {/* Overlay to ensure text readability if needed, or just a dark tint */}
         <div className="absolute inset-0 bg-black/40" />
@@ -146,7 +148,7 @@ const WorkflowDetails = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="main_bg_01.png"
+          src={asset("main_bg_01.png")}
           alt="Workflow Background"
           className="w-full h-full object-cover"
         />
@@ -179,19 +181,19 @@ const WorkflowDetails = () => {
 
               {/* Top (12 o'clock) → points right */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <img src="arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(0deg)' }} />
+                <img src={asset("arrow.png")} alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(0deg)' }} />
               </div>
               {/* Right (3 o'clock) → points down */}
               <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2">
-                <img src="arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(90deg)' }} />
+                <img src={asset("arrow.png")} alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(90deg)' }} />
               </div>
               {/* Bottom (6 o'clock) → points left */}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-                <img src="arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(180deg)' }} />
+                <img src={asset("arrow.png")} alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(180deg)' }} />
               </div>
               {/* Left (9 o'clock) → points up */}
               <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <img src="arrow.png" alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(270deg)' }} />
+                <img src={asset("arrow.png")} alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(270deg)' }} />
               </div>
             </motion.div>
 
@@ -205,7 +207,7 @@ const WorkflowDetails = () => {
                   boxShadow: activeIcon === 0 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
-                <img src="icon_01.png" alt="Icon 01" className="w-6 h-6" />
+                <img src={asset("icon_01.png")} alt="Icon 01" className="w-6 h-6" />
                 <span className="absolute right-full mr-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">구상 및 정의</span>
               </div>
             </div>
@@ -219,7 +221,7 @@ const WorkflowDetails = () => {
                   boxShadow: activeIcon === 1 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
-                <img src="icon_02.png" alt="Icon 02" className="w-6 h-6" />
+                <img src={asset("icon_02.png")} alt="Icon 02" className="w-6 h-6" />
                 <span className="absolute left-full ml-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">지능형 조립</span>
               </div>
             </div>
@@ -233,7 +235,7 @@ const WorkflowDetails = () => {
                   boxShadow: activeIcon === 2 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
-                <img src="icon_03.png" alt="Icon 03" className="w-6 h-6" />
+                <img src={asset("icon_03.png")} alt="Icon 03" className="w-6 h-6" />
                 <span className="absolute right-full mr-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">코드 검증</span>
               </div>
             </div>
@@ -247,7 +249,7 @@ const WorkflowDetails = () => {
                   boxShadow: activeIcon === 3 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
-                <img src="icon_04.png" alt="Icon 04" className="w-6 h-6" />
+                <img src={asset("icon_04.png")} alt="Icon 04" className="w-6 h-6" />
                 <span className="absolute left-full ml-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">화이트라벨 배포</span>
               </div>
             </div>
@@ -255,7 +257,7 @@ const WorkflowDetails = () => {
 
           {/* Center Image & Overlay */}
           <div className="relative z-10 w-[380px] h-[380px] rounded-full overflow-hidden border-2 border-brand-blue/30 shadow-[0_0_50px_rgba(59,130,246,0.3)] flex items-center justify-center">
-            <img src="img_01.png" alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
+            <img src={asset("img_01.png")} alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-center">
               <h3 className="text-white text-3xl font-bold tracking-tight">AI-Native Master</h3>
               <p className="text-white/80 text-lg font-medium mt-1">Workflow</p>
@@ -404,7 +406,7 @@ const SolutionShowcase = () => {
                 
                 {/* Content (Left) */}
                 <div className="flex-1 z-10 flex flex-col gap-10">
-                  <img src={item.logo} alt="Logo" className="w-[280px] h-auto" />
+                  <img src={asset(item.logo)} alt="Logo" className="w-[280px] h-auto" />
                   <div className="space-y-6">
                     <h3 className="text-[34px] font-bold leading-tight">엔터프라이즈를 위한<br />지능형 마스터 빌더</h3>
                     <p className="text-white/60 text-[18px] leading-relaxed max-w-xl">
@@ -422,7 +424,7 @@ const SolutionShowcase = () => {
                 <div className="flex-1 z-10 flex items-center justify-center">
                   <div className="relative w-full max-w-[650px]">
                     <img 
-                      src="img_02.png" 
+                      src={asset("img_02.png")} 
                       alt="Solution Visual" 
                       className="w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(59,130,246,0.3)]" 
                     />
@@ -474,7 +476,7 @@ const VisionSection = () => {
             className="group cursor-pointer text-center"
           >
             <div className="relative w-[500px] h-[330px] rounded-2xl overflow-hidden mb-6 mx-auto">
-              <img src={v.img} alt={v.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
+              <img src={asset(v.img)} alt={v.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 bg-bg-dark/40 group-hover:bg-bg-dark/10 transition-colors" />
             </div>
             <h3 className="text-[24px] font-bold text-white mb-2">{v.title}</h3>
@@ -501,7 +503,7 @@ const NewsSection = () => {
   ];
 
   return (
-    <section id="business" className="py-32 bg-[url('main_news_bg.png')] bg-cover bg-center">
+    <section id="business" className="py-32 bg-cover bg-center" style={{ backgroundImage: `url(${asset("main_news_bg.png")})` }}>
       <div className="container-custom grid md:grid-cols-[350px_1fr] gap-20">
         <div>
           <h2 className="text-[40px] font-bold font-display mb-2">AIMWID News</h2>
@@ -591,7 +593,7 @@ const UseCases = () => {
           {[...cases, ...cases].map((c, i) => (
             <div key={i} className="group w-[410px]">
               <div className="relative w-[410px] h-[280px] rounded-2xl overflow-hidden mb-6">
-                <img src={c.img} alt={c.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                <img src={asset(c.img)} alt={c.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent" />
               </div>
               <div className="flex gap-2 mb-3">
@@ -613,7 +615,7 @@ const ContactSection = () => {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[600px] bg-brand-cyan/5 rounded-full blur-[140px] -z-10" />
 
       <div className="relative flex justify-center items-center mb-0 mt-[200px] h-[730px] w-full">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1237px] bg-[url('main_partner_bg.png')] bg-center bg-no-repeat bg-contain pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1237px] bg-center bg-no-repeat bg-contain pointer-events-none" style={{ backgroundImage: `url(${asset("main_partner_bg.png")})` }}></div>
         <h1 className="relative z-10 text-[110px] font-bold font-display text-center leading-[1.1] tracking-[0.16em] text-white drop-shadow-xl pl-[0.16em] -translate-y-[150px]">
           YOUR<br />AI PLATFORM<br />PARTNER
         </h1>
@@ -688,7 +690,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row items-start gap-16 md:gap-32">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <img src="logo_horizontal.png" alt="AIMWID" className="w-[164px] h-auto" />
+            <img src={asset("logo_horizontal.png")} alt="AIMWID" className="w-[164px] h-auto" />
           </div>
 
           {/* Right Content */}
