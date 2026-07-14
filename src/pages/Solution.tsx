@@ -160,6 +160,11 @@ const Lifecycle = () => (
   <section className="relative pt-[170px] pb-28 bg-[#020617] overflow-hidden">
     {/* ambient depth behind the row */}
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_48%_at_50%_46%,rgba(0,204,204,0.07),transparent_70%)]" />
+    {/* glossy glow — teal, bleeding in from the left (Figma: Ellipse 12) */}
+    <div
+      className="pointer-events-none absolute -left-[520px] top-0 h-[1000px] w-[1120px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.42), rgba(0,210,210,0) 72%)" }}
+    />
 
     <div className="container-custom relative">
       <motion.div
@@ -280,8 +285,13 @@ const HexIcon = ({ icon: Icon, emphasis = false }: { icon: typeof CloudDownload;
 );
 
 const Framework = () => (
-  <section className="py-24 bg-[#020617]">
-    <div className="container-custom">
+  <section className="relative overflow-hidden py-24 bg-[#020617]">
+    {/* glossy glow — blue, bleeding in from the right (Figma: Ellipse 11) */}
+    <div
+      className="pointer-events-none absolute -right-[440px] top-[-8%] h-[1200px] w-[940px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.40), rgba(54,132,247,0) 72%)" }}
+    />
+    <div className="container-custom relative">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -430,17 +440,30 @@ const solutionCards = [
 ];
 
 const SolutionCards = () => (
-  <section className="pt-[110px] pb-16 bg-[#020617]">
+  <section className="relative overflow-hidden pt-[110px] pb-16 bg-[#020617]">
+    {/* glossy glows — teal / blue alternating down the cards (Figma: Ellipse 13, 14) */}
+    <div
+      className="pointer-events-none absolute -left-[520px] top-[8%] h-[1000px] w-[1120px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.36), rgba(0,210,210,0) 72%)" }}
+    />
+    <div
+      className="pointer-events-none absolute -right-[440px] top-[42%] h-[1150px] w-[940px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.34), rgba(54,132,247,0) 72%)" }}
+    />
+    <div
+      className="pointer-events-none absolute -left-[520px] top-[74%] h-[1000px] w-[1120px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.34), rgba(0,210,210,0) 72%)" }}
+    />
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="container-custom mb-14 md:mb-20"
+      className="container-custom relative mb-14 md:mb-20"
     >
       <CenterHeading label="Industry Solutions" title="현장에서 검증된 6개 산업 솔루션" />
     </motion.div>
-    <div className="container-custom flex flex-col gap-12 md:gap-16">
+    <div className="container-custom relative flex flex-col gap-12 md:gap-16">
       {solutionCards.map((c, i) => (
         <motion.div
           key={c.img}
@@ -494,8 +517,13 @@ const SolutionCards = () => (
 
 // --- 6. CTA ---
 const CTA = () => (
-  <section className="py-20 bg-[#020617]">
-    <div className="container-custom">
+  <section className="relative overflow-hidden py-20 bg-[#020617]">
+    {/* glossy glow — teal, bleeding in from the left (Figma: Ellipse 14) */}
+    <div
+      className="pointer-events-none absolute -left-[480px] top-[-10%] h-[900px] w-[1080px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.32), rgba(0,210,210,0) 72%)" }}
+    />
+    <div className="container-custom relative">
       <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#00cccc]/25 bg-[#04090f]">
         <img
           src={asset("solution_hero_bg.png")}

@@ -6,3 +6,4 @@ coverage/
 *.log
 .env*
 !.env.example
+aimnis_hero_original.mp4

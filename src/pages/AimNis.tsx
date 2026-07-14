@@ -37,14 +37,29 @@ const ActionButtons = () => (
 // --- 1. Hero ---
 const Hero = () => (
   <section className="relative min-h-[900px] overflow-hidden bg-[#040813]">
-    {/* Infinity ecosystem graphic (right) */}
-    <div className="absolute inset-0 pointer-events-none">
-      <img
-        src={asset("aimnis_hero.png")}
-        alt="AIMNIS Ecosystem"
-        className="absolute right-0 top-1/2 -translate-y-1/2 h-[94%] w-auto max-w-none object-contain"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/40 via-32% to-transparent to-55%" />
+    {/* Ecosystem loop video — placed in the right area (not full-bleed). The clip's rings bleed off
+        its edges, so each edge fades into the hero background to hide the crop. Poster = still image
+        until the video loads. */}
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 h-[62%] aspect-video">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={asset("aimnis_hero.png")}
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src={asset("aimnis_hero.mp4")} type="video/mp4" />
+        </video>
+        {/* fade the ring crop on each edge of the clip */}
+        <div className="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-[#040813] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-[28%] bg-gradient-to-t from-[#040813] to-transparent" />
+        <div className="absolute inset-y-0 left-0 w-[26%] bg-gradient-to-r from-[#040813] to-transparent" />
+      </div>
+
+      {/* left → right darkening so the headline stays readable */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-20% via-[#040813]/45 via-40% to-transparent to-56%" />
     </div>
 
     {/* Header → hero color bridge */}
@@ -60,9 +75,8 @@ const Hero = () => (
         <div className="flex flex-col gap-7">
           <p className="text-[#00cccc] text-[18px] font-bold leading-[1.4]">데이터 연동부터 통합관제까지,</p>
           <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
-            엔터프라이즈를<br />
-            위한 단 하나의<br />
-            화이트 라벨 AI 빌더
+            엔터프라이즈를 위한 <br /> 
+            단 하나의 화이트 라벨 <br /> AI 빌더
           </h1>
           <p className="text-white text-[18px] font-normal leading-[1.5]">
             6개월이 걸리던 복잡한 프로젝트를 단 2개월 만에.<br />
