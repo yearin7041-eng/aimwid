@@ -374,7 +374,7 @@ const solutionCards = [
     en: "Power Data Business Platform",
     kr: "발전 데이터 비즈니스 연계 플랫폼",
     desc: "발전 데이터의 체계적인 카탈로그 관리와 통합 검색, 활용 신청 워크플로우를 제공합니다. API 기반으로 데이터를 안전하고 빠르게 제공하며, 제도적 상담 지원을 통해 데이터의 활용 가치를 높입니다.",
-    img: "solution_card_power_v5.webp",
+    img: "solution_card_power_v6.webp",
     chips: [
       { icon: ListTree, label: "데이터 카탈로그" },
       { icon: Search, label: "데이터 검색" },
