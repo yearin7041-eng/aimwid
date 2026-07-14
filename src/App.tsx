@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   ChevronRight,
   ChevronLeft,
+  ChevronDown,
   Menu,
   X,
   ArrowRight,
@@ -28,6 +29,10 @@ import {
   Settings
 } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, animate } from "motion/react";
+import { Routes, Route, useLocation, Link } from "react-router-dom";
+import AimGuard from "./pages/AimGuard";
+import AimNis from "./pages/AimNis";
+import Solution from "./pages/Solution";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -48,16 +53,50 @@ const Navbar = () => {
       <div className="w-full px-0 flex items-center justify-between container-custom !px-0 relative">
         {/* Logo (Left) */}
         <div className="flex items-center z-10">
-          <img src={asset("logo_horizontal.png")} alt="AIMWID" className="w-[164px] h-auto" />
+          <Link to="/">
+            <img src={asset("logo_horizontal.png")} alt="AIMWID" className="w-[164px] h-auto" />
+          </Link>
         </div>
 
         {/* Menu (Center) */}
         <div className="hidden md:flex items-center absolute left-1/2 -translate-x-1/2" style={{ gap: '100px' }}>
-          {["Solution", "Business", "Company", "Contact"].map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="text-[18px] font-semibold text-white hover:text-brand-cyan transition-colors">
-              {item}
-            </a>
-          ))}
+          {["Solution", "Business", "Company", "Contact"].map((item) => {
+            if (item === "Solution") {
+              return (
+                <div key={item} className="relative group flex items-center h-[80px]">
+                  <a href={`#${item.toLowerCase()}`} className="text-[18px] font-semibold text-white group-hover:text-brand-cyan transition-colors flex items-center gap-1 cursor-pointer">
+                    {item} <ChevronDown size={16} className="mt-0.5 opacity-70 group-hover:opacity-100 transition-opacity" />
+                  </a>
+                  {/* Dropdown Menu */}
+                  <div className="absolute top-[65px] left-1/2 -translate-x-1/2 pt-2 w-[160px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                    <div className="bg-bg-dark/95 backdrop-blur-md border border-brand-cyan/20 rounded-xl overflow-hidden shadow-2xl flex flex-col py-2">
+                      {["AIMNIS", "AIM GUARD", "SOLUTION"].map((subItem) => (
+                        <Link 
+                          key={subItem} 
+                          to={subItem === "AIM GUARD" ? "/aimguard" : subItem === "AIMNIS" ? "/aimnis" : "/solution"}
+                          className="px-5 py-3 text-[15px] font-medium text-white/80 hover:text-brand-cyan hover:bg-brand-cyan/10 transition-colors text-center"
+                          onClick={() => {
+                            if (subItem !== "AIM GUARD") {
+                              window.scrollTo(0, 0);
+                            }
+                          }}
+                        >
+                          {subItem}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+            return (
+              <div key={item} className="flex items-center h-[80px]">
+                <a href={`#${item.toLowerCase()}`} className="text-[18px] font-semibold text-white hover:text-brand-cyan transition-colors">
+                  {item}
+                </a>
+              </div>
+            );
+          })}
         </div>
 
         {/* Mobile Menu Button (Right) */}
@@ -78,14 +117,34 @@ const Navbar = () => {
             className="absolute top-full left-0 right-0 bg-bg-dark border-b border-white/10 p-6 flex flex-col gap-4 md:hidden"
           >
             {["Solution", "Business", "Company", "Contact"].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-lg font-medium py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {item}
-              </a>
+              <div key={item} className="flex flex-col">
+                <a
+                  href={`#${item.toLowerCase()}`}
+                  className="text-lg font-medium py-2 flex items-center justify-between"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item}
+                </a>
+                {item === "Solution" && (
+                  <div className="flex flex-col pl-4 border-l-2 border-brand-cyan/30 ml-2 mt-1 mb-2 gap-3 py-2">
+                    {["AIMNIS", "AIM GUARD", "SOLUTION"].map((subItem) => (
+                      <Link 
+                        key={subItem} 
+                        to={subItem === "AIM GUARD" ? "/aimguard" : subItem === "AIMNIS" ? "/aimnis" : "/solution"}
+                        className="text-base text-white/70 hover:text-brand-cyan transition-colors" 
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          if (subItem !== "AIM GUARD") {
+                            window.scrollTo(0, 0);
+                          }
+                        }}
+                      >
+                        {subItem}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
           </motion.div>
         )}
@@ -770,10 +829,9 @@ const ScrollToTopButton = () => {
   );
 };
 
-export default function App() {
+const Home = () => {
   return (
-    <div className="min-h-screen bg-bg-dark selection:bg-brand-cyan/20 relative">
-      <Navbar />
+    <>
       <Hero />
       <WorkflowDetails />
       <SolutionShowcase />
@@ -781,6 +839,30 @@ export default function App() {
       <NewsSection />
       <UseCases />
       <ContactSection />
+    </>
+  );
+};
+
+// Helper component to scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-bg-dark selection:bg-brand-cyan/20 relative">
+      <ScrollToTop />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/aimguard" element={<AimGuard />} />
+        <Route path="/aimnis" element={<AimNis />} />
+        <Route path="/solution" element={<Solution />} />
+      </Routes>
       <Footer />
       <ScrollToTopButton />
     </div>

@@ -15,6 +15,21 @@
   body {
     @apply bg-bg-dark text-white font-sans antialiased selection:bg-brand-cyan/30;
   }
+
+  button:not(:disabled),
+  a[href],
+  label[for],
+  summary,
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .glass {
@@ -39,4 +54,20 @@
   margin-right: auto;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+}
+
+/* Lifecycle energy-rail pulse: a light segment flowing left → right along the rail */
+@keyframes rail-flow {
+  0%   { left: -6%;  opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { left: 106%; opacity: 0; }
+}
+
+/* Framework pipeline pulse: a light segment flowing top → bottom through the layer stack */
+@keyframes rail-flow-v {
+  0%   { top: -6%;  opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { top: 106%; opacity: 0; }
 }
