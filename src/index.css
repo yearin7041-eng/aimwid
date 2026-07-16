@@ -64,6 +64,14 @@
   100% { left: 106%; opacity: 0; }
 }
 
+/* Our Business: the dashed arc the parts travel along, from the built site to the next one.
+   Offsets by 32px per cycle, so a user's strokeDasharray period MUST divide 32 (e.g. 8 8) or the
+   loop visibly jumps at the seam. */
+@keyframes flow-dash {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -32; }
+}
+
 /* Framework pipeline pulse: a light segment flowing top → bottom through the layer stack */
 @keyframes rail-flow-v {
   0%   { top: -6%;  opacity: 0; }

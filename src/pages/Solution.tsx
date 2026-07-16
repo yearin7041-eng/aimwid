@@ -72,14 +72,14 @@ const Hero = () => (
     {/* Header → hero color bridge — kept short so it only darkens the navbar strip (readability) while the city/plant tops stay fully visible */}
     <div className="absolute top-0 inset-x-0 h-[96px] bg-gradient-to-b from-[#020617] via-[#020617]/55 to-transparent pointer-events-none z-[1]" />
 
-    <div className="container-custom relative z-10 pt-[180px] pb-[120px]">
+    {/* pt absorbs the removed eyebrow's 53px (25.2px line + gap-7) so the h1 keeps its position */}
+    <div className="container-custom relative z-10 pt-[233px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="max-w-[760px] flex flex-col gap-7"
       >
-        <p className="text-[#00cccc] text-[18px] font-bold leading-[1.4]">Industry AI Solutions</p>
         <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
           산업 현장에서 검증된<br />
           AI 솔루션 라인업

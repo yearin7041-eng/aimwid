@@ -67,7 +67,8 @@ const Hero = () => (
     {/* Header → hero color bridge (smooth transition from navbar) */}
     <div className="absolute top-0 inset-x-0 h-[200px] bg-gradient-to-b from-[#020617] via-[#020617]/70 to-transparent pointer-events-none z-[1]" />
 
-    <div className="container-custom relative z-10 pt-[141px]">
+    {/* pt absorbs the removed eyebrow's 53px (25.2px line + gap-7) so the h1 keeps its position */}
+    <div className="container-custom relative z-10 pt-[194px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -75,9 +76,6 @@ const Hero = () => (
         className="max-w-[714px] flex flex-col gap-[74px]"
       >
         <div className="flex flex-col gap-7">
-          <p className="text-[#00cccc] text-[18px] font-bold leading-[1.4]">
-            AI가 위험을 감지하기 전에 대응합니다
-          </p>
           <div className="flex flex-col gap-6">
             <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
               산업 현장의 안전을 지키는<br />

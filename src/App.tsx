@@ -33,6 +33,7 @@ import { Routes, Route, useLocation, Link } from "react-router-dom";
 import AimGuard from "./pages/AimGuard";
 import AimNis from "./pages/AimNis";
 import Solution from "./pages/Solution";
+import Business from "./pages/Business";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -89,6 +90,15 @@ const Navbar = () => {
                 </div>
               );
             }
+            if (item === "Business") {
+              return (
+                <div key={item} className="flex items-center h-[80px]">
+                  <Link to="/business" className="text-[18px] font-semibold text-white hover:text-brand-cyan transition-colors">
+                    {item}
+                  </Link>
+                </div>
+              );
+            }
             return (
               <div key={item} className="flex items-center h-[80px]">
                 <a href={`#${item.toLowerCase()}`} className="text-[18px] font-semibold text-white hover:text-brand-cyan transition-colors">
@@ -118,13 +128,23 @@ const Navbar = () => {
           >
             {["Solution", "Business", "Company", "Contact"].map((item) => (
               <div key={item} className="flex flex-col">
-                <a
-                  href={`#${item.toLowerCase()}`}
-                  className="text-lg font-medium py-2 flex items-center justify-between"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item}
-                </a>
+                {item === "Business" ? (
+                  <Link
+                    to="/business"
+                    className="text-lg font-medium py-2 flex items-center justify-between"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item}
+                  </Link>
+                ) : (
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    className="text-lg font-medium py-2 flex items-center justify-between"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item}
+                  </a>
+                )}
                 {item === "Solution" && (
                   <div className="flex flex-col pl-4 border-l-2 border-brand-cyan/30 ml-2 mt-1 mb-2 gap-3 py-2">
                     {["AIMNIS", "AIM GUARD", "SOLUTION"].map((subItem) => (
@@ -862,6 +882,7 @@ export default function App() {
         <Route path="/aimguard" element={<AimGuard />} />
         <Route path="/aimnis" element={<AimNis />} />
         <Route path="/solution" element={<Solution />} />
+        <Route path="/business" element={<Business />} />
       </Routes>
       <Footer />
       <ScrollToTopButton />
