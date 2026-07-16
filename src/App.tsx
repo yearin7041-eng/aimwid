@@ -39,9 +39,24 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
 // --- Components ---
 
+// The Solution dropdown's three entries and the routes behind them. Was inlined twice (desktop and
+// mobile) as a nested ternary; it is here now because the active check needs the same mapping a third
+// time.
+const SOLUTION_SUBS = ["AIMNIS", "AIM GUARD", "SOLUTION"] as const;
+const subRoute = (sub: string) => (sub === "AIM GUARD" ? "/aimguard" : sub === "AIMNIS" ? "/aimnis" : "/solution");
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  // "Solution" is a parent, not a page — it lights up on any of the three routes under it, or landing
+  // on /aimnis would leave the whole bar looking inert. Company and Contact are #anchors on Home with
+  // no route of their own, so they have no active state to be in.
+  const isActive = (item: string) =>
+    item === "Solution"
+      ? SOLUTION_SUBS.some((s) => subRoute(s) === pathname)
+      : item === "Business" && pathname === "/business";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -65,17 +80,17 @@ const Navbar = () => {
             if (item === "Solution") {
               return (
                 <div key={item} className="relative group flex items-center h-[80px]">
-                  <a href={`#${item.toLowerCase()}`} className="text-[18px] font-semibold text-white group-hover:text-brand-cyan transition-colors flex items-center gap-1 cursor-pointer">
+                  <a href={`#${item.toLowerCase()}`} className={`text-[18px] font-semibold group-hover:text-brand-cyan transition-colors flex items-center gap-1 cursor-pointer ${isActive(item) ? "text-brand-cyan" : "text-white"}`}>
                     {item} <ChevronDown size={16} className="mt-0.5 opacity-70 group-hover:opacity-100 transition-opacity" />
                   </a>
                   {/* Dropdown Menu */}
                   <div className="absolute top-[65px] left-1/2 -translate-x-1/2 pt-2 w-[160px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                     <div className="bg-bg-dark/95 backdrop-blur-md border border-brand-cyan/20 rounded-xl overflow-hidden shadow-2xl flex flex-col py-2">
-                      {["AIMNIS", "AIM GUARD", "SOLUTION"].map((subItem) => (
-                        <Link 
-                          key={subItem} 
-                          to={subItem === "AIM GUARD" ? "/aimguard" : subItem === "AIMNIS" ? "/aimnis" : "/solution"}
-                          className="px-5 py-3 text-[15px] font-medium text-white/80 hover:text-brand-cyan hover:bg-brand-cyan/10 transition-colors text-center"
+                      {SOLUTION_SUBS.map((subItem) => (
+                        <Link
+                          key={subItem}
+                          to={subRoute(subItem)}
+                          className={`px-5 py-3 text-[15px] font-medium hover:text-brand-cyan hover:bg-brand-cyan/10 transition-colors text-center ${pathname === subRoute(subItem) ? "text-brand-cyan bg-brand-cyan/10" : "text-white/80"}`}
                           onClick={() => {
                             if (subItem !== "AIM GUARD") {
                               window.scrollTo(0, 0);
@@ -93,7 +108,7 @@ const Navbar = () => {
             if (item === "Business") {
               return (
                 <div key={item} className="flex items-center h-[80px]">
-                  <Link to="/business" className="text-[18px] font-semibold text-white hover:text-brand-cyan transition-colors">
+                  <Link to="/business" className={`text-[18px] font-semibold hover:text-brand-cyan transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}>
                     {item}
                   </Link>
                 </div>
@@ -131,7 +146,7 @@ const Navbar = () => {
                 {item === "Business" ? (
                   <Link
                     to="/business"
-                    className="text-lg font-medium py-2 flex items-center justify-between"
+                    className={`text-lg font-medium py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item}
@@ -139,7 +154,7 @@ const Navbar = () => {
                 ) : (
                   <a
                     href={`#${item.toLowerCase()}`}
-                    className="text-lg font-medium py-2 flex items-center justify-between"
+                    className={`text-lg font-medium py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item}
@@ -147,11 +162,11 @@ const Navbar = () => {
                 )}
                 {item === "Solution" && (
                   <div className="flex flex-col pl-4 border-l-2 border-brand-cyan/30 ml-2 mt-1 mb-2 gap-3 py-2">
-                    {["AIMNIS", "AIM GUARD", "SOLUTION"].map((subItem) => (
-                      <Link 
-                        key={subItem} 
-                        to={subItem === "AIM GUARD" ? "/aimguard" : subItem === "AIMNIS" ? "/aimnis" : "/solution"}
-                        className="text-base text-white/70 hover:text-brand-cyan transition-colors" 
+                    {SOLUTION_SUBS.map((subItem) => (
+                      <Link
+                        key={subItem}
+                        to={subRoute(subItem)}
+                        className={`text-base transition-colors hover:text-brand-cyan ${pathname === subRoute(subItem) ? "text-brand-cyan" : "text-white/70"}`}
                         onClick={() => {
                           setMobileMenuOpen(false);
                           if (subItem !== "AIM GUARD") {
