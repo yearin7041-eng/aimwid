@@ -2,15 +2,11 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
+import Breadcrumb from "../components/Breadcrumb";
 import {
-  FileText,
-  Monitor,
-  AlertTriangle,
-  Activity,
-  Search,
-  BrainCircuit,
-  TrendingUp,
-  Bell,
+  Zap,
+  Building2,
+  Leaf,
   Boxes,
   ArrowRight,
 } from "lucide-react";
@@ -24,15 +20,18 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 // the prefixed pair, and its composite keyword differs from the standard one.
 //
 // The LEFT ramp is long and starts flat, and the numbers are tied to the card's geometry — retune
-// them together or not at all:
-//   card ≈ 1160 wide · art is h-full w-auto ⇒ 660 × (1448/1086) ≈ 880 wide, pinned right
-//   ⇒ art occupies 280…1160, while the text column (lg:max-w-[52%]) runs to ≈ 603
-// So the art is held near-zero through 30% (≈ 545px, still behind the text), then climbs to solid by
-// 66% (≈ 860px, clear of it). That is what Solution's illustrations do with their baked-in alpha;
-// these are flat rectangles with no alpha at all, so the mask has to do it. An earlier version
-// ramped from 0% and the edge died right on the column line, which is what read as "cut off".
+// them together or not at all. Cards 01/02 and card 03 have different aspects, so one % ramp lands at
+// two places; both are checked below (card ≈ 1160 wide, art is h-full w-auto pinned right):
+//   01/02  1448×1086 ⇒ 600 × 1.333 ≈ 800 wide ⇒ occupies 360…1160
+//   03     1402×1122 ⇒ 600 × 1.250 ≈ 750 wide ⇒ occupies 410…1160
+// The column is lg:max-w-[52%] ≈ 603, but the TEXT inside it only reaches ≈ 315 (64px of padding plus
+// the longest bullet). The ramp clears the TEXT, not the column — % below are of the art's own width:
+// flat through 12% (screen 456 / 500, both clear of 315), 0.35 by 32% (616 / 650), solid by 60%
+// (840 / 860). Card height drives the art width (h-full), so these move with min-h/lg:h — recomputed
+// when the card went 660→600. Don't push the flat section below ~10%: that is where the art starts
+// colliding with the bullets.
 const EDGE_FADE = [
-  "linear-gradient(to right, transparent 0%, transparent 30%, rgba(0,0,0,0.35) 46%, #000 66%, #000 94%, transparent 100%)",
+  "linear-gradient(to right, transparent 0%, transparent 12%, rgba(0,0,0,0.35) 32%, #000 60%, #000 94%, transparent 100%)",
   "linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%)",
 ].join(", ");
 const edgeFadeStyle = {
@@ -42,14 +41,14 @@ const edgeFadeStyle = {
   maskComposite: "intersect",
 } as const;
 
-// Heading system for this page, taken verbatim from Figma 410-96: label Pretendard Regular 24px
-// #0cc → 16px gap → title Pretendard Bold 48px leading-1.6. All five sections use it; only Our
-// Business is centred. NOTE this is CenterHeading's spec (Solution.tsx:49), NOT AimGuard's
-// SectionHeading — that one sets leading-[1.3] and would compress every title on this page.
+// Heading system for this page: label 20px #0cc → 16px gap → title Bold 50px leading-1.5. All five
+// sections use it; only Our Business is centred. The spec was Figma 410-96's (24px label, 48px title
+// leading-1.6) until the user reset it site-wide on 2026-07-16 — every heading component now matches,
+// including AimGuard's SectionHeading, which used to be the odd one out at leading-[1.3].
 const BizHeading = ({ label, title, align = "left" }: { label: string; title: ReactNode; align?: "left" | "center" }) => (
   <div className={`flex flex-col gap-4 ${align === "center" ? "items-center text-center" : "items-start"}`}>
-    <p className="text-[#00cccc] text-[20px] md:text-[24px] font-normal leading-[1.2]">{label}</p>
-    <h2 className="text-[32px] md:text-[48px] font-bold text-white leading-[1.6] break-keep">{title}</h2>
+    <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">{label}</p>
+    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
   </div>
 );
 
@@ -262,20 +261,22 @@ const Hero = () => (
     {/* Header → hero color bridge — darkens the navbar strip only */}
     <div className="absolute top-0 inset-x-0 h-[96px] bg-gradient-to-b from-[#020617] via-[#020617]/55 to-transparent pointer-events-none z-[1]" />
 
-    {/* pt = mockup's h1 top (359) minus the 80px header, so dropping the eyebrow leaves the title
-        and body exactly where Figma puts them — the hero just gains headroom above. */}
-    <div className="container-custom relative z-10 pt-[279px] pb-[120px]">
+    <Breadcrumb />
+
+    <div className="container-custom relative z-10 pt-[227px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="max-w-[760px] flex flex-col"
       >
-        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
+        {/* same rhythm as the Solution-menu heroes: label 16px off the title, title 28px off the body */}
+        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-4">산업 AI 전환의 시작</p>
+        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7">
           고객의 데이터로,<br />
           현장에 맞는 AI를 만듭니다.
         </h1>
-        <p className="text-white text-[18px] font-normal leading-[1.4] mt-6">
+        <p className="text-white text-[18px] font-normal leading-[1.5]">
           복잡한 현장과 업무 환경을 이해하고,<br />
           운영 과제를 해결하는 맞춤형 AI 시스템을 구축합니다.
         </p>
@@ -438,8 +439,10 @@ const OurBusiness = () => (
       className="pointer-events-none absolute -left-[520px] -top-[10%] h-[1000px] w-[1120px] rounded-[50%]"
       style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.30), rgba(0,210,210,0) 72%)" }}
     />
+    {/* h trimmed 1100→900 so the 72% alpha-0 stop lands ~y1035, inside this ~1087px section —
+        overflow-hidden was clipping the old glow ~120px early into a seam at the next section. */}
     <div
-      className="pointer-events-none absolute -right-[440px] top-[24%] h-[1100px] w-[940px] rounded-[50%]"
+      className="pointer-events-none absolute -right-[440px] top-[24%] h-[900px] w-[940px] rounded-[50%]"
       style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.26), rgba(54,132,247,0) 72%)" }}
     />
 
@@ -498,7 +501,7 @@ const OurBusiness = () => (
             the client does not want them spelled out at 48px (2026-07-16), so the title generalises
             and this carries the list. Do not trim the list out of the opener to "세 분야" or similar:
             with the title no longer naming them, that reference would point at nothing. */}
-        <p className="max-w-[1223px] text-center text-[#b3b4b9] text-[18px] md:text-[22px] font-normal leading-[1.6] break-keep">
+        <p className="max-w-[1223px] text-center text-[#b3b4b9] text-[18px] md:text-[20px] font-normal leading-[1.6] break-keep">
           에임위드는 에너지산업, 스마트시티, 안전·환경 분야에서 고객 현장의 시스템을 직접 구축해 왔습니다.<br /> 현장에서 검증된
           기능은 재사용 가능한 제품으로 표준화되고, AI 빌더 AIMNIS 위에서 조립되어 다음 현장에 더 빠르게 적용됩니다.
         </p>
@@ -510,119 +513,80 @@ const OurBusiness = () => (
 );
 
 // --- 3. Business Applications ---
-// Section heading and card 01 are verbatim from Figma 410-96. The tab set is NOT: the mockup shipped
-// six tabs and they were checked against AIMWID's own 회사소개서 사업분야 page on 2026-07-15, which
-// lists three areas (에너지산업 / 스마트시티 / 안전·환경) across ten named projects — 부산시 디지털트윈,
-// 서부발전 발전데이터 비즈니스 플랫폼, KETI 발전소 AI 모니터링, 동반상생 기지개, 서부발전 대기환경
-// 오염물질 모니터링, 부여군 스마트 빌리지 1·2차, 한양대 EmerGREEN, 사업장 작업자 안전관리, 한전KDN
-// GPT 위험성평가. Against that:
+// Rebuilt 2026-07-16 from Figma 445-126 / 447-134 / 447-140 (the three tab states). This replaced the
+// five 운영 과제 tabs — 환경 운영 / 에너지·설비 / 문서·데이터 / 도시·인프라 / 안전·위험 — that Claude had
+// derived when only card 01 was designed and 02–05 were unconfirmed guesswork.
 //
-//   물류 · 교통 최적화  → DROPPED. Not one of the ten projects touches logistics or traffic; the tab
-//                        was advertising a business that doesn't exist. Hence five tabs, not six.
-//   설비 · 생산 운영    → "에너지 · 설비 운영". The evidence is 발전 설비 (KETI, 서부발전); nothing
-//                        in the brochure is about 생산.
-//   시설 · 인프라 운영  → "도시 · 인프라 운영". The work is 부산시 and 부여군 — cities and villages,
-//                        not facilities.
-//   위험 예측 · 대응    → "안전 · 위험 관리". 작업자 안전관리 is the core of it, not just prediction.
+// The section now runs on the brochure's 산업 분야 axis: 에너지산업 / 스마트시티 / 안전·환경, which are
+// AIMWID's own 회사소개서 사업분야 verbatim. Every bullet is one of that document's ten named projects,
+// so nothing on this card is authored any more — this is the first version of this section that is
+// entirely client copy.
 //
-// The tabs keep the mockup's 운영 과제 axis (what kind of operation) rather than the brochure's
-// 산업 분야 axis, so they still don't collide with Solution's product tabs (에너지 운영 / 통합환경
-// 감시 / 전력 데이터 / 스마트시티 / 스마트빌리지 / 작업자 안전).
+// TWO STANDING RULES DIED HERE, both on the client's own design — don't "restore" either:
+//   1. Naming clients/projects on this page was ruled out ("areas only"). These cards name 서부발전,
+//      KETI, 한전KDN, 부여군, 한양대 outright. Confirmed lifted by the user 2026-07-16.
+//   2. Tab icons were rejected twice for restating the label (a leaf beside "환경 운영"). The Figma
+//      puts a bolt / buildings / leaf back on the tabs. Design wins.
 //
-// Only card 01 is designed in the mockup; 02–05 copy, feature labels and imagery are authored here
-// and NOT yet client-confirmed. None of them names a client — the brochure's named projects are far
-// stronger evidence and are still on the table for these cards.
+// The 산업 분야 axis DOES now overlap Solution's product tabs (에너지 운영 / 통합환경 감시 / 전력
+// 데이터 / 스마트시티 / 스마트빌리지 / 작업자 안전) — the old 운영 과제 axis existed partly to avoid
+// that. Client's call; the pages answer different questions (어디에 적용되는가 vs 어떤 제품인가).
 //
-// `img` reuses Solution's card illustrations: transparent-alpha isometric digital twins that ALREADY
-// render their own dashboard, so the card never draws stats over one. Caveat: power_v6 may be the
-// odd one out (it reads light-themed, unlike the others).
+// Art: the Figma cards are single ChatGPT rasters with the text baked in, so nothing is extractable —
+// these reuse the existing webps, which match what those rasters depict. 안전·환경 takes env, not
+// safety: the Figma scene is env's (weather mast, water sensors, greenery, refinery behind) with a
+// worker added, and safety.webp's red hazard zone appears nowhere in the new design.
+// business_app_doc.webp and business_app_safety.webp are now unused.
 const applications = [
   {
-    id: "app-env",
-    no: "01",
-    tab: "환경 운영",
-    en: "Environment Operations",
-    desc: "대기·수질·탄소 데이터를 연결해\n환경 변화와 이상 징후를 빠르게 파악합니다.",
-    features: [
-      { label: "실시간 현황", icon: Monitor },
-      { label: "이상 감지", icon: AlertTriangle },
-      { label: "환경 리포트", icon: FileText },
-    ],
-    solution: "통합환경 감시시스템",
-    // Straight from Figma 432:103 (downloaded to public/ — the localhost:3845 asset URL only lives
-    // while Figma desktop is open). Solid rectangle, no alpha, so `fade` turns on EDGE_FADE.
-    img: "business_app_env.webp",
-    fade: true,
-  },
-  {
     id: "app-energy",
-    no: "02",
-    tab: "에너지 · 설비 운영",
-    en: "Energy & Facility Operations",
-    desc: "발전 설비와 계통 데이터를 연결해\n고장 징후를 미리 감지합니다.",
-    features: [
-      { label: "설비 모니터링", icon: Monitor },
-      { label: "이상 감지", icon: Activity },
-      { label: "예측 정비", icon: TrendingUp },
+    no: "01",
+    tab: "에너지산업",
+    en: "Energy Industry",
+    icon: Zap,
+    title: "발전·에너지 분야의\n검증된 AI 프로젝트",
+    projects: [
+      "서부발전 발전데이터 비즈니스 플랫폼",
+      "KETI 발전소 AI 모니터링 시스템",
+      "동반상생 기지개 통합관리 플랫폼",
     ],
-    solution: "에너지 운영 최적화",
-    // Figma 434:122 — turbine hall, transmission towers, substation. It REPLACED 433:116, which was
-    // a water-quality scene (buoys, pond) that had nothing to do with 발전 설비·계통 and was also a
-    // near-twin of card 01's art. Downloaded and re-encoded to webp; the localhost:3845 asset URL
-    // only lives while Figma desktop is open. Solid rectangle, no alpha ⇒ fade.
     img: "business_app_energy.webp",
     fade: true,
   },
   {
-    id: "app-doc",
-    no: "03",
-    tab: "문서 · 데이터 활용",
-    en: "Document & Data Utilization",
-    desc: "흩어진 데이터와 문서를 연결해\n필요한 정보를 바로 찾아냅니다.",
-    features: [
-      { label: "데이터 연계", icon: Search },
-      { label: "문서 활용", icon: FileText },
-      { label: "자동 리포트", icon: BrainCircuit },
-    ],
-    solution: "전력 데이터 플랫폼",
-    // Figma 434:121, downloaded and re-encoded to webp (the localhost:3845 asset URL only lives
-    // while Figma desktop is open). Solid rectangle, no alpha ⇒ fade.
-    img: "business_app_doc.webp",
-    fade: true,
-  },
-  {
     id: "app-city",
-    no: "04",
-    tab: "도시 · 인프라 운영",
-    en: "City & Infrastructure Operations",
-    desc: "도시와 마을의 인프라 데이터를 통합해\n운영 상태를 한 화면에서 관리합니다.",
-    features: [
-      { label: "통합 관제", icon: Monitor },
-      { label: "상태 진단", icon: Activity },
-      { label: "운영 리포트", icon: FileText },
+    no: "02",
+    tab: "스마트시티",
+    en: "Smart City",
+    icon: Building2,
+    title: "스마트시티 분야의\n검증된 AI 프로젝트",
+    projects: [
+      "부여군 스마트 빌리지 통합 연계 구축",
+      "한양대(에리카) EmerGREEN 사업",
+      "부여군 스마트 빌리지 2차 사업",
     ],
-    solution: "스마트시티 통합관제",
-    // Figma 433:119, downloaded to public/ (the localhost:3845 asset URL only lives while Figma
-    // desktop is open). Solid rectangle, no alpha ⇒ fade.
     img: "business_app_city.webp",
     fade: true,
   },
   {
     id: "app-safety",
-    no: "05",
-    tab: "안전 · 위험 관리",
-    en: "Safety & Risk Management",
-    desc: "영상과 현장 데이터로 위험을 인지해\n사고 이전에 대응합니다.",
-    features: [
-      { label: "실시간 감지", icon: Monitor },
-      { label: "위험성 평가", icon: AlertTriangle },
-      { label: "즉시 알림", icon: Bell },
+    no: "03",
+    tab: "안전 · 환경",
+    en: "Safety & Environment",
+    icon: Leaf,
+    // The raster renders this one "안전 · 환경 본야의" — a ChatGPT glitch, not copy. 01 and 02 both
+    // say 분야의 and that is the word.
+    title: "안전 · 환경 분야의\n검증된 AI 프로젝트",
+    projects: [
+      "사업장 작업자 안전관리 솔루션",
+      "한전 KDN GPT 위험성평가 플랫폼",
+      "서부발전 대기환경오염물질 모니터링",
     ],
-    solution: "AIM GUARD",
-    // Figma 434:123, downloaded and re-encoded to webp (the localhost:3845 asset URL only lives
-    // while Figma desktop is open). Solid rectangle, no alpha ⇒ fade. The red hazard zone is the
-    // only non-teal accent on the page and is deliberate — it reads as the danger being detected.
-    img: "business_app_safety.webp",
+    // Figma 472:115 — the client's own art for this card, supplied 2026-07-16, replacing the env.webp
+    // stand-in. Downloaded as the node's RAW fill (the export bakes in the rounded corners) and
+    // re-encoded to webp; the figma.com asset URL is short-lived. 1402×1122, so this is the one card
+    // whose art is 5:4 rather than 4:3 — see the EDGE_FADE geometry note.
+    img: "business_app_safety_env.webp",
     fade: true,
   },
 ];
@@ -638,7 +602,6 @@ const BusinessApplications = () => {
         className="pointer-events-none absolute -right-[460px] top-[-6%] h-[1100px] w-[980px] rounded-[50%]"
         style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.22), rgba(0,210,210,0) 72%)" }}
       />
-
       <div className="container-custom relative">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -646,23 +609,25 @@ const BusinessApplications = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
+          {/* Figma 445-126, verbatim. Was "고객의 운영 과제에 맞춰 / AI를 적용합니다." — that titled the
+              운영 과제 axis this section no longer runs on. */}
           <BizHeading
             label="Business Applications"
             title={
               <>
-                고객의 운영 과제에 맞춰<br />
-                AI를 적용합니다.
+                세 가지 핵심 산업에서<br />
+                검증된 AI 솔루션을 제공합니다.
               </>
             }
           />
         </motion.div>
 
-        {/* Vertical tab list + preview. The 6 tabs are the only nav — the mockup has no carousel dots.
-            Column width and gap follow the mockup (≈410px of its 1692px block, ~20px gutter). The
-            buttons flex-1 so the six of them always add up to exactly the card's height, whatever
-            the card grows to — no magic number to keep in sync. */}
+        {/* Vertical tab list + preview. Column width and gap follow the mockup (≈410px of its 1692px
+            block, ~20px gutter). flex-1 makes the three tabs share the card's height — the grid
+            stretches this column to the card, so each tab is (600 − 24 gap)/3 ≈ 192px and the two
+            edges stay aligned. Card height changes carry to the tabs automatically. */}
         <div className="grid grid-cols-1 md:grid-cols-[410px_1fr] gap-6 mt-12">
-          <div className="flex flex-col gap-3" role="tablist" aria-label="운영 과제">
+          <div className="flex flex-col gap-3" role="tablist" aria-label="사업 분야">
             {applications.map((a, i) => {
               const isActive = active === i;
               return (
@@ -671,7 +636,7 @@ const BusinessApplications = () => {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(i)}
-                  className={`flex-1 min-h-[88px] px-6 rounded-[10px] flex flex-col justify-center text-left border transition-all ${
+                  className={`flex-1 min-h-[150px] px-6 py-9 rounded-[10px] flex flex-col justify-between text-left border transition-all ${
                     isActive
                       ? "border-[#2fd4c4]/70 shadow-[0_0_24px_rgba(0,204,204,0.18)]"
                       : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06]"
@@ -682,16 +647,14 @@ const BusinessApplications = () => {
                       : undefined
                   }
                 >
-                  {/* 번호 + 한글 + 영문, three sizes. No icon: the label already says 환경 / 에너지 /
-                      문서 / 도시 / 안전, so a leaf or a bolt beside it repeats the word in a weaker
-                      medium, and the card's photo answers "what is this" far better than a 22px grey
-                      glyph could. A Korean hint line was tried and failed the same way — 4 of the 5
-                      just restated the label ("문서 · 데이터 활용" → "문서 · 데이터 연계"). The English
-                      name doesn't: it is a different register, it already exists in the data, and it
-                      is this site's house pattern (How We Work's 검증 / PoC & Validation, AIMNIS
-                      Features' 고속 위젯 빌더 / Fast Widget Builder). It also earns the tab's height —
-                      flex-1 makes each ≈100px to match the 660px card. */}
-                  <div className="flex items-baseline gap-3">
+                  {/* justify-between splits the tab: 번호+한글+icon ride the top, 영문 the bottom. The
+                      tabs stretch to the card's 600px (≈192px each), and centring the text left a big
+                      empty band top and bottom; pushing the two lines to the edges turns that gap into
+                      the layout instead of dead space. The icon is the Figma's — it reverses a standing
+                      rule here (icons were rejected twice for restating the label, e.g. a leaf beside
+                      "환경 운영"), but survives because the tabs are 산업 분야, so the glyph names an
+                      industry rather than echoing a verb. */}
+                  <div className="flex items-center gap-3">
                     <span className={`text-[15px] tabular-nums shrink-0 ${isActive ? "text-[#7fecec]/80" : "text-white/40"}`}>
                       {a.no}
                     </span>
@@ -702,9 +665,14 @@ const BusinessApplications = () => {
                     >
                       {a.tab}
                     </span>
+                    <a.icon
+                      className={`ml-auto w-[22px] h-[22px] shrink-0 ${isActive ? "text-[#7fecec]" : "text-white/30"}`}
+                      strokeWidth={1.6}
+                      aria-hidden
+                    />
                   </div>
                   <p
-                    className={`text-[16px] font-normal tracking-[0.04em] mt-1.5 pl-[30px] ${
+                    className={`text-[16px] font-normal tracking-[0.04em] pl-[30px] ${
                       isActive ? "text-[#7fecec]/60" : "text-white/35"
                     }`}
                   >
@@ -721,7 +689,7 @@ const BusinessApplications = () => {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="group relative overflow-hidden rounded-[30px] border border-[#00cccc] bg-[rgba(10,18,30,0.5)] backdrop-blur-[10px] shadow-[0_0_40px_-6px_rgba(0,204,204,0.4)] min-h-[660px]"
+            className="group relative overflow-hidden rounded-[30px] border border-[#00cccc] bg-[rgba(10,18,30,0.5)] backdrop-blur-[10px] shadow-[0_0_40px_-6px_rgba(0,204,204,0.4)] min-h-[600px]"
           >
             {/* Art bleeds in from the right at full height — Solution's card treatment verbatim
                 (Solution.tsx:479). NOT a grid cell: boxing the image in a column made its left edge
@@ -737,35 +705,32 @@ const BusinessApplications = () => {
 
             {/* Text sits over the art at 52%, vertically centred so spacing adapts to the height —
                 again Solution's pattern rather than a fixed 3-group justify-between. */}
-            <div className="relative z-10 flex flex-col justify-center lg:h-[660px] lg:max-w-[52%] px-8 py-12 lg:pl-[64px] lg:pr-6 lg:py-0">
-              {/* The tab beside this card already reads "01 환경 운영", so the card repeats neither
-                  the number nor the Korean name — the description takes the headline slot instead,
-                  which makes the card state what the work does rather than restate its label. */}
+            <div className="relative z-10 flex flex-col justify-center lg:h-[600px] lg:max-w-[52%] px-8 py-12 lg:pl-[64px] lg:pr-6 lg:py-0">
               <p className="text-[#00cccc] text-[15px] font-bold tracking-[0.14em] uppercase">{app.en}</p>
-              <h3 className="whitespace-pre-line text-white text-[26px] md:text-[32px] font-bold leading-[1.45] mt-4 break-keep">
-                {app.desc}
+              <h3 className="whitespace-pre-line text-white text-[26px] md:text-[36px] font-bold leading-[1.45] mt-4 break-keep">
+                {app.title}
               </h3>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-9 max-w-[560px]">
-                {app.features.map((f) => (
-                  <div
-                    key={f.label}
-                    className="flex items-center gap-2.5 rounded-xl border border-[#00cccc]/25 bg-[#00cccc]/[0.04] px-4 h-[54px] transition-colors group-hover:border-[#00cccc]/40"
-                  >
-                    <f.icon className="w-[20px] h-[20px] text-[#22e0e0] shrink-0" strokeWidth={1.6} />
-                    <span className="text-white/85 text-[14px] font-medium leading-tight">{f.label}</span>
-                  </div>
+              {/* Named projects, straight from the 회사소개서. These replaced three invented feature
+                  chips (실시간 현황 / 이상 감지 / …) — the chips described a capability in the abstract,
+                  these are work that actually shipped, which is the whole point of the section. */}
+              <ul className="flex flex-col gap-3 mt-8 max-w-[560px]">
+                {app.projects.map((p) => (
+                  <li key={p} className="flex items-start gap-3">
+                    <span className="mt-[9px] w-[5px] h-[5px] rounded-full bg-[#22e0e0] shrink-0" aria-hidden />
+                    <span className="text-white/85 text-[16px] font-normal leading-[1.6] break-keep">{p}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
 
-              <div className="flex flex-wrap items-center gap-4 mt-9">
+              {/* The solution-name chip that sat beside this link is gone — the Figma drops it, and with
+                  real project names above, a product name here was the third thing competing for the
+                  same glance. */}
+              <div className="mt-9">
                 <Link to="/solution" className="inline-flex items-center gap-2.5 text-[#22e0e0] text-[15px] font-semibold hover:gap-4 transition-all">
                   관련 솔루션 보기
                   <ArrowRight className="w-[18px] h-[18px]" strokeWidth={1.8} />
                 </Link>
-                <span className="h-[34px] px-4 rounded-full border border-[#00cccc]/40 text-white/85 text-[14px] flex items-center whitespace-nowrap">
-                  {app.solution}
-                </span>
               </div>
             </div>
 
@@ -956,12 +921,123 @@ const SceneScale = () => (
   </svg>
 );
 
+// --- Business Partner ---
+// Names taken from Company's 연혁 (the client list), deduplicated to organisations. NOTE the mockup's
+// logos were LG·삼성·현대·SK, which appear nowhere in that history — they read as the designer's
+// stock placeholders, so the real clients are used instead. This section also names clients on the
+// Business page, which the client had previously ruled out here ("areas only"); the user lifted that
+// on 2026-07-16 for the logo wall specifically.
+// `logo` is the client's own brand mark (Figma 474:126-150, downloaded as raw fills, re-encoded to
+// alpha webp at 2× the slot height; 화성시·광명시 came later from 477:203-204, the latter keyed off a
+// flat-white JPEG). 한국서부발전 came from 474:117, whose fill is a sheet of five lockups — the node
+// renders the first, so only that crop is used. 한국전력연구원's slot carries 479:96, which is the
+// parent 한국전력공사 (KEPCO) corporate mark, not a KEPRI one — that is what the client supplied.
+// All alpha, so they sit straight on the dark slot.
+const partners: { name: string; logo?: string }[] = [
+  { name: "한국서부발전", logo: "partner_kowepo.webp" },
+  { name: "한국전력연구원", logo: "partner_kepco.webp" },
+  { name: "한전KDN", logo: "partner_kdn.webp" },
+  { name: "한국전자기술연구원", logo: "partner_keti.webp" },
+  { name: "부산광역시", logo: "partner_busan.webp" },
+  { name: "광명시", logo: "partner_gwangmyeong.webp" },
+  { name: "부여군", logo: "partner_buyeo.webp" },
+  { name: "화성시", logo: "partner_hwaseong.webp" },
+  { name: "한양대학교 ERICA", logo: "partner_hanyang.webp" },
+  { name: "한국외국어대학교", logo: "partner_hufs.webp" },
+];
+
+const BusinessPartner = () => (
+  <section className="relative min-h-[700px] flex flex-col justify-center overflow-hidden py-24 bg-[#020617]">
+    {/* Left blue glow, pulled UP toward the Applications seam (user: "위로, 섹션 사이로"). Centre at
+        y250 (top-[-160px] + h/2), so it sits high in the section and brightens the boundary; its alpha
+        is already near-zero at the top edge (centre 250 vs the ~295 alpha-0 radius), so the ~45px that
+        overflow-hidden clips above y0 is invisible — no seam. Bottom (~y545) still dies inside the
+        700px section. Stays LEFT for the page zigzag (Applications right, this left, How We Work right,
+        Related left). */}
+    <div
+      className="pointer-events-none absolute -left-[460px] top-[-160px] h-[820px] w-[980px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.20), rgba(54,132,247,0) 72%)" }}
+    />
+
+    <div className="container-custom relative">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="flex flex-col items-center"
+      >
+        <BizHeading label="Business Partner" title="주요고객사 및 파트너사" align="center" />
+      </motion.div>
+
+      {/* The row is clipped to the 1600 column, so slots appear and vanish at its edges rather than the
+          window's. Something has to soften that — without it the loop reads as popping, not flowing.
+          This is a MASK on the row, not a pair of overlay strips painted in the section colour. The
+          strips were opaque #020617, so over the blue glow behind this section they stopped reading as
+          a fade and became a visible dark rectangle around the row. A mask fades the logos themselves
+          and leaves whatever is behind untouched, so the glow carries straight through. Don't go back
+          to painted strips: any solid colour here is wrong the moment the backdrop isn't flat. */}
+      <div
+        className="relative mt-[100px] overflow-hidden"
+        style={{
+          maskImage: "linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)",
+          WebkitMaskImage: "linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)",
+        }}
+      >
+
+        {/* No box — just the logo (transparent PNG) floating on the section, per the client. The slot
+            keeps its 200×72 footprint and centring so the marquee spacing stays even and every logo
+            reads at one visual weight regardless of aspect ratio; only the border/fill are gone. Names
+            without a logo yet fall back to text. Inlined rather than a component on purpose: `key` on a
+            component (not an intrinsic) trips a TS2322 false positive here, baseline stays at 7.
+
+            The marks are the artwork exactly as supplied. Most are dark-navy wordmarks and measure
+            2.1:1 (한양대) to 3.9:1 (부여군) against #020617, which is low — that is a known, accepted
+            state as of 2026-07-20, not an oversight. Five fixes were built and rejected, so don't
+            re-propose them blind: recolouring to one flat tone (erases the brand colours), brightening
+            the marks in place (same objection — it is still a colour modification, and public bodies
+            like 한전 forbid it in their CI manuals), a near-white band behind the row (reads as a bright
+            slab on a dark page), an edgeless light band dissolving into the section top and bottom (the
+            softest version buildable — still too loud), and nudging the surface to a mid navy. That last
+            one is not just unappealing but arithmetically backwards: the ink is already brighter than
+            the section, so a mid-tone moves the background toward the ink (한양대 2.1 → 1.8 at #0f1a33).
+
+            Note the search is genuinely exhausted, not merely unfinished. Ink luminance is ~0.061, so
+            going darker caps out at 2.2:1 even at pure black — only a brighter surface can help, and
+            every brightness that helps has been rejected as too loud. The remaining fix is upstream:
+            obtain each body's dark-background CI variant and drop it in as-is. */}
+        <div className="partner-marquee flex w-max">
+          {[...partners, ...partners].map((p, i) => (
+            <div
+              key={i}
+              className="mx-[20px] flex h-[72px] w-[200px] shrink-0 items-center justify-center"
+            >
+              {p.logo ? (
+                <img
+                  src={asset(p.logo)}
+                  alt={p.name}
+                  className="max-h-[44px] max-w-[176px] w-auto h-auto object-contain select-none"
+                />
+              ) : (
+                <span className="text-white/45 text-[15px] font-medium">{p.name}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
 const SCENES = [SceneVerify, SceneBuild, SceneScale];
 
 const HowWeWork = () => (
   <section className="relative overflow-hidden py-28 bg-[#020617]">
+    {/* Right teal glow (zigzag: Partner left → this right → Related left). Nudged up to top-[-120px]
+        (was ~-37); centre y380, alpha-0 radius ~360, so it stops ~y20 — just inside the top edge, no
+        clip against Partner above. Bottom (~y740) still dies inside this ~928px section. */}
     <div
-      className="pointer-events-none absolute -left-[520px] top-[-4%] h-[1000px] w-[1120px] rounded-[50%]"
+      className="pointer-events-none absolute -right-[520px] top-[-120px] h-[1000px] w-[1120px] rounded-[50%]"
       style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.24), rgba(0,210,210,0) 72%)" }}
     />
 
@@ -1034,8 +1110,11 @@ const related = [
 
 const RelatedSolutions = () => (
   <section className="relative overflow-hidden py-28 bg-[#020617]">
+    {/* Left blue glow — flipped from right so the zigzag holds: How We Work (right) → this (left).
+        h-[780px] top-[-60px] keeps the 72% alpha-0 stop ~y611, inside this ~677px section (the old
+        h-[1200px] was clipped into the page's worst seam against the CTA below). */}
     <div
-      className="pointer-events-none absolute -right-[440px] top-[-8%] h-[1200px] w-[940px] rounded-[50%]"
+      className="pointer-events-none absolute -left-[440px] top-[-60px] h-[780px] w-[940px] rounded-[50%]"
       style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.28), rgba(54,132,247,0) 72%)" }}
     />
 
@@ -1162,6 +1241,7 @@ export default function Business() {
       <Hero />
       <OurBusiness />
       <BusinessApplications />
+      <BusinessPartner />
       <HowWeWork />
       <RelatedSolutions />
       <CTA />

@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import Breadcrumb from "../components/Breadcrumb";
 import {
   Cpu,
   Cloud,
@@ -37,11 +39,11 @@ export const SectionHeading = ({
   className?: string;
 }) => (
   <div className={`${align === "center" ? "text-center" : ""} ${className}`}>
-    <p className="text-[#00cccc] text-[24px] mb-4">{label}</p>
-    <h2 className="text-[32px] md:text-[48px] font-bold text-white leading-[1.3]">{title}</h2>
+    <p className="text-[#00cccc] text-[20px] mb-4">{label}</p>
+    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5]">{title}</h2>
     {subtitle && (
       <p
-        className={`text-white/70 text-[18px] md:text-[22px] font-normal leading-[1.5] mt-3 ${
+        className={`text-white/70 text-[18px] md:text-[20px] font-normal leading-[1.5] mt-3 ${
           align === "center" ? "mx-auto" : "max-w-[900px]"
         }`}
       >
@@ -67,38 +69,41 @@ const Hero = () => (
     {/* Header → hero color bridge (smooth transition from navbar) */}
     <div className="absolute top-0 inset-x-0 h-[200px] bg-gradient-to-b from-[#020617] via-[#020617]/70 to-transparent pointer-events-none z-[1]" />
 
-    {/* pt absorbs the removed eyebrow's 53px (25.2px line + gap-7) so the h1 keeps its position */}
-    <div className="container-custom relative z-10 pt-[194px]">
+    <Breadcrumb />
+
+    <div className="container-custom relative z-10 pt-[200px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="max-w-[714px] flex flex-col gap-[74px]"
+        className="max-w-[714px] flex flex-col"
       >
-        <div className="flex flex-col gap-7">
-          <div className="flex flex-col gap-6">
-            <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
-              산업 현장의 안전을 지키는<br />
-              AI 영상 분석 솔루션
-            </h1>
-            <img src={asset("aimguard_logo_bi.png")} alt="AIM GUARD" className="w-[488px] max-w-full h-auto" />
-          </div>
-          <p className="text-white text-[18px] font-normal leading-[1.5]">
-            실시간 영상 분석과 지능형 알림으로<br />
-            사고를 사전에 예측하고 대응하여 안전한 현장을 만듭니다.
-          </p>
+        {/* margins, not a column gap — the label sits closer to the title (16px) than the title block does to the body (28px) */}
+        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-4">AI가 위험을 감지하기 전에 대응합니다</p>
+        <div className="flex flex-col gap-6 mb-7">
+          <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
+            산업 현장의 안전을 지키는<br />
+            AI 영상 분석 솔루션
+          </h1>
+          <img src={asset("aimguard_logo_bi.png")} alt="AIM GUARD" className="w-[488px] max-w-full h-auto" />
         </div>
+        <p className="text-white text-[18px] font-normal leading-[1.5] mb-[74px]">
+          실시간 영상 분석과 지능형 알림으로<br />
+          사고를 사전에 예측하고 대응하여 안전한 현장을 만듭니다.
+        </p>
 
+        {/* One CTA only. The hero used to pair 도입 상담 신청 with a 소개서 다운로드 outline button; the
+            user dropped the second and renamed the first to 라이선스 발급 on 2026-07-20. The wrapper
+            keeps flex/gap so a second button can be dropped back in without re-deriving the layout.
+            It is a Link, not a button — it navigates to the licence-issue page (Figma 486:118). */}
         <div className="flex flex-wrap gap-5">
-          <button
-            className="h-[54px] w-[232px] rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
+          <Link
+            to="/aimguard/license"
+            className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
             style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }}
           >
-            도입 상담 신청
-          </button>
-          <button className="h-[54px] w-[232px] rounded-[8px] border border-[#00cccc] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all">
-            소개서 다운로드
-          </button>
+            라이선스 발급
+          </Link>
         </div>
       </motion.div>
     </div>

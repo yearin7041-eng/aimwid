@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import type { ReactNode } from "react";
+import Breadcrumb from "../components/Breadcrumb";
 import {
   Boxes,
   Puzzle,
@@ -48,8 +49,8 @@ const ActionButtons = () => (
 // Centered label + heading used by the 전환/Framework sections
 const CenterHeading = ({ label, title }: { label: string; title: ReactNode }) => (
   <div className="text-center">
-    <p className="text-[#00cccc] text-[20px] md:text-[24px] font-normal leading-[1.2]">{label}</p>
-    <h2 className="text-[32px] md:text-[48px] font-bold text-white leading-[1.6] mt-3">{title}</h2>
+    <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">{label}</p>
+    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] mt-3">{title}</h2>
   </div>
 );
 
@@ -72,15 +73,18 @@ const Hero = () => (
     {/* Header → hero color bridge — kept short so it only darkens the navbar strip (readability) while the city/plant tops stay fully visible */}
     <div className="absolute top-0 inset-x-0 h-[96px] bg-gradient-to-b from-[#020617] via-[#020617]/55 to-transparent pointer-events-none z-[1]" />
 
-    {/* pt absorbs the removed eyebrow's 53px (25.2px line + gap-7) so the h1 keeps its position */}
-    <div className="container-custom relative z-10 pt-[233px] pb-[120px]">
+    <Breadcrumb />
+
+    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="max-w-[760px] flex flex-col gap-7"
+        className="max-w-[760px] flex flex-col"
       >
-        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
+        {/* margins, not a column gap — the label sits closer to the title (16px) than the title does to the body (28px) */}
+        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-4">Industry AI Solutions</p>
+        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7">
           산업 현장에서 검증된<br />
           AI 솔루션 라인업
         </h1>
@@ -518,9 +522,12 @@ const SolutionCards = () => (
 // --- 6. CTA ---
 const CTA = () => (
   <section className="relative overflow-hidden py-20 bg-[#020617]">
-    {/* glossy glow — teal, bleeding in from the left (Figma: Ellipse 14) */}
+    {/* glossy glow — teal, bleeding in from the left (Figma: Ellipse 14). Sized to die inside this
+        short (~600px) section: the old h-[900px] top-[-10%] was still ~half-bright at the section
+        bottom and overflow-hidden cut it into a seam against the footer. At h-[700px] top-[-60px] the
+        72% alpha-0 stop lands ~y542, clear of the edge. */}
     <div
-      className="pointer-events-none absolute -left-[480px] top-[-10%] h-[900px] w-[1080px] rounded-[50%]"
+      className="pointer-events-none absolute -left-[480px] top-[-60px] h-[700px] w-[1080px] rounded-[50%]"
       style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.32), rgba(0,210,210,0) 72%)" }}
     />
     <div className="container-custom relative">

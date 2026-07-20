@@ -31,19 +31,16 @@ import {
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, animate } from "motion/react";
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import AimGuard from "./pages/AimGuard";
+import AimGuardLicense from "./pages/AimGuardLicense";
 import AimNis from "./pages/AimNis";
 import Solution from "./pages/Solution";
 import Business from "./pages/Business";
+import Company from "./pages/Company";
+import { SOLUTION_SUBS, subRoute, ROUTED } from "./nav";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
 // --- Components ---
-
-// The Solution dropdown's three entries and the routes behind them. Was inlined twice (desktop and
-// mobile) as a nested ternary; it is here now because the active check needs the same mapping a third
-// time.
-const SOLUTION_SUBS = ["AIMNIS", "AIM GUARD", "SOLUTION"] as const;
-const subRoute = (sub: string) => (sub === "AIM GUARD" ? "/aimguard" : sub === "AIMNIS" ? "/aimnis" : "/solution");
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -51,12 +48,9 @@ const Navbar = () => {
   const { pathname } = useLocation();
 
   // "Solution" is a parent, not a page — it lights up on any of the three routes under it, or landing
-  // on /aimnis would leave the whole bar looking inert. Company and Contact are #anchors on Home with
-  // no route of their own, so they have no active state to be in.
+  // on /aimnis would leave the whole bar looking inert.
   const isActive = (item: string) =>
-    item === "Solution"
-      ? SOLUTION_SUBS.some((s) => subRoute(s) === pathname)
-      : item === "Business" && pathname === "/business";
+    item === "Solution" ? SOLUTION_SUBS.some((s) => subRoute(s) === pathname) : ROUTED[item] === pathname;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -66,7 +60,7 @@ const Navbar = () => {
 
   return (
     <nav className={`absolute top-0 left-0 right-0 z-50 transition-all duration-300 flex items-center h-[80px] ${scrolled ? "bg-bg-dark/80 backdrop-blur-md" : "bg-transparent"}`}>
-      <div className="w-full px-0 flex items-center justify-between container-custom !px-0 relative">
+      <div className="w-full flex items-center justify-between container-custom relative">
         {/* Logo (Left) */}
         <div className="flex items-center z-10">
           <Link to="/">
@@ -105,20 +99,18 @@ const Navbar = () => {
                 </div>
               );
             }
-            if (item === "Business") {
-              return (
-                <div key={item} className="flex items-center h-[80px]">
-                  <Link to="/business" className={`text-[18px] font-semibold hover:text-brand-cyan transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}>
-                    {item}
-                  </Link>
-                </div>
-              );
-            }
+            const cls = `text-[18px] font-semibold hover:text-brand-cyan transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`;
             return (
               <div key={item} className="flex items-center h-[80px]">
-                <a href={`#${item.toLowerCase()}`} className="text-[18px] font-semibold text-white hover:text-brand-cyan transition-colors">
-                  {item}
-                </a>
+                {ROUTED[item] ? (
+                  <Link to={ROUTED[item]} className={cls} onClick={() => window.scrollTo(0, 0)}>
+                    {item}
+                  </Link>
+                ) : (
+                  <a href={`#${item.toLowerCase()}`} className={cls}>
+                    {item}
+                  </a>
+                )}
               </div>
             );
           })}
@@ -143,11 +135,14 @@ const Navbar = () => {
           >
             {["Solution", "Business", "Company", "Contact"].map((item) => (
               <div key={item} className="flex flex-col">
-                {item === "Business" ? (
+                {ROUTED[item] ? (
                   <Link
-                    to="/business"
+                    to={ROUTED[item]}
                     className={`text-lg font-medium py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      window.scrollTo(0, 0);
+                    }}
                   >
                     {item}
                   </Link>
@@ -726,38 +721,38 @@ const ContactSection = () => {
         <form className="w-full lg:w-[800px] flex-shrink-0 p-10 border border-white/10 rounded-2xl space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[18px] font-medium text-white flex items-center gap-1">이름 <span className="text-brand-cyan">*</span></label>
+              <label className="text-[16px] font-medium text-white flex items-center gap-1">이름 <span className="text-brand-cyan">*</span></label>
               <input type="text" placeholder="이름" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
             </div>
             <div className="space-y-2">
-              <label className="text-[18px] font-medium text-white flex items-center gap-1">연락처 <span className="text-brand-cyan">*</span></label>
+              <label className="text-[16px] font-medium text-white flex items-center gap-1">연락처 <span className="text-brand-cyan">*</span></label>
               <input type="text" placeholder="000-0000-0000" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[18px] font-medium text-white flex items-center gap-1">기업명 <span className="text-brand-cyan">*</span></label>
+              <label className="text-[16px] font-medium text-white flex items-center gap-1">기업명 <span className="text-brand-cyan">*</span></label>
               <input type="text" placeholder="기업명" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
             </div>
             <div className="space-y-2">
-              <label className="text-[18px] font-medium text-white flex items-center gap-1">직책 <span className="text-brand-cyan">*</span></label>
+              <label className="text-[16px] font-medium text-white flex items-center gap-1">직책 <span className="text-brand-cyan">*</span></label>
               <input type="text" placeholder="직책" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-[18px] font-medium text-white flex items-center gap-1">이메일 <span className="text-brand-cyan">*</span></label>
+            <label className="text-[16px] font-medium text-white flex items-center gap-1">이메일 <span className="text-brand-cyan">*</span></label>
             <input type="email" placeholder="이메일" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[18px] font-medium text-white">제목</label>
+            <label className="text-[16px] font-medium text-white">제목</label>
             <input type="text" placeholder="제목" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[18px] font-medium text-white">내용</label>
+            <label className="text-[16px] font-medium text-white">내용</label>
             <textarea placeholder="내용을 입력하세요." rows={4} className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none resize-none transition-colors" />
           </div>
 
@@ -895,9 +890,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/aimguard" element={<AimGuard />} />
+        <Route path="/aimguard/license" element={<AimGuardLicense />} />
         <Route path="/aimnis" element={<AimNis />} />
         <Route path="/solution" element={<Solution />} />
         <Route path="/business" element={<Business />} />
+        <Route path="/company" element={<Company />} />
       </Routes>
       <Footer />
       <ScrollToTopButton />

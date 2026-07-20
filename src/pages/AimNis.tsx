@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import type { ReactNode } from "react";
+import Breadcrumb from "../components/Breadcrumb";
 import {
   ArrowRight,
   ArrowUp,
@@ -65,25 +66,26 @@ const Hero = () => (
     {/* Header → hero color bridge */}
     <div className="absolute top-0 inset-x-0 h-[200px] bg-gradient-to-b from-[#020617] via-[#020617]/70 to-transparent pointer-events-none z-[1]" />
 
-    {/* pt absorbs the removed eyebrow's 53px (25.2px line + gap-7) so the h1 keeps its position */}
-    <div className="container-custom relative z-10 pt-[194px]">
+    <Breadcrumb />
+
+    <div className="container-custom relative z-10 pt-[200px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="max-w-[714px] flex flex-col gap-[74px]"
+        className="max-w-[714px] flex flex-col"
       >
-        <div className="flex flex-col gap-7">
-          <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
-            엔터프라이즈를 위한 <br /> 
-            단 하나의 화이트 라벨 <br /> AI 빌더
-          </h1>
-          <p className="text-white text-[18px] font-normal leading-[1.5]">
-            6개월이 걸리던 복잡한 프로젝트를 단 2개월 만에.<br />
-            AI 에이전트와 함께 코딩 없이 조립하고,<br />
-            완벽한 자사 브랜드 플랫폼으로 커스터마이징 하십시오.
-          </p>
-        </div>
+        {/* margins, not a column gap — the label sits closer to the title (16px) than the title does to the body (28px) */}
+        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-4">데이터 연동부터 통합관제까지,</p>
+        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7">
+          엔터프라이즈를 위한 <br />
+          단 하나의 화이트 라벨 <br /> AI 빌더
+        </h1>
+        <p className="text-white text-[18px] font-normal leading-[1.5] mb-[74px]">
+          6개월이 걸리던 복잡한 프로젝트를 단 2개월 만에.<br />
+          AI 에이전트와 함께 코딩 없이 조립하고,<br />
+          완벽한 자사 브랜드 플랫폼으로 커스터마이징 하십시오.
+        </p>
         <ActionButtons />
       </motion.div>
     </div>

@@ -48,12 +48,24 @@
   -webkit-text-fill-color: transparent;
 }
 
+/* The site's one content column, and the one left line everything hangs off — navbar logo, breadcrumb,
+   hero and every section. Above 1600px the column is exactly 1600px and sits flush at its own edge, so
+   there is no padding to knock anything out of line. Below that the viewport IS the column, and the
+   24px is what keeps text off the window edge. The navbar rides the same rule (it used to force
+   !px-0), so the line holds at every width. */
 .container-custom {
   max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 1599px) {
+  .container-custom {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 /* Lifecycle energy-rail pulse: a light segment flowing left → right along the rail */
@@ -78,5 +90,28 @@
   12%  { opacity: 1; }
   88%  { opacity: 1; }
   100% { top: 106%; opacity: 0; }
+}
+
+/* Business Partner logo wall. The track renders the partner list TWICE and travels exactly -50%, so
+   the second copy arrives where the first started and the loop has no seam. The two copies are why
+   the endpoint is -50% and not -100% — render the list once and it will jump. */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.partner-marquee {
+  animation: marquee-x 45s linear infinite;
+}
+
+/* Hovering stops it, so a name that catches the eye can actually be read. */
+.partner-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partner-marquee {
+    animation: none;
+  }
 }
 
