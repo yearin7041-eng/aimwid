@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import type { RefObject } from "react";
 import { motion } from "motion/react";
-import { ArrowRight, Check, ChevronRight, Copy, Download, FileText, Package, Tag } from "lucide-react";
+import { Check, ChevronRight, Copy, Download, FileText, Package, Tag } from "lucide-react";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -33,7 +33,16 @@ const AGREEMENTS = [
   { id: "license", label: "[필수] AIM GUARD 라이선스 이용 조건에 동의합니다." },
 ] as const;
 
-const LICENSE_KEY = "AG-TRIAL-4X7B-2M9C-N8P2";
+// Shown in the key slot BEFORE issuance. Deliberately masked: the render's own sample string looked
+// like a usable key, and with a live copy button beside it the page read as though a licence had
+// already been granted. The hero artwork was re-lettered to AG-XXXX-XXXX-XXXX for the same reason.
+const MASKED_KEY = "AG-XXXX-XXXX-XXXX";
+
+// Stands in for the real issue call. Replace this with the request to whatever endpoint grants a key —
+// it is the only place the page decides what the key is. Assumes ISSUE-ON-SUBMIT; if issuance actually
+// goes through a human review step, this whole card should become a "신청이 접수되었습니다" notice
+// instead, and the key/installer pair should not live on this page at all. Unconfirmed as of 2026-07-20.
+const issueLicense = async (_values: Record<string, string>) => "AG-TRIAL-4X7B-2M9C-N8P2";
 
 // The four panels, the inputs and the buttons all copy Home's Contact form rather than the Figma
 // render. The render used its own form language — labels beside the field, transparent inputs, square
@@ -98,7 +107,6 @@ const Hero = ({ onStart }: { onStart: () => void }) => (
         </p>
         <button onClick={onStart} className={`${CTA} mt-10 shrink-0`} style={CTA_BG}>
           라이선스 발급 시작
-          <ArrowRight size={20} />
         </button>
       </motion.div>
 
@@ -142,11 +150,20 @@ const Hero = ({ onStart }: { onStart: () => void }) => (
   </section>
 );
 
-const CustomerForm = ({ innerRef }: { innerRef: RefObject<HTMLDivElement | null> }) => {
-  const [values, setValues] = useState<Record<string, string>>({});
+type Values = Record<string, string>;
 
-  return (
-    <div ref={innerRef} className={`${PANEL} p-10`}>
+const CustomerForm = ({
+  innerRef,
+  values,
+  setValues,
+  locked,
+}: {
+  innerRef: RefObject<HTMLDivElement | null>;
+  values: Values;
+  setValues: (fn: (v: Values) => Values) => void;
+  locked: boolean;
+}) => (
+  <div ref={innerRef} className={`${PANEL} p-10 ${locked ? "opacity-60" : ""}`}>
       <h2 className="text-[24px] font-bold text-white">고객 정보 입력</h2>
       {/* Label ABOVE the field, not beside it — Contact's arrangement. The render put labels in a
           200px left column, which is the one layout choice dropped in favour of the site system. */}
@@ -163,21 +180,30 @@ const CustomerForm = ({ innerRef }: { innerRef: RefObject<HTMLDivElement | null>
               type={"type" in f ? f.type : "text"}
               placeholder={f.placeholder}
               value={values[f.name] ?? ""}
+              disabled={locked}
               onChange={(e) => setValues((v) => ({ ...v, [f.name]: e.target.value }))}
               className={INPUT}
             />
           </div>
         ))}
       </div>
-    </div>
-  );
-};
+  </div>
+);
 
-const Agreements = () => {
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
-
-  return (
-    <div className={`${PANEL} p-10`}>
+const Agreements = ({
+  checked,
+  setChecked,
+  canSubmit,
+  locked,
+  onSubmit,
+}: {
+  checked: Record<string, boolean>;
+  setChecked: (fn: (c: Record<string, boolean>) => Record<string, boolean>) => void;
+  canSubmit: boolean;
+  locked: boolean;
+  onSubmit: () => void;
+}) => (
+    <div className={`${PANEL} p-10 ${locked ? "opacity-60" : ""}`}>
       {/* 동의 was accented in the render; it reads as one heading now, matching the other three cards */}
       <h2 className="text-[24px] font-bold text-white">개인정보 및 라이선스 약관 동의</h2>
       <div className="mt-4">
@@ -193,6 +219,7 @@ const Agreements = () => {
                 type="checkbox"
                 className="h-5 w-5 cursor-pointer rounded-sm accent-brand-cyan"
                 checked={checked[a.id] ?? false}
+                disabled={locked}
                 onChange={(e) => setChecked((c) => ({ ...c, [a.id]: e.target.checked }))}
               />
               <span className="select-none text-[16px] font-normal text-gray-400">{a.label}</span>
@@ -204,15 +231,32 @@ const Agreements = () => {
           </div>
         ))}
       </div>
-    </div>
-  );
-};
 
-const LicenseKey = () => {
+      {/* The submit the render never had. Its comp drew the filled-in end state of every card at once,
+          so implementing it literally produced a page that showed an issued key before anything was
+          submitted. The action lives here, under the consents, because those gate it. */}
+      <div className="mt-8 flex items-center gap-5 border-t border-white/10 pt-8">
+        <button
+          onClick={onSubmit}
+          disabled={!canSubmit || locked}
+          className={`${CTA} disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none`}
+          style={CTA_BG}
+        >
+          {locked ? "발급 완료" : "라이선스 발급 신청"}
+        </button>
+        {!locked && !canSubmit && (
+          <p className="text-[15px] text-white/45">모든 항목을 입력하고 필수 약관에 동의해 주세요.</p>
+        )}
+      </div>
+    </div>
+);
+
+const LicenseKey = ({ issuedKey }: { issuedKey: string | null }) => {
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
-    await navigator.clipboard.writeText(LICENSE_KEY);
+    if (!issuedKey) return;
+    await navigator.clipboard.writeText(issuedKey);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -220,15 +264,27 @@ const LicenseKey = () => {
   return (
     <div className={`${PANEL} flex-1 p-10`}>
       <h2 className="text-[24px] font-bold text-white">라이선스 키 확인</h2>
-      <p className="mt-4 text-[16px] text-white/65">라이선스 키를 확인하고 복사할 수 있습니다.</p>
-      {/* The one surface allowed to break the white/10 hairline: this is the thing the user is here to
-          take away, so it carries the brand colour outright. Same rounded-lg as the inputs. */}
-      <div className="mt-7 flex items-center justify-between rounded-lg border border-brand-cyan/60 bg-brand-cyan/[0.04] px-6 py-5">
-        <code className="font-mono text-[22px] tracking-[0.06em] text-brand-cyan">{LICENSE_KEY}</code>
+      <p className="mt-4 text-[16px] text-white/65">
+        {issuedKey ? "라이선스 키를 확인하고 복사할 수 있습니다." : "신청이 완료되면 이곳에 라이선스 키가 표시됩니다."}
+      </p>
+      {/* Before issuance the key slot shows a MASKED string, never a realistic one: a plausible-looking
+          key sitting here with a working copy button reads as already issued. Only once issuedKey
+          exists does the box light up in the brand colour and the copy button work. */}
+      <div
+        className={`mt-7 flex items-center justify-between rounded-lg px-6 py-5 ${
+          issuedKey ? "border border-brand-cyan/60 bg-brand-cyan/[0.04]" : "border border-white/10 bg-white/5"
+        }`}
+      >
+        <code
+          className={`font-mono text-[22px] tracking-[0.06em] ${issuedKey ? "text-brand-cyan" : "text-white/30"}`}
+        >
+          {issuedKey ?? MASKED_KEY}
+        </code>
         <button
           onClick={copy}
+          disabled={!issuedKey}
           aria-label="라이선스 키 복사"
-          className="shrink-0 text-white/55 transition-colors hover:text-brand-cyan"
+          className="shrink-0 text-white/55 transition-colors hover:text-brand-cyan disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-white/55"
         >
           {copied ? <Check size={24} className="text-brand-cyan" /> : <Copy size={24} />}
         </button>
@@ -237,10 +293,16 @@ const LicenseKey = () => {
   );
 };
 
-const InstallerDownload = () => (
+const InstallerDownload = ({ issued }: { issued: boolean }) => (
   <div className={`${PANEL} flex-1 p-10`}>
     <h2 className="text-[24px] font-bold text-white">설치파일 다운로드</h2>
-    <button className={`${CTA} mt-7`} style={CTA_BG}>
+    {/* Gated on issuance for the same reason as the key: the installer is what the licence entitles
+        you to, so offering it before one exists invites the download without the key. */}
+    <button
+      disabled={!issued}
+      className={`${CTA} mt-7 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none`}
+      style={CTA_BG}
+    >
       <Download size={20} />
       설치파일 다운로드
     </button>
@@ -264,6 +326,24 @@ const InstallerDownload = () => (
 
 const AimGuardLicense = () => {
   const formRef = useRef<HTMLDivElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  // Form state lives here, not in the cards, because the submit gate needs to see all of it at once.
+  const [values, setValues] = useState<Values>({});
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [issuedKey, setIssuedKey] = useState<string | null>(null);
+
+  // Every field and both consents are required — the render marks all five fields and both agreements
+  // [필수], so there is no optional case to model.
+  const canSubmit =
+    FIELDS.every((f) => (values[f.name] ?? "").trim() !== "") && AGREEMENTS.every((a) => checked[a.id]);
+
+  const submit = async () => {
+    if (!canSubmit || issuedKey) return;
+    setIssuedKey(await issueLicense(values));
+    // Send them to the result: the key card is below the fold from the submit button.
+    setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
+  };
 
   // Hero on #040813 and the sections below on bg-dark, the same pairing Solution / Business /
   // AIM GUARD / Company use. The render had one flat #000613 throughout.
@@ -288,12 +368,19 @@ const AimGuardLicense = () => {
           transition={{ duration: 0.6 }}
           className="relative mx-auto flex w-full max-w-[1200px] flex-col gap-[46px] px-6"
         >
-          <CustomerForm innerRef={formRef} />
-          <Agreements />
+          {/* Locked after issuance so the inputs can't be edited out from under a key already granted */}
+          <CustomerForm innerRef={formRef} values={values} setValues={setValues} locked={!!issuedKey} />
+          <Agreements
+            checked={checked}
+            setChecked={setChecked}
+            canSubmit={canSubmit}
+            locked={!!issuedKey}
+            onSubmit={submit}
+          />
           {/* These two are a pair in the render — equal width, side by side, stacking on narrow */}
-          <div className="flex flex-col gap-[46px] lg:flex-row">
-            <LicenseKey />
-            <InstallerDownload />
+          <div ref={resultRef} className="flex flex-col gap-[46px] lg:flex-row">
+            <LicenseKey issuedKey={issuedKey} />
+            <InstallerDownload issued={!!issuedKey} />
           </div>
         </motion.div>
       </section>

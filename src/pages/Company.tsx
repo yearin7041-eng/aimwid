@@ -1,6 +1,8 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 import Breadcrumb from "../components/Breadcrumb";
+
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
 // Heading system, same spec the whole site uses: label 20px #0cc → 16px gap → title Bold 50px
 // leading-1.5. Matches BizHeading / CenterHeading / AimGuard's SectionHeading — all four were
@@ -87,12 +89,12 @@ const intro = (
 );
 
 // This one section owns BOTH section gaps on the page: History below has no pt of its own, so Intro's
-// pb is the Intro→History gap, and Hero has no mb, so Intro's pt is the Hero→Intro gap. Both are 320px
-// (user, 2026-07-20) — change them together or the rhythm goes uneven. Note Hero also carries its own
-// pb-[120px] INSIDE its container, so the distance from the hero's last line to Intro's label reads as
-// 440px, not 320; the 320 is measured from the section boundary, as it is between Intro and History.
+// pb is the Intro→History gap, and Hero has no mb, so Intro's pt is the Hero→Intro gap. They are
+// deliberately UNEQUAL (user, 2026-07-20): 150px after the hero, 320px between the two body sections.
+// The hero already carries its own pb-[120px] inside its container, so the hero's last line to Intro's
+// label still measures 270px — matching 320 there would have opened a 440px hole.
 const Intro = () => (
-  <section className="relative bg-[#020617] pt-[320px] pb-[320px] overflow-hidden">
+  <section className="relative bg-[#020617] pt-[150px] pb-[320px] overflow-hidden">
     <div className="pointer-events-none absolute -left-[420px] top-[-120px] h-[900px] w-[1000px] rounded-[50%]" style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.16), rgba(0,204,204,0) 72%)" }} />
     <div className="container-custom relative">
       <motion.div
@@ -122,7 +124,115 @@ const Intro = () => (
   </section>
 );
 
-// --- 3. 연혁 ---
+// --- 3. Mission / Vision ---
+// Figma 492:318, which ships as one flat raster. Everything that is type or a box is rebuilt in
+// markup; only three pieces stay as images because they are generative artwork, not layout: the centre
+// particle burst and the two card illustrations.
+//
+// Layout chosen over the alternative comp (a 2×2 zigzag of big images) for three reasons, on 2026-07-20:
+// Mission and Vision are peers and the mirrored pair says so where a stacked zigzag implies an order;
+// the centre burst is doing real work, tying "데이터를 현장으로" to "모든 현장이 AI를" as one arc rather
+// than decorating each card separately; and History directly below is ALREADY a zigzag, so a second one
+// stacked on it would read as the same device twice. 핵심가치's three-column strip comes after History,
+// far enough away that two card rows don't collide.
+//
+// The image crops are feathered in their alpha (see the asset build) rather than masked in CSS, and the
+// crop bounds sit INSIDE the comp's card outlines — clipping those outlines left straight edges that
+// survived the feather as visible seams.
+const PILLARS = [
+  {
+    label: "Mission",
+    title: (
+      <>
+        고객의 데이터를<br />
+        현장의 실행으로 연결합니다.
+      </>
+    ),
+    body: (
+      <>
+        복잡한 데이터를 이해하고,<br />
+        사용자가 실제로 활용할 수 있는<br />
+        AI 시스템으로 구현합니다.
+      </>
+    ),
+    art: "company_mv_radar.webp",
+  },
+  {
+    label: "Vision",
+    title: (
+      <>
+        모든 산업 현장이<br />
+        자신에게 맞는 AI를 갖는 세상
+      </>
+    ),
+    body: (
+      <>
+        누구나 현장의 데이터와 경험을 바탕으로<br />
+        자신의 업무에 필요한 AI 환경을<br />
+        만들 수 있도록 합니다.
+      </>
+    ),
+    art: "company_mv_globe.webp",
+  },
+];
+
+const MissionVision = () => (
+  <section className="relative bg-[#020617] pb-[320px] overflow-hidden">
+    <div className="container-custom relative">
+      {/* NO section heading, unlike 소개 and 연혁 either side of it. One was added briefly to give the
+          eye a way into what was then a mirrored pair, then dropped once the rows carried the order on
+          their own (user, 2026-07-20): the Mission and Vision labels already name the section, so a
+          heading above them only said it twice.
+
+          TWO FULL-WIDTH ROWS, both text-left / art-right — not the mirrored pair this started as. The
+          mirror kept reading as two things competing for attention with no way in, and the reason is
+          that Mission and Vision are NOT actually interchangeable: the vision is the destination and
+          the mission is how you get there, so an order exists and the layout should carry it. Rows in
+          the SAME orientation, deliberately: alternating them would have made this a second zigzag
+          directly above History's.
+
+          No card chrome either. The panels were what made the two read as rivals, and dropping them
+          also stops this colliding with 핵심가치's panel strip further down the page. */}
+      {/* The comp's centre particle burst is gone for a related reason. It was the section's brightest,
+          busiest element while saying nothing, and it was why the eye had nowhere to land. Once the rows
+          carry the order themselves it had no job left. public/company_mv_core.webp was deleted with it
+          — regenerate from Figma 492:318 if it is ever wanted back. */}
+      <div className="mx-auto flex max-w-[1240px] flex-col gap-[130px]">
+        {PILLARS.map((p) => (
+          <motion.div
+            key={p.label}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-20"
+          >
+            <div className="flex-1 text-center lg:text-left">
+              {/* The site's label spec, same as CoHeading / BizHeading / SectionHeading use: 20px,
+                  regular, #00cccc, leading-1.2. The comp drew it at 28px bold in a lighter blue,
+                  which made every card label louder than the section labels above it. */}
+              <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">{p.label}</p>
+              <h3 className="mt-6 text-[28px] font-bold leading-[1.5] text-white break-keep">{p.title}</h3>
+              <div className="mx-auto mt-7 h-px w-[140px] bg-gradient-to-r from-[#2b6c96] to-transparent lg:mx-0" />
+              <p className="mt-7 text-[17px] font-normal leading-[1.9] text-[#b3b4b9] break-keep">{p.body}</p>
+            </div>
+
+            {/* Held near its native crop width — the artwork is only ~415px in the master, so sizing
+                it to fill the column would upscale it soft, the same trap the licence hero fell into. */}
+            <img
+              src={asset(p.art)}
+              alt=""
+              aria-hidden="true"
+              className="w-full max-w-[460px] shrink-0 select-none"
+            />
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+// --- 4. 연혁 ---
 // Verbatim from the client's 성장 slide, 2026-07-16. NOTE this section names clients and projects
 // outright (한국서부발전, 한전KDN, 부산시, KETI …), which the client had ruled out for the Business
 // page — "areas only" there. Company is treated as the exception, since a 연혁 cannot exist without
@@ -179,8 +289,10 @@ const milestones: Milestone[] = [
   },
 ];
 
+// pb is the History→핵심가치 gap now that a section follows, so it matches the 320px the page uses
+// between body sections rather than the 160px it had when it was the last one before the footer.
 const History = () => (
-  <section className="relative bg-[#020617] pb-[160px] overflow-hidden">
+  <section className="relative bg-[#020617] pb-[320px] overflow-hidden">
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_44%_at_50%_38%,rgba(0,204,204,0.07),transparent_70%)]" />
     <div className="container-custom relative">
       <motion.div
@@ -250,13 +362,269 @@ const History = () => (
   </section>
 );
 
+// --- 5. 핵심가치 ---
+// Figma 492:266, another flat raster. The three icons are DRAWN, not cropped out of it: at 1× the comp
+// gives about 150px of icon, and every raster on this project has ended up fighting the same battle —
+// crop it, feather it, discover it upscales soft on a HiDPI screen. Vector sidesteps all of that, and
+// these three shapes (rings, an isometric cube, a shield) are geometry, not illustration. The user
+// explicitly allowed reworking the artwork on 2026-07-20.
+//
+// The shield's mark is the real brand symbol, cropped straight off logo_horizontal.png and left in its
+// own green→blue gradient. Redrawing it by hand would have meant approximating a logo, and recolouring
+// it to match the section's cyan would have meant modifying one — the same objection that killed the
+// partner-logo tint. It is the one raster here, and being a flat-colour mark it stays crisp.
+const ICON = { className: "h-[150px] w-[150px]", viewBox: "0 0 160 160", fill: "none" } as const;
+
+// Ambient motion, not hover: these run on their own, the way Business's SVG graphics do (framer-motion
+// with repeat: Infinity). Each movement means something about its value — a scan going out, a structure
+// settling, a guard sweeping — rather than being decoration that merely moves. useReducedMotion stops
+// all three for anyone who has asked the OS for less motion, matching what index.css does for the
+// partner marquee.
+const LOOP = { repeat: Infinity, ease: "easeInOut" } as const;
+
+const FieldDrivenIcon = () => {
+  const still = useReducedMotion();
+  return (
+    <svg {...ICON} aria-hidden="true">
+      <defs>
+        <radialGradient id="fd-core">
+          <stop offset="0%" stopColor="#dffbff" />
+          <stop offset="35%" stopColor="#4fd2ff" />
+          <stop offset="100%" stopColor="#0a7fd0" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      {[26, 43, 60].map((r, i) => (
+        <circle key={r} cx="80" cy="80" r={r} stroke="#2f9fd8" strokeOpacity={0.55 - i * 0.13} />
+      ))}
+      {/* Pings leaving the centre — the section says "고객의 현장에서 시작합니다", so the motion starts
+          at the core and travels out, never the other way round. Two, half a cycle apart. */}
+      {!still &&
+        [0, 1.6].map((delay) => (
+          <motion.circle
+            key={delay}
+            cx="80"
+            cy="80"
+            stroke="#7fe2ff"
+            fill="none"
+            initial={{ r: 8, opacity: 0 }}
+            animate={{ r: [8, 62], opacity: [0, 0.5, 0] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: "easeOut", delay, times: [0, 0.25, 1] }}
+          />
+        ))}
+      {/* Ticks sitting on the rings, plus the one lit contact and its bearing line to the centre — the
+          detail that makes this read as a scan rather than a bullseye. */}
+      {[[80, 20], [126, 63], [46, 118], [113, 122]].map(([cx, cy]) => (
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.5" fill="#3ec6f0" fillOpacity="0.75" />
+      ))}
+      <line x1="80" y1="80" x2="121" y2="42" stroke="#7fe2ff" strokeOpacity="0.5" />
+      <motion.circle
+        cx="121"
+        cy="42"
+        fill="#bff0ff"
+        animate={still ? { r: 5 } : { r: [4.2, 5.6, 4.2], opacity: [0.75, 1, 0.75] }}
+        transition={{ duration: 2.4, ...LOOP }}
+      />
+      <circle cx="80" cy="80" r="26" fill="url(#fd-core)" />
+      <motion.circle
+        cx="80"
+        cy="80"
+        fill="#eafcff"
+        animate={still ? { r: 6 } : { r: [5.4, 6.8, 5.4] }}
+        transition={{ duration: 2.4, ...LOOP }}
+      />
+    </svg>
+  );
+};
+
+const CustomBuiltIcon = () => {
+  const still = useReducedMotion();
+  return (
+    <svg {...ICON} aria-hidden="true">
+      <defs>
+        <linearGradient id="cb-edge" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#7fe2ff" />
+          <stop offset="100%" stopColor="#0f6fc4" />
+        </linearGradient>
+        <linearGradient id="cb-face" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#2f9fd8" stopOpacity="0.22" />
+          <stop offset="100%" stopColor="#0b3f74" stopOpacity="0.05" />
+        </linearGradient>
+      </defs>
+      {/* Ground lines, so the cube sits on something instead of floating. They breathe opposite the
+          cube — brightest as it settles — which is what sells the float as a hover over a surface
+          rather than the whole icon sliding. */}
+      {[[16, 116, 144, 116], [30, 130, 130, 130]].map(([x1, y1, x2, y2], i) => (
+        <motion.line
+          key={x1}
+          x1={x1}
+          y1={y1}
+          x2={x2}
+          y2={y2}
+          stroke="#2f9fd8"
+          animate={still ? { strokeOpacity: 0.16 } : { strokeOpacity: [0.2, 0.09, 0.2] }}
+          transition={{ duration: 5, delay: i * 0.2, ...LOOP }}
+        />
+      ))}
+      {/* "설계합니다" — so it hovers, held and deliberate, rather than drifting or spinning */}
+      <motion.g animate={still ? { y: 0 } : { y: [0, -5, 0] }} transition={{ duration: 5, ...LOOP }}>
+        {/* A true 2:1 isometric box: three faces off seven vertices, no perspective */}
+        <path d="M80 22 L126 47 L80 72 L34 47 Z" fill="url(#cb-face)" />
+        <path d="M34 47 L80 72 L80 124 L34 99 Z" fill="url(#cb-face)" />
+        <path d="M126 47 L126 99 L80 124 L80 72 Z" fill="url(#cb-face)" />
+        {/* Silhouette, then only the THREE edges that meet at the near-top corner. The back edge from
+            the far vertex down to that corner is hidden inside a solid box — drawing it turned the cube
+            into an open carton. */}
+        <path
+          d="M80 22 L126 47 L126 99 L80 124 L34 99 L34 47 Z M80 72 L126 47 M80 72 L34 47 M80 72 L80 124"
+          stroke="url(#cb-edge)"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+      </motion.g>
+    </svg>
+  );
+};
+
+const OperationalAiIcon = () => {
+  const still = useReducedMotion();
+  return (
+    <svg {...ICON} aria-hidden="true">
+      <defs>
+        <linearGradient id="oa-edge" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#8ee7ff" />
+          <stop offset="100%" stopColor="#0d63b8" />
+        </linearGradient>
+        <linearGradient id="oa-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#1d6ea8" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#06203f" stopOpacity="0.1" />
+        </linearGradient>
+        <linearGradient id="oa-scan" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#7fe2ff" stopOpacity="0" />
+          <stop offset="50%" stopColor="#7fe2ff" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#7fe2ff" stopOpacity="0" />
+        </linearGradient>
+        <clipPath id="oa-clip">
+          <path d="M80 16 L134 36 V84 C134 114 110 134 80 146 C50 134 26 114 26 84 V36 Z" />
+        </clipPath>
+      </defs>
+      <path
+        d="M80 16 L134 36 V84 C134 114 110 134 80 146 C50 134 26 114 26 84 V36 Z"
+        fill="url(#oa-fill)"
+        stroke="url(#oa-edge)"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M80 28 L123 44 V84 C123 108 103 124 80 134 C57 124 37 108 37 84 V44 Z"
+        stroke="#7fe2ff"
+        strokeOpacity="0.28"
+      />
+      {/* A band sweeping down the inside of the shield, clipped to its outline — "현장에서 실제로
+          작동하고" is about something running continuously, so this one never rests at a pose. */}
+      {!still && (
+        <g clipPath="url(#oa-clip)">
+          <motion.rect
+            x="26"
+            width="108"
+            height="30"
+            fill="url(#oa-scan)"
+            animate={{ y: [6, 146] }}
+            transition={{ duration: 3.4, repeat: Infinity, ease: "linear", repeatDelay: 1.2 }}
+          />
+        </g>
+      )}
+      <image href={asset("brand_symbol.webp")} x="50" y="52" width="60" height="60" />
+    </svg>
+  );
+};
+
+const VALUES = [
+  {
+    Icon: FieldDrivenIcon,
+    title: "Field Driven",
+    body: (
+      <>
+        고객의 현장과 과제에서<br />
+        시작합니다.
+      </>
+    ),
+  },
+  {
+    Icon: CustomBuiltIcon,
+    title: "Custom Built",
+    body: (
+      <>
+        데이터와 업무 환경에 맞는<br />
+        시스템을 설계합니다.
+      </>
+    ),
+  },
+  {
+    Icon: OperationalAiIcon,
+    title: "Operational AI",
+    body: (
+      <>
+        현장에서 실제로 작동하고<br />
+        확장되는 AI를 만듭니다.
+      </>
+    ),
+  },
+];
+
+// pb-[160px] is the gap to the footer, the value History carried while it was the last section.
+const Values = () => (
+  <section className="relative bg-[#020617] pb-[160px] overflow-hidden">
+    <div className="container-custom relative">
+      {/* Label ONLY, no title (user, 2026-07-20). A title was tried and dropped for two reasons: any
+          version leaned on the word 현장, which this page already overuses (it is in two of the three
+          cards below), and a made-up headline over three self-explaining values added nothing. Letting
+          Company diverge from the label+title pattern the other sections share is the point, not a
+          compromise — the three names ARE the content. `Core Value` is the client's label. */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mb-[90px] text-center"
+      >
+        <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">Core Value</p>
+      </motion.div>
+
+      {/* Hairline dividers BETWEEN the columns only, as drawn — divide-x gives that without a trailing
+          rule on the last column. They are dropped when the columns stack, where a vertical rule
+          between stacked blocks would be meaningless. */}
+      <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-16 md:grid-cols-3 md:gap-0 md:divide-x md:divide-white/10">
+        {VALUES.map(({ Icon, title, body }, i) => (
+          <motion.div
+            key={title}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: i * 0.1 }}
+            className="flex flex-col items-center px-10 text-center"
+          >
+            {/* A hover version of this existed briefly and was replaced (user, 2026-07-20): the motion
+                belongs in the icons themselves, running always, not behind a pointer — these three are
+                as much illustration as they are icons, and on touch there is no hover to find it with. */}
+            <Icon />
+            <h3 className="mt-9 text-[26px] font-bold leading-[1.3] text-white">{title}</h3>
+            <p className="mt-5 text-[17px] font-normal leading-[1.8] text-[#b3b4b9] break-keep">{body}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 // pt-[80px] clears the fixed 80px navbar — without it the hero starts at y=0 and the breadcrumb,
 // which sits 60px into the hero, lands underneath the menu. Same wrapper as the other four pages.
 const Company = () => (
   <div className="pt-[80px] min-h-screen text-white bg-[#020617] font-sans overflow-hidden">
     <Hero />
     <Intro />
+    <MissionVision />
     <History />
+    <Values />
   </div>
 );
 

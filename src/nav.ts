@@ -13,12 +13,18 @@ export const SOLUTION_SUBS = ["AIMNIS", "AIM GUARD", "SOLUTION"] as const;
 export const subRoute = (sub: string) =>
   sub === "AIM GUARD" ? "/aimguard" : sub === "AIMNIS" ? "/aimnis" : "/solution";
 
-// Top-level items that own a page. Anything absent (Contact) is still a #anchor on Home, so it gets an
-// <a> and has no active state to be in. Solution is deliberately NOT here: it is a dropdown parent
-// whose own click target is an anchor, and its active state spans the three routes beneath it.
+// Company's dropdown. Unlike Solution's, the labels are Korean and the OVERVIEW route is the section's
+// own /company page — 회사개요 is not a separate child, it IS Company, so it points back at /company.
+// Added 2026-07-20; 오시는길 is a new page.
+export const COMPANY_SUBS = ["회사개요", "오시는길"] as const;
+
+export const companySubRoute = (sub: string) => (sub === "오시는길" ? "/company/location" : "/company");
+
+// Top-level items that own a page directly (no dropdown). Anything absent (Contact) is still a #anchor
+// on Home, so it gets an <a> and has no active state. Solution and Company are deliberately NOT here:
+// each is a dropdown parent whose active state spans the routes beneath it (see isActive in App).
 export const ROUTED: Record<string, string> = {
   Business: "/business",
-  Company: "/company",
 };
 
 export type Crumb = { label: string; to?: string };
@@ -33,6 +39,13 @@ export const crumbsFor = (pathname: string): Crumb[] => {
     return sub === "SOLUTION"
       ? [{ label: "Solution" }]
       : [{ label: "Solution", to: "/solution" }, { label: sub }];
+  }
+  const csub = COMPANY_SUBS.find((s) => companySubRoute(s) === pathname);
+  if (csub) {
+    // Same shape as Solution's: 회사개요 IS Company, so /company is the leaf; 오시는길 sits under it.
+    return csub === "회사개요"
+      ? [{ label: "Company" }]
+      : [{ label: "Company", to: "/company" }, { label: csub }];
   }
   const top = Object.keys(ROUTED).find((k) => ROUTED[k] === pathname);
   return top ? [{ label: top }] : [];

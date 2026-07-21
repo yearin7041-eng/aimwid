@@ -36,7 +36,8 @@ import AimNis from "./pages/AimNis";
 import Solution from "./pages/Solution";
 import Business from "./pages/Business";
 import Company from "./pages/Company";
-import { SOLUTION_SUBS, subRoute, ROUTED } from "./nav";
+import CompanyLocation from "./pages/CompanyLocation";
+import { SOLUTION_SUBS, subRoute, ROUTED, COMPANY_SUBS, companySubRoute } from "./nav";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -50,7 +51,11 @@ const Navbar = () => {
   // "Solution" is a parent, not a page — it lights up on any of the three routes under it, or landing
   // on /aimnis would leave the whole bar looking inert.
   const isActive = (item: string) =>
-    item === "Solution" ? SOLUTION_SUBS.some((s) => subRoute(s) === pathname) : ROUTED[item] === pathname;
+    item === "Solution"
+      ? SOLUTION_SUBS.some((s) => subRoute(s) === pathname)
+      : item === "Company"
+        ? COMPANY_SUBS.some((s) => companySubRoute(s) === pathname)
+        : ROUTED[item] === pathname;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -99,6 +104,35 @@ const Navbar = () => {
                 </div>
               );
             }
+            if (item === "Company") {
+              // Same dropdown as Solution, but the parent is a real Link (→ /company, the 회사개요
+              // overview) rather than an anchor, because Company owns a page and Solution does not.
+              return (
+                <div key={item} className="relative group flex items-center h-[80px]">
+                  <Link
+                    to="/company"
+                    onClick={() => window.scrollTo(0, 0)}
+                    className={`text-[18px] font-semibold group-hover:text-brand-cyan transition-colors flex items-center gap-1 cursor-pointer ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
+                  >
+                    {item} <ChevronDown size={16} className="mt-0.5 opacity-70 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <div className="absolute top-[65px] left-1/2 -translate-x-1/2 pt-2 w-[160px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                    <div className="bg-bg-dark/95 backdrop-blur-md border border-brand-cyan/20 rounded-xl overflow-hidden shadow-2xl flex flex-col py-2">
+                      {COMPANY_SUBS.map((subItem) => (
+                        <Link
+                          key={subItem}
+                          to={companySubRoute(subItem)}
+                          onClick={() => window.scrollTo(0, 0)}
+                          className={`px-5 py-3 text-[15px] font-medium hover:text-brand-cyan hover:bg-brand-cyan/10 transition-colors text-center ${pathname === companySubRoute(subItem) ? "text-brand-cyan bg-brand-cyan/10" : "text-white/80"}`}
+                        >
+                          {subItem}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
             const cls = `text-[18px] font-semibold hover:text-brand-cyan transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`;
             return (
               <div key={item} className="flex items-center h-[80px]">
@@ -135,9 +169,9 @@ const Navbar = () => {
           >
             {["Solution", "Business", "Company", "Contact"].map((item) => (
               <div key={item} className="flex flex-col">
-                {ROUTED[item] ? (
+                {ROUTED[item] || item === "Company" ? (
                   <Link
-                    to={ROUTED[item]}
+                    to={item === "Company" ? "/company" : ROUTED[item]}
                     className={`text-lg font-medium py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
                     onClick={() => {
                       setMobileMenuOpen(false);
@@ -167,6 +201,23 @@ const Navbar = () => {
                           if (subItem !== "AIM GUARD") {
                             window.scrollTo(0, 0);
                           }
+                        }}
+                      >
+                        {subItem}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                {item === "Company" && (
+                  <div className="flex flex-col pl-4 border-l-2 border-brand-cyan/30 ml-2 mt-1 mb-2 gap-3 py-2">
+                    {COMPANY_SUBS.map((subItem) => (
+                      <Link
+                        key={subItem}
+                        to={companySubRoute(subItem)}
+                        className={`text-base transition-colors hover:text-brand-cyan ${pathname === companySubRoute(subItem) ? "text-brand-cyan" : "text-white/70"}`}
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          window.scrollTo(0, 0);
                         }}
                       >
                         {subItem}
@@ -895,6 +946,7 @@ export default function App() {
         <Route path="/solution" element={<Solution />} />
         <Route path="/business" element={<Business />} />
         <Route path="/company" element={<Company />} />
+        <Route path="/company/location" element={<CompanyLocation />} />
       </Routes>
       <Footer />
       <ScrollToTopButton />
