@@ -2,7 +2,7 @@ import { motion, useReducedMotion, useScroll, useTransform, useInView } from "mo
 import { useRef } from "react";
 import type { ReactNode } from "react";
 import Breadcrumb from "../components/Breadcrumb";
-import RotatingGlobe from "./RotatingGlobe";
+import ConstellationField from "./ConstellationField";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -38,6 +38,20 @@ const Hero = () => (
         className="absolute right-[14%] bottom-[-16%] h-[700px] w-[860px] rounded-[50%]"
         style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.18), rgba(54,132,247,0) 70%)" }}
       />
+      {/* Hero visual (Figma 492:259) — the render's white ground was keyed to alpha (it was built on
+          white; here it floats on the dark hero). Pinned right, behind the copy; the left→right darkening
+          below keeps the text side legible where the two overlap. A bottom mask dissolves the render's
+          hard lower edge into the section instead of cutting off square. */}
+      <img
+        src={asset("company_hero_visual.webp")}
+        alt=""
+        aria-hidden="true"
+        className="absolute right-[-3%] top-1/2 w-[60%] max-w-[1000px] -translate-y-1/2 select-none"
+        style={{
+          maskImage: "linear-gradient(to bottom, #000 72%, transparent 96%)",
+          WebkitMaskImage: "linear-gradient(to bottom, #000 72%, transparent 96%)",
+        }}
+      />
       <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/55 via-[36%] to-transparent to-[62%]" />
       <div className="absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-b from-transparent to-[#020617]" />
     </div>
@@ -69,70 +83,105 @@ const Hero = () => (
   </section>
 );
 
-// --- 2. 소개 ---
-// Title and body verbatim from the client, 2026-07-16. ONE block, as the source has it. It was briefly
-// split into four <p>s for readability at 1223px; the user undid that on 2026-07-20, so the sentences
-// run together and wrap on width rather than on sentence boundaries. No word is changed. The closing
-// 감사합니다 is part of the same run — it used to be its own lighter-coloured <p>, and folding it in
-// (user, same day) means it now takes the body colour and simply trails the last sentence.
-//
-// JSX, not a string, so line breaks can be placed by hand: put <br /> at the end of any line below and
-// the text breaks there. A plain string could not do this — React escapes markup inside strings, so a
-// literal "<br />" would print as those six characters. Source line breaks alone do nothing: JSX joins
-// adjacent lines with a single space, which is why the sentences flow as one paragraph as written.
-const intro = (
-  <>
-    에임위드는 AI 기술과 스마트 모니터링 솔루션 개발을 통해 고객의 비즈니스 환경을 더욱 효율적이고 지능적으로 변화시키는 기술 중심 기업입니다.<br />
-    빠르게 변화하는 디지털 시대에 발맞춰 저희는 끊임없는 연구개발을 통해 독자적인 기술력을 확보하고 있으며, 다양한 산업군에 최적화된 AI 솔루션과 <br /> 실시간 모니터링 시스템을 제공합니다.
-    데이터 기반의 정밀한 분석과 직관적인 인터페이스를 통해 고객의 문제를 정확히 진단하고, <br /> 한발 앞선 대응이 가능하도록 지원합니다.
-    앞으로도 고객의 신뢰를 최우선 가치로 삼아, 더욱 정교하고 강력한 기술력으로 산업의 미래를 선도해 나가겠습니다.
-    감사합니다.
-  </>
-);
+// --- 2. About ---
+// Rebuilt from Figma 507:104 (user, 2026-07-21) — the statement-panel version and the previous client
+// copy are BOTH replaced. Centred type over the void again, but no longer floating: two ambient graphics
+// flank it (isometric data layers left, particle wave right, both cropped from the 507:104 raster and
+// feathered) and give the emptiness a subject. Their corner micro-labels — DATA INTELLIGENCE /
+// AI TECHNOLOGY — are baked into the crops, not rebuilt as text, so they can't drift out of place.
+// The three paragraphs are the 507:104 copy verbatim; it differs from the older approved 소개 text and
+// still leans on 현장 elsewhere on the page — flagged for the client, used as the mock has it.
+const ABOUT_BODY = [
+  <>에임위드는 AI 기술과 스마트 도시 인프라 솔루션을 결합해<br />현실의 문제를 해결하고 새로운 가치를 만드는 기술 중심 기업입니다.</>,
+  <>빅데이터, 엣지 AI, 디지털 트윈, 자동화 기술을 기반으로<br />공공기관과 민간 기업의 디지털 전환을 지원합니다.</>,
+  <>신뢰할 수 있는 기술과 지속적인 연구개발로<br />더 안전하고, 더 편리하며, 더 지속 가능한 사회를 구현합니다.</>,
+];
 
-// This one section owns BOTH section gaps on the page: History below has no pt of its own, so Intro's
-// pb is the Intro→History gap, and Hero has no mb, so Intro's pt is the Hero→Intro gap. They are
-// deliberately UNEQUAL (user, 2026-07-20): 150px after the hero, 320px between the two body sections.
-// The hero already carries its own pb-[120px] inside its container, so the hero's last line to Intro's
-// label still measures 270px — matching 320 there would have opened a 440px hole.
+// This section owns BOTH page gaps: History has no pt, so About's pb is the About→History gap; Hero has
+// no mb, so About's pt is the Hero→About gap. Deliberately unequal — 150 after the hero, 320 before
+// History — because the hero already carries its own pb-[120px] inside its container.
 const Intro = () => (
-  <section className="relative bg-[#020617] pt-[150px] pb-[320px] overflow-hidden">
-    <div className="pointer-events-none absolute -left-[420px] top-[-120px] h-[900px] w-[1000px] rounded-[50%]" style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.16), rgba(0,204,204,0) 72%)" }} />
+  <section className="relative bg-[#020617] pt-[150px] pb-[130px] overflow-hidden">
+    {/* Ambient background — a drifting constellation across the whole section (user, 2026-07-21),
+        replacing the two literal side-graphics that read as meaningless boxes. It's mood, not a diagram.
+        A radial fade over it keeps the centre dark enough for the copy to stay legible. */}
+    <ConstellationField className="pointer-events-none absolute inset-0 h-full w-full select-none" />
+    <div
+      className="pointer-events-none absolute inset-0"
+      style={{ background: "radial-gradient(60% 55% at 50% 46%, rgba(2,6,23,0.82) 0%, rgba(2,6,23,0.35) 60%, transparent 100%)" }}
+    />
+
     <div className="container-custom relative">
-      {/* 안 3: statement panel. The About copy used to float centred on the void — a long centred
-          paragraph reads ragged and looks unanchored. Boxing it gives the text edges to sit in, and
-          inside the box the body switches to LEFT alignment, which is the actual readability fix; the
-          panel is the grounding. Same surface language as the site's other panels (rounded-2xl,
-          white/10 hairline) so it belongs. */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="mx-auto max-w-[1240px] rounded-[24px] border border-white/10 px-8 py-12 md:px-16 md:py-16"
-        style={{ background: "linear-gradient(180deg, rgba(11,29,52,0.55) 0%, rgba(4,12,26,0.35) 100%)" }}
+        className="mx-auto flex max-w-[820px] flex-col items-center text-center"
       >
         <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">About</p>
-        <h2 className="mt-4 text-[28px] md:text-[42px] font-bold leading-[1.35] text-white break-keep">
+        <h2 className="mt-6 text-[32px] md:text-[50px] font-bold leading-[1.4] text-white break-keep">
           끊임없는 연구개발로<br />
           기술경쟁력에서 앞서갑니다.
         </h2>
-        <div className="mt-9 h-px w-full bg-white/10" />
-        <p className="mt-9 text-[#b3b4b9] text-[16px] md:text-[18px] font-normal leading-[1.9] break-keep">
-          {intro}
-        </p>
+        <div className="mx-auto mt-8 h-px w-[60px] bg-[#00cccc]/60" />
+        <div className="mt-10 flex flex-col gap-7">
+          {ABOUT_BODY.map((p, i) => (
+            <p key={i} className="text-[#9fb0c4] text-[16px] md:text-[18px] font-normal leading-[1.85] break-keep">
+              {p}
+            </p>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  </section>
+);
+
+// --- 2.5 성과 지표 (stats band) ---
+// New in the 2026-07-21 rhythm rework. A tight horizontal band of big numbers right after About — the
+// page was all prose on one flat ground, and this is the texture change: tabular figures between
+// hairlines, a different density from everything around it, and the first place the eye can land on
+// something concrete. NUMBERS ARE PROVISIONAL, derived from the page's own content (연혁 has ~23 entries
+// and 2 [특허]; the partner wall ~10 orgs; 설립 2023) — confirm with the client before shipping.
+const STATS = [
+  { n: "2023", label: "설립" },
+  { n: "20+", label: "수행 프로젝트" },
+  { n: "10+", label: "협력 기관" },
+  { n: "2", label: "등록 특허" },
+];
+
+const StatsBand = () => (
+  <section className="relative bg-[#020617] pb-[210px]">
+    <div className="container-custom">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mx-auto grid max-w-[1120px] grid-cols-2 gap-y-12 border-y border-white/10 bg-white/[0.015] py-14 md:grid-cols-4 md:divide-x md:divide-white/10"
+      >
+        {STATS.map((s) => (
+          <div key={s.label} className="flex flex-col items-center gap-2.5 text-center">
+            <span className="text-[46px] md:text-[56px] font-bold leading-none text-white tabular-nums">{s.n}</span>
+            <span className="text-[15px] md:text-[16px] text-[#9fb0c4]">{s.label}</span>
+          </div>
+        ))}
       </motion.div>
     </div>
   </section>
 );
 
 // --- 3. Mission / Vision ---
-// Two full-width rows, text-left. Originally both carried a raster illustration (Figma 492:318); the
-// user cut Mission's on 2026-07-21 and asked for Vision's globe to actually spin. Mission is now text
-// only — its row leaves the right side as breathing space, which sets up Vision's globe as the section's
-// single visual payoff. Vision's raster is replaced by <RotatingGlobe/>, a canvas sphere that truly
-// rotates (a flat image can't). Rows stay same-orientation on purpose: History right below is a zigzag,
-// so alternating here would read as the same device twice.
+// RE-PLANNED as an image-card zigzag (user, 2026-07-21), referencing pintel.co.kr's company page but not
+// copying it. The rail-connected typographic version clashed with History's rail directly below; the
+// earlier abstract diagrams read as meaningless. This resolves both: NO rail (nothing to collide with
+// History), and a large evocative IMAGE per pillar instead of a diagram. Each row is a big rounded media
+// block beside a big display label ("Mission"/"Vision") + statement + body, alternating sides. Airy, not
+// banded — the images carry the visual weight.
+//
+// IMAGES ARE PLACEHOLDERS. `img` names a file to drop into public/ (company_mission.webp /
+// company_vision.webp); until it exists the card shows a branded placeholder. Real imagery (a data/city
+// scene for Mission, a global/AI scene for Vision) is what makes this composition work — to be supplied.
 const PILLARS = [
   {
     label: "Mission",
@@ -144,54 +193,65 @@ const PILLARS = [
     ),
     body: (
       <>
-        복잡한 데이터를 이해하고,<br />
-        사용자가 실제로 활용할 수 있는<br />
-        AI 시스템으로 구현합니다.
+        정확한 데이터, 현장 중심의 통찰, AI 사이의 연결을 통해<br className="hidden md:block" />
+        실질적인 변화를 만듭니다.
       </>
     ),
-    globe: false,
+    img: "company_mission.webp",
+    imageLeft: true,
   },
   {
     label: "Vision",
     title: (
       <>
         모든 산업 현장이<br />
-        자신에게 맞는 AI를 갖는 세상
+        자신에게 맞는 AI를 찾는 세상
       </>
     ),
     body: (
       <>
-        누구나 현장의 데이터와 경험을 바탕으로<br />
-        자신의 업무에 필요한 AI 환경을<br />
-        만들 수 있도록 합니다.
+        누구나 상황에 최적화된 AI를 활용하여 지속 가능한 혁신과<br className="hidden md:block" />
+        새로운 가치를 쉽게 만들 수 있도록 합니다.
       </>
     ),
-    globe: true,
+    img: "company_vision.webp",
+    imageLeft: false,
   },
 ];
 
+const MediaCard = ({ label }: { label: string }) => (
+  // Placeholder until real imagery is supplied — a branded rounded block, clearly a stand-in.
+  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0c2036] to-[#040d18]">
+    <div
+      className="pointer-events-none absolute inset-0 opacity-[0.4]"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,204,204,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,204,204,0.06) 1px, transparent 1px)",
+        backgroundSize: "40px 40px",
+      }}
+    />
+    <img
+      src={asset("brand_symbol.webp")}
+      alt=""
+      aria-hidden="true"
+      className="absolute left-1/2 top-1/2 w-[110px] -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.12]"
+    />
+    <span className="absolute bottom-5 right-6 text-[11px] font-medium tracking-[0.25em] text-white/25">
+      {label.toUpperCase()} IMAGE
+    </span>
+  </div>
+);
+
 const MissionVision = () => (
-  <section className="relative bg-[#020617] pb-[320px] overflow-hidden">
+  <section className="relative overflow-hidden bg-[#020617] pt-[150px] pb-[180px]">
+    {/* a soft central glow for warmth — no framed band, so the section reads open (pintel is airy) */}
+    <div
+      className="pointer-events-none absolute left-1/2 top-1/2 h-[900px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.08), rgba(0,204,204,0) 70%)" }}
+    />
+
     <div className="container-custom relative">
-      {/* NO section heading, unlike 소개 and 연혁 either side of it. One was added briefly to give the
-          eye a way into what was then a mirrored pair, then dropped once the rows carried the order on
-          their own (user, 2026-07-20): the Mission and Vision labels already name the section, so a
-          heading above them only said it twice.
-
-          TWO FULL-WIDTH ROWS, both text-left / art-right — not the mirrored pair this started as. The
-          mirror kept reading as two things competing for attention with no way in, and the reason is
-          that Mission and Vision are NOT actually interchangeable: the vision is the destination and
-          the mission is how you get there, so an order exists and the layout should carry it. Rows in
-          the SAME orientation, deliberately: alternating them would have made this a second zigzag
-          directly above History's.
-
-          No card chrome either. The panels were what made the two read as rivals, and dropping them
-          also stops this colliding with 핵심가치's panel strip further down the page. */}
-      {/* The comp's centre particle burst is gone for a related reason. It was the section's brightest,
-          busiest element while saying nothing, and it was why the eye had nowhere to land. Once the rows
-          carry the order themselves it had no job left. public/company_mv_core.webp was deleted with it
-          — regenerate from Figma 492:318 if it is ever wanted back. */}
-      <div className="mx-auto flex max-w-[1240px] flex-col gap-[130px]">
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-[120px] lg:gap-[150px]">
         {PILLARS.map((p) => (
           <motion.div
             key={p.label}
@@ -199,25 +259,28 @@ const MissionVision = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col items-center gap-10 lg:flex-row lg:items-center lg:gap-20"
+            className={`flex flex-col items-center gap-12 lg:items-center lg:gap-24 ${
+              p.imageLeft ? "lg:flex-row" : "lg:flex-row-reverse"
+            }`}
           >
-            <div className="flex-1 text-center lg:text-left">
-              {/* The site's label spec, same as CoHeading / BizHeading / SectionHeading use: 20px,
-                  regular, #00cccc, leading-1.2. The comp drew it at 28px bold in a lighter blue,
-                  which made every card label louder than the section labels above it. */}
-              <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">{p.label}</p>
-              <h3 className="mt-6 text-[28px] font-bold leading-[1.5] text-white break-keep">{p.title}</h3>
-              <div className="mx-auto mt-7 h-px w-[140px] bg-gradient-to-r from-[#2b6c96] to-transparent lg:mx-0" />
-              <p className="mt-7 text-[17px] font-normal leading-[1.9] text-[#b3b4b9] break-keep">{p.body}</p>
+            <div className="w-full lg:w-[50%] shrink-0">
+              <MediaCard label={p.label} />
             </div>
 
-            {/* Vision only — Mission's slot is intentionally empty (breathing room). Square so the
-                canvas sphere stays circular; the globe sizes itself to this box. */}
-            {p.globe && (
-              <div className="aspect-square w-full max-w-[460px] shrink-0">
-                <RotatingGlobe />
-              </div>
-            )}
+            <div className={`flex-1 text-center ${p.imageLeft ? "lg:text-left" : "lg:text-right"}`}>
+              {/* Label at the site's shared 20px spec (CoHeading / BizHeading …), not the big display
+                  word — user, 2026-07-21. Title/body bumped 2px the same day. */}
+              <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">{p.label}</p>
+              <div
+                className={`mx-auto mt-6 h-[26px] w-px bg-gradient-to-b from-[#00cccc] to-transparent ${
+                  p.imageLeft ? "lg:mx-0" : "lg:ml-auto lg:mr-0"
+                }`}
+              />
+              <p className="mt-7 text-[26px] md:text-[34px] font-bold leading-[1.4] text-white break-keep">{p.title}</p>
+              <p className="mt-7 max-w-[560px] text-[18px] font-normal leading-[1.9] text-[#b3b4b9] break-keep lg:max-w-none">
+                {p.body}
+              </p>
+            </div>
           </motion.div>
         ))}
       </div>
@@ -351,7 +414,17 @@ const History = () => {
   const fillHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section className="relative bg-[#020617] pb-[320px] overflow-hidden">
+    <section className="relative bg-[#020617] pt-[150px] pb-[220px] overflow-hidden">
+    {/* Faint tech grid — the History chapter gets its own ground so it reads as distinct from the airy
+        sections around it (2026-07-21 rhythm rework). Kept very low so the timeline stays the subject. */}
+    <div
+      className="pointer-events-none absolute inset-0 opacity-[0.5]"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,204,204,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(0,204,204,0.045) 1px, transparent 1px)",
+        backgroundSize: "64px 64px",
+      }}
+    />
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_44%_at_50%_38%,rgba(0,204,204,0.07),transparent_70%)]" />
     <div className="container-custom relative">
       <motion.div
@@ -671,6 +744,7 @@ const Company = () => (
   <div className="pt-[80px] min-h-screen text-white bg-[#020617] font-sans overflow-hidden">
     <Hero />
     <Intro />
+    <StatsBand />
     <MissionVision />
     <History />
     <Values />

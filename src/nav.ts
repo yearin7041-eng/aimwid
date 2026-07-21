@@ -42,10 +42,11 @@ export const crumbsFor = (pathname: string): Crumb[] => {
   }
   const csub = COMPANY_SUBS.find((s) => companySubRoute(s) === pathname);
   if (csub) {
-    // Same shape as Solution's: 회사개요 IS Company, so /company is the leaf; 오시는길 sits under it.
-    return csub === "회사개요"
-      ? [{ label: "Company" }]
-      : [{ label: "Company", to: "/company" }, { label: csub }];
+    // Company always shows two depths (user, 2026-07-21): the section, then the sub-page. The Company
+    // crumb always LINKS to /company (even on 회사개요, whose page that is) — the breadcrumb marks the
+    // one crumb WITHOUT a `to` as the current page and colours it white, so the parent needs a `to` to
+    // render as a muted, distinct upper level rather than a second white current-page label.
+    return [{ label: "Company", to: "/company" }, { label: csub }];
   }
   const top = Object.keys(ROUTED).find((k) => ROUTED[k] === pathname);
   return top ? [{ label: top }] : [];
