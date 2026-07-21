@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform, useInView } from "motion/react";
+import { useRef } from "react";
 import type { ReactNode } from "react";
 import Breadcrumb from "../components/Breadcrumb";
 
@@ -291,8 +292,74 @@ const milestones: Milestone[] = [
 
 // pb is the History→핵심가치 gap now that a section follows, so it matches the 320px the page uses
 // between body sections rather than the 160px it had when it was the last one before the footer.
-const History = () => (
-  <section className="relative bg-[#020617] pb-[320px] overflow-hidden">
+// One timeline entry. Split out so each node can own its light-up. The observer root is the top ~65% of
+// the viewport (bottom margin -35%): `lit` flips true as the node crosses a line a little BELOW centre,
+// so it lights a beat before the node reaches the middle (user, 2026-07-21) — reading as the fill's glow
+// arriving just ahead of it. It unlights symmetrically on the way back up. NOTE an earlier -50%/-50%
+// collapsed the root to a zero-height line; a zero-area root never reports an intersection, so every
+// node stayed dark. Reduced-motion keeps every node lit.
+const MilestoneRow = ({ m, right }: { m: Milestone; right: boolean }) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const reduce = useReducedMotion();
+  const inView = useInView(nodeRef, { margin: "0px 0px -35% 0px" });
+  const lit = reduce || inView;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 26 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-90px" }}
+      transition={{ duration: 0.5, delay: 0.05 }}
+      className="relative grid md:grid-cols-2 pl-9 md:pl-0 pb-16 md:pb-24 last:pb-0"
+    >
+      <span
+        ref={nodeRef}
+        className={`absolute left-[6px] md:left-1/2 top-[10px] -translate-x-1/2 h-[13px] w-[13px] rounded-full border transition-all duration-500 ${
+          lit
+            ? "bg-[#00f5ff] border-white shadow-[0_0_16px_4px_rgba(0,245,255,0.5)]"
+            : "bg-[#0e2731] border-white/30"
+        }`}
+      />
+
+      <div className={right ? "md:col-start-2 md:pl-14" : "md:col-start-1 md:pr-14"}>
+        {/* Year rides the same `lit` as the node: dim until the lamp fires, then white — so the whole
+            year block activates together, not just the dot. */}
+        <p
+          className={`text-[30px] md:text-[48px] font-bold leading-none transition-colors duration-500 ${
+            lit ? "text-white" : "text-white/25"
+          } ${right ? "" : "md:text-right"}`}
+        >
+          {m.year}
+        </p>
+
+        <ul className={`mt-5 flex flex-col gap-3 ${right ? "" : "md:items-end"}`}>
+          {m.items.map((it, k) => (
+            <li key={k} className={`flex gap-2.5 text-[15px] md:text-[16px] leading-[1.65] break-keep ${right ? "" : "md:flex-row-reverse"}`}>
+              <span className="mt-[9px] h-[3px] w-[3px] shrink-0 rounded-full bg-white/45" />
+              <span className={`text-white/75 ${right ? "" : "md:text-right"}`}>
+                {it.patent && <span className="text-[#00f5ff] font-semibold">[특허] </span>}
+                {it.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </motion.div>
+  );
+};
+
+const History = () => {
+  // Scroll-driven rail fill (the interaction lifted from the rejected Mission/Vision 안 2). The bright
+  // cyan→blue segment grows as the timeline passes the viewport centre, so "how full the line is" reads
+  // as "how far through 2023→2026 you've scrolled" — the fill IS the passage of time. offset runs from
+  // the block's top reaching centre to its bottom reaching centre. Reduced-motion shows it fully filled.
+  const railRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: railRef, offset: ["start center", "end center"] });
+  const fillHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  return (
+    <section className="relative bg-[#020617] pb-[320px] overflow-hidden">
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_44%_at_50%_38%,rgba(0,204,204,0.07),transparent_70%)]" />
     <div className="container-custom relative">
       <motion.div
@@ -322,45 +389,24 @@ const History = () => (
 
           Below md the whole thing collapses to one left rail — a zigzag at phone width is two
           half-width columns of two-word fragments. */}
-      <div className="relative mx-auto mt-20 max-w-[1120px]">
-        {/* one rail for the whole run: centred on md+, hard left below it */}
-        <div className="absolute top-2 bottom-2 left-[6px] md:left-1/2 md:-translate-x-1/2 w-px bg-gradient-to-b from-[#00cccc]/10 via-[#00cccc]/45 to-[#00cccc]/10" />
+      <div ref={railRef} className="relative mx-auto mt-20 max-w-[1120px]">
+        {/* one rail for the whole run: centred on md+, hard left below it. The dim gradient is the
+            unfilled TRACK; the bright motion.div nested inside is the scroll-driven fill. */}
+        <div className="absolute top-2 bottom-2 left-[6px] md:left-1/2 md:-translate-x-1/2 w-[2px] bg-gradient-to-b from-[#00cccc]/10 via-[#00cccc]/45 to-[#00cccc]/10">
+          <motion.div
+            style={{ height: reduce ? "100%" : fillHeight }}
+            className="absolute inset-x-0 top-0 origin-top bg-gradient-to-b from-[#00e0e0] via-[#2fa8e8] to-[#3684f7] shadow-[0_0_12px_rgba(79,210,255,0.55)]"
+          />
+        </div>
 
-        {milestones.map((m, i) => {
-          const right = i % 2 === 1;
-          return (
-            <motion.div
-              key={m.year}
-              initial={{ opacity: 0, y: 26 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-90px" }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="relative grid md:grid-cols-2 pl-9 md:pl-0 pb-16 md:pb-24 last:pb-0"
-            >
-              <span className="absolute left-[6px] md:left-1/2 top-[10px] -translate-x-1/2 h-[13px] w-[13px] rounded-full bg-[#00f5ff] ring-4 ring-[#020617] shadow-[0_0_16px_4px_rgba(0,245,255,0.5)]" />
-
-              <div className={right ? "md:col-start-2 md:pl-14" : "md:col-start-1 md:pr-14"}>
-                <p className={`text-[30px] md:text-[42px] font-bold text-white leading-none ${right ? "" : "md:text-right"}`}>{m.year}</p>
-
-                <ul className={`mt-5 flex flex-col gap-3 ${right ? "" : "md:items-end"}`}>
-                  {m.items.map((it, k) => (
-                    <li key={k} className={`flex gap-2.5 text-[15px] md:text-[16px] leading-[1.65] break-keep ${right ? "" : "md:flex-row-reverse"}`}>
-                      <span className="mt-[9px] h-[3px] w-[3px] shrink-0 rounded-full bg-white/45" />
-                      <span className={`text-white/75 ${right ? "" : "md:text-right"}`}>
-                        {it.patent && <span className="text-[#00f5ff] font-semibold">[특허] </span>}
-                        {it.text}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          );
-        })}
+        {milestones.map((m, i) => (
+          <MilestoneRow key={m.year} m={m} right={i % 2 === 1} />
+        ))}
       </div>
     </div>
-  </section>
-);
+    </section>
+  );
+};
 
 // --- 5. 핵심가치 ---
 // Figma 492:266, another flat raster. The three icons are DRAWN, not cropped out of it: at 1× the comp
