@@ -2,6 +2,7 @@ import { motion, useReducedMotion, useScroll, useTransform, useInView } from "mo
 import { useRef } from "react";
 import type { ReactNode } from "react";
 import Breadcrumb from "../components/Breadcrumb";
+import RotatingGlobe from "./RotatingGlobe";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -98,48 +99,40 @@ const Intro = () => (
   <section className="relative bg-[#020617] pt-[150px] pb-[320px] overflow-hidden">
     <div className="pointer-events-none absolute -left-[420px] top-[-120px] h-[900px] w-[1000px] rounded-[50%]" style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.16), rgba(0,204,204,0) 72%)" }} />
     <div className="container-custom relative">
+      {/* 안 3: statement panel. The About copy used to float centred on the void — a long centred
+          paragraph reads ragged and looks unanchored. Boxing it gives the text edges to sit in, and
+          inside the box the body switches to LEFT alignment, which is the actual readability fix; the
+          panel is the grounding. Same surface language as the site's other panels (rounded-2xl,
+          white/10 hairline) so it belongs. */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="flex flex-col items-center gap-6"
+        className="mx-auto max-w-[1240px] rounded-[24px] border border-white/10 px-8 py-12 md:px-16 md:py-16"
+        style={{ background: "linear-gradient(180deg, rgba(11,29,52,0.55) 0%, rgba(4,12,26,0.35) 100%)" }}
       >
-        <CoHeading
-          label="About"
-          title={
-            <>
-              끊임없는 연구개발로<br />
-              기술경쟁력에서 앞서갑니다.
-            </>
-          }
-          align="center"
-        />
-        <div className="max-w-[1223px] text-center">
-          <p className="text-[#b3b4b9] text-[17px] md:text-[19px] font-normal leading-[1.75] break-keep">
-            {intro}
-          </p>
-        </div>
+        <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">About</p>
+        <h2 className="mt-4 text-[28px] md:text-[42px] font-bold leading-[1.35] text-white break-keep">
+          끊임없는 연구개발로<br />
+          기술경쟁력에서 앞서갑니다.
+        </h2>
+        <div className="mt-9 h-px w-full bg-white/10" />
+        <p className="mt-9 text-[#b3b4b9] text-[16px] md:text-[18px] font-normal leading-[1.9] break-keep">
+          {intro}
+        </p>
       </motion.div>
     </div>
   </section>
 );
 
 // --- 3. Mission / Vision ---
-// Figma 492:318, which ships as one flat raster. Everything that is type or a box is rebuilt in
-// markup; only three pieces stay as images because they are generative artwork, not layout: the centre
-// particle burst and the two card illustrations.
-//
-// Layout chosen over the alternative comp (a 2×2 zigzag of big images) for three reasons, on 2026-07-20:
-// Mission and Vision are peers and the mirrored pair says so where a stacked zigzag implies an order;
-// the centre burst is doing real work, tying "데이터를 현장으로" to "모든 현장이 AI를" as one arc rather
-// than decorating each card separately; and History directly below is ALREADY a zigzag, so a second one
-// stacked on it would read as the same device twice. 핵심가치's three-column strip comes after History,
-// far enough away that two card rows don't collide.
-//
-// The image crops are feathered in their alpha (see the asset build) rather than masked in CSS, and the
-// crop bounds sit INSIDE the comp's card outlines — clipping those outlines left straight edges that
-// survived the feather as visible seams.
+// Two full-width rows, text-left. Originally both carried a raster illustration (Figma 492:318); the
+// user cut Mission's on 2026-07-21 and asked for Vision's globe to actually spin. Mission is now text
+// only — its row leaves the right side as breathing space, which sets up Vision's globe as the section's
+// single visual payoff. Vision's raster is replaced by <RotatingGlobe/>, a canvas sphere that truly
+// rotates (a flat image can't). Rows stay same-orientation on purpose: History right below is a zigzag,
+// so alternating here would read as the same device twice.
 const PILLARS = [
   {
     label: "Mission",
@@ -156,7 +149,7 @@ const PILLARS = [
         AI 시스템으로 구현합니다.
       </>
     ),
-    art: "company_mv_radar.webp",
+    globe: false,
   },
   {
     label: "Vision",
@@ -173,7 +166,7 @@ const PILLARS = [
         만들 수 있도록 합니다.
       </>
     ),
-    art: "company_mv_globe.webp",
+    globe: true,
   },
 ];
 
@@ -218,14 +211,13 @@ const MissionVision = () => (
               <p className="mt-7 text-[17px] font-normal leading-[1.9] text-[#b3b4b9] break-keep">{p.body}</p>
             </div>
 
-            {/* Held near its native crop width — the artwork is only ~415px in the master, so sizing
-                it to fill the column would upscale it soft, the same trap the licence hero fell into. */}
-            <img
-              src={asset(p.art)}
-              alt=""
-              aria-hidden="true"
-              className="w-full max-w-[460px] shrink-0 select-none"
-            />
+            {/* Vision only — Mission's slot is intentionally empty (breathing room). Square so the
+                canvas sphere stays circular; the globe sizes itself to this box. */}
+            {p.globe && (
+              <div className="aspect-square w-full max-w-[460px] shrink-0">
+                <RotatingGlobe />
+              </div>
+            )}
           </motion.div>
         ))}
       </div>
@@ -389,7 +381,7 @@ const History = () => {
 
           Below md the whole thing collapses to one left rail — a zigzag at phone width is two
           half-width columns of two-word fragments. */}
-      <div ref={railRef} className="relative mx-auto mt-20 max-w-[1120px]">
+      <div ref={railRef} className="relative mx-auto mt-[120px] max-w-[1120px]">
         {/* one rail for the whole run: centred on md+, hard left below it. The dim gradient is the
             unfilled TRACK; the bright motion.div nested inside is the scroll-driven fill. */}
         <div className="absolute top-2 bottom-2 left-[6px] md:left-1/2 md:-translate-x-1/2 w-[2px] bg-gradient-to-b from-[#00cccc]/10 via-[#00cccc]/45 to-[#00cccc]/10">
@@ -419,7 +411,7 @@ const History = () => {
 // own green→blue gradient. Redrawing it by hand would have meant approximating a logo, and recolouring
 // it to match the section's cyan would have meant modifying one — the same objection that killed the
 // partner-logo tint. It is the one raster here, and being a flat-colour mark it stays crisp.
-const ICON = { className: "h-[150px] w-[150px]", viewBox: "0 0 160 160", fill: "none" } as const;
+const ICON = { className: "h-[195px] w-[195px]", viewBox: "0 0 160 160", fill: "none" } as const;
 
 // Ambient motion, not hover: these run on their own, the way Business's SVG graphics do (framer-motion
 // with repeat: Infinity). Each movement means something about its value — a scan going out, a structure
@@ -496,27 +488,30 @@ const CustomBuiltIcon = () => {
           <stop offset="100%" stopColor="#0b3f74" stopOpacity="0.05" />
         </linearGradient>
       </defs>
-      {/* Ground lines, so the cube sits on something instead of floating. They breathe opposite the
-          cube — brightest as it settles — which is what sells the float as a hover over a surface
-          rather than the whole icon sliding. */}
-      {[[16, 116, 144, 116], [30, 130, 130, 130]].map(([x1, y1, x2, y2], i) => (
-        <motion.line
-          key={x1}
-          x1={x1}
-          y1={y1}
-          x2={x2}
-          y2={y2}
-          stroke="#2f9fd8"
-          animate={still ? { strokeOpacity: 0.16 } : { strokeOpacity: [0.2, 0.09, 0.2] }}
-          transition={{ duration: 5, delay: i * 0.2, ...LOOP }}
-        />
-      ))}
-      {/* "설계합니다" — so it hovers, held and deliberate, rather than drifting or spinning */}
+      {/* Ground lines removed (user, 2026-07-21). "더 구조적으로": the plain box is now an engineered
+          frame — each visible face is subdivided into a 2×2 panel grid, and every visible vertex carries
+          a joint node, so it reads as something built/assembled rather than a solid carton.
+          "설계합니다" — it hovers, held and deliberate, rather than drifting or spinning. */}
       <motion.g animate={still ? { y: 0 } : { y: [0, -5, 0] }} transition={{ duration: 5, ...LOOP }}>
         {/* A true 2:1 isometric box: three faces off seven vertices, no perspective */}
         <path d="M80 22 L126 47 L80 72 L34 47 Z" fill="url(#cb-face)" />
         <path d="M34 47 L80 72 L80 124 L34 99 Z" fill="url(#cb-face)" />
         <path d="M126 47 L126 99 L80 124 L80 72 Z" fill="url(#cb-face)" />
+
+        {/* Panel grid — the mid-edge cross on each of the three faces. Faint, so it reads as structure
+            under the bright silhouette rather than competing with it. */}
+        <g stroke="#6fc7f0" strokeOpacity="0.32" strokeWidth="1">
+          {/* top face */}
+          <line x1="57" y1="34.5" x2="103" y2="59.5" />
+          <line x1="103" y1="34.5" x2="57" y2="59.5" />
+          {/* left face */}
+          <line x1="34" y1="73" x2="80" y2="98" />
+          <line x1="57" y1="59.5" x2="57" y2="111.5" />
+          {/* right face */}
+          <line x1="126" y1="73" x2="80" y2="98" />
+          <line x1="103" y1="59.5" x2="103" y2="111.5" />
+        </g>
+
         {/* Silhouette, then only the THREE edges that meet at the near-top corner. The back edge from
             the far vertex down to that corner is hidden inside a solid box — drawing it turned the cube
             into an open carton. */}
@@ -526,6 +521,14 @@ const CustomBuiltIcon = () => {
           strokeWidth="2"
           strokeLinejoin="round"
         />
+
+
+        {/* Joint nodes at the seven visible vertices — the detail that makes it an assembled frame */}
+        <g fill="#bfeeff">
+          {[[80, 22], [126, 47], [34, 47], [80, 72], [126, 99], [34, 99], [80, 124]].map(([cx, cy]) => (
+            <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.4" />
+          ))}
+        </g>
       </motion.g>
     </svg>
   );
@@ -639,7 +642,7 @@ const Values = () => (
       {/* Hairline dividers BETWEEN the columns only, as drawn — divide-x gives that without a trailing
           rule on the last column. They are dropped when the columns stack, where a vertical rule
           between stacked blocks would be meaningless. */}
-      <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-16 md:grid-cols-3 md:gap-0 md:divide-x md:divide-white/10">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-16 md:grid-cols-3 md:gap-0 md:divide-x md:divide-white/10">
         {VALUES.map(({ Icon, title, body }, i) => (
           <motion.div
             key={title}
@@ -653,8 +656,8 @@ const Values = () => (
                 belongs in the icons themselves, running always, not behind a pointer — these three are
                 as much illustration as they are icons, and on touch there is no hover to find it with. */}
             <Icon />
-            <h3 className="mt-9 text-[26px] font-bold leading-[1.3] text-white">{title}</h3>
-            <p className="mt-5 text-[17px] font-normal leading-[1.8] text-[#b3b4b9] break-keep">{body}</p>
+            <h3 className="mt-9 text-[27px] font-bold leading-[1.3] text-white">{title}</h3>
+            <p className="mt-5 text-[18px] font-normal leading-[1.8] text-[#b3b4b9] break-keep">{body}</p>
           </motion.div>
         ))}
       </div>

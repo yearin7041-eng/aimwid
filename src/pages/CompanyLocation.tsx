@@ -121,14 +121,8 @@ const Hero = () => (
         transition={{ duration: 0.8 }}
         className="max-w-[760px] flex flex-col"
       >
-        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-[27px]">오시는길</p>
-        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
-          에임위드를<br />
-          찾아오시는 길
-        </h1>
-        <p className="text-white text-[18px] font-normal leading-[1.4] mt-6">
-          평촌역 하이필드지식산업센터에 위치해 있습니다.
-        </p>
+        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-[27px]">Location</p>
+        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">오시는길</h1>
       </motion.div>
     </div>
   </section>
