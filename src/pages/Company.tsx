@@ -747,7 +747,7 @@ const OperationalAiIcon = () => {
           />
         </g>
       )}
-      <image href={asset("brand_symbol.webp")} x="50" y="52" width="60" height="60" />
+      <image href={asset("brand_symbol.webp")} x="50" y="43" width="60" height="60" />
     </svg>
   );
 };
@@ -879,17 +879,23 @@ const CISection = () => (
           ))}
         </div>
 
-        {/* Row 3 — download buttons */}
+        {/* Row 3 — download buttons. Real files in public/ (user-supplied, 2026-07-22): the AI source and
+            a zip of the PNG lockups. `download` forces a save rather than navigation; the filename is the
+            asset's own. Add a new format by dropping a file in public/ and adding a row here. */}
         <div className="mt-12 flex flex-wrap justify-center gap-4">
-          {["AI", "PNG"].map((fmt) => (
-            <button
+          {[
+            { fmt: "AI", file: "AIMWID_logo.ai" },
+            { fmt: "PNG", file: "AIMWID_logo.zip" },
+          ].map(({ fmt, file }) => (
+            <a
               key={fmt}
-              type="button"
+              href={asset(file)}
+              download
               className="flex h-[54px] items-center gap-3 rounded-[8px] border border-white/15 bg-white/[0.04] px-6 text-[15px] font-medium text-white transition-colors hover:border-[#00cccc]/50 hover:bg-white/[0.07]"
             >
               <span>{fmt} 다운로드</span>
               <Download size={18} className="text-[#00cccc]" />
-            </button>
+            </a>
           ))}
         </div>
       </motion.div>

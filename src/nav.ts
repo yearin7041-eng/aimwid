@@ -20,11 +20,13 @@ export const COMPANY_SUBS = ["회사개요", "오시는 길"] as const;
 
 export const companySubRoute = (sub: string) => (sub === "오시는 길" ? "/company/location" : "/company");
 
-// Top-level items that own a page directly (no dropdown). Anything absent (Contact) is still a #anchor
-// on Home, so it gets an <a> and has no active state. Solution and Company are deliberately NOT here:
-// each is a dropdown parent whose active state spans the routes beneath it (see isActive in App).
+// Top-level items that own a page directly (no dropdown). Contact became its own /contact page
+// (2026-07-20 → routed 2026-07-22); it used to be a #anchor on Home, now it links here and lights up like
+// Business. Solution and Company are deliberately NOT here: each is a dropdown parent whose active state
+// spans the routes beneath it (see isActive in App).
 export const ROUTED: Record<string, string> = {
   Business: "/business",
+  Contact: "/contact",
 };
 
 export type Crumb = { label: string; to?: string };

@@ -37,6 +37,8 @@ import Solution from "./pages/Solution";
 import Business from "./pages/Business";
 import Company from "./pages/Company";
 import CompanyLocation from "./pages/CompanyLocation";
+import Contact from "./pages/Contact";
+import ContactSection from "./components/ContactSection";
 import { SOLUTION_SUBS, subRoute, ROUTED, COMPANY_SUBS, companySubRoute } from "./nav";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
@@ -749,79 +751,8 @@ const UseCases = () => {
   );
 };
 
-const ContactSection = () => {
-  return (
-    <section id="contact" className="pb-32 pt-0 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[600px] bg-brand-cyan/5 rounded-full blur-[140px] -z-10" />
-
-      <div className="relative flex justify-center items-center mb-0 mt-[200px] h-[730px] w-full">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1237px] bg-center bg-no-repeat bg-contain pointer-events-none" style={{ backgroundImage: `url(${asset("main_partner_bg.png")})` }}></div>
-        <h1 className="relative z-10 text-[110px] font-bold font-display text-center leading-[1.1] tracking-[0.16em] text-white drop-shadow-xl pl-[0.16em] -translate-y-[150px]">
-          YOUR<br />AI PLATFORM<br />PARTNER
-        </h1>
-      </div>
-
-      <div className="container-custom flex flex-col lg:flex-row justify-between gap-10">
-        <div className="flex-1">
-          <h2 className="text-4xl md:text-5xl lg:text-[54px] font-bold font-display mb-8 whitespace-nowrap leading-tight">
-            <span className="text-brand-cyan">에임위드</span>와 미래를<br />함께할 파트너
-          </h2>
-          <p className="text-gray-400 text-lg break-keep">문의사항을 남겨주시면 확인 후 연락드리겠습니다.</p>
-        </div>
-
-        <form className="w-full lg:w-[800px] flex-shrink-0 p-10 border border-white/10 rounded-2xl space-y-6">
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-[16px] font-medium text-white flex items-center gap-1">이름 <span className="text-brand-cyan">*</span></label>
-              <input type="text" placeholder="이름" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[16px] font-medium text-white flex items-center gap-1">연락처 <span className="text-brand-cyan">*</span></label>
-              <input type="text" placeholder="000-0000-0000" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-[16px] font-medium text-white flex items-center gap-1">기업명 <span className="text-brand-cyan">*</span></label>
-              <input type="text" placeholder="기업명" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
-            </div>
-            <div className="space-y-2">
-              <label className="text-[16px] font-medium text-white flex items-center gap-1">직책 <span className="text-brand-cyan">*</span></label>
-              <input type="text" placeholder="직책" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-[16px] font-medium text-white flex items-center gap-1">이메일 <span className="text-brand-cyan">*</span></label>
-            <input type="email" placeholder="이메일" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-[16px] font-medium text-white">제목</label>
-            <input type="text" placeholder="제목" className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors" />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-[16px] font-medium text-white">내용</label>
-            <textarea placeholder="내용을 입력하세요." rows={4} className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none resize-none transition-colors" />
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-0">
-            <div className="flex items-center gap-3 cursor-pointer">
-              <input type="checkbox" id="terms" className="accent-brand-cyan w-5 h-5 cursor-pointer rounded-sm" />
-              <label htmlFor="terms" className="text-[16px] font-normal text-gray-400 cursor-pointer select-none">개인정보 수집 및 이용에 동의합니다.</label>
-            </div>
-
-            <button type="button" className="flex items-center justify-center w-[200px] h-[50px] bg-brand-cyan text-bg-dark text-[18px] font-bold rounded-[50px] hover:shadow-[0_0_20px_rgba(0,245,255,0.4)] transition-all tracking-widest flex-shrink-0">
-              문의하기
-            </button>
-          </div>
-        </form>
-      </div>
-    </section>
-  );
-};
+// ContactSection moved to src/components/ContactSection.tsx (2026-07-22) so the /contact page and Home
+// can share it. It is imported at the top of this file.
 
 const Footer = () => {
   return (
@@ -947,6 +878,7 @@ export default function App() {
         <Route path="/business" element={<Business />} />
         <Route path="/company" element={<Company />} />
         <Route path="/company/location" element={<CompanyLocation />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
       <ScrollToTopButton />
