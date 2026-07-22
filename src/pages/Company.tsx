@@ -399,7 +399,11 @@ const MilestoneRow = ({
       const y = node.getBoundingClientRect().top + node.offsetHeight / 2 - rail.getBoundingClientRect().top - 8;
       frac = track > 0 ? Math.min(1, Math.max(0, y / track)) : 1;
     };
-    const update = () => setLit(progress.get() >= frac - 0.003);
+    // Light a tempo BEFORE the head lands, but PROPORTIONALLY (frac × 0.9), not by a fixed offset. A fixed
+    // lead pushed the top node's threshold negative — its frac is tiny — so 2026 lit from the very start
+    // before the rail even reached centre (user, 2026-07-22). Proportional keeps the first node ~on-time
+    // (small frac ⇒ small lead) while lower nodes, with bigger fracs, get a real head-start.
+    const update = () => setLit(progress.get() >= frac * 0.9);
     measure();
     update();
     const onResize = () => {

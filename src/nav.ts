@@ -15,10 +15,10 @@ export const subRoute = (sub: string) =>
 
 // Company's dropdown. Unlike Solution's, the labels are Korean and the OVERVIEW route is the section's
 // own /company page — 회사개요 is not a separate child, it IS Company, so it points back at /company.
-// Added 2026-07-20; 오시는길 is a new page.
-export const COMPANY_SUBS = ["회사개요", "오시는길"] as const;
+// Added 2026-07-20; 오시는 길 is a new page.
+export const COMPANY_SUBS = ["회사개요", "오시는 길"] as const;
 
-export const companySubRoute = (sub: string) => (sub === "오시는길" ? "/company/location" : "/company");
+export const companySubRoute = (sub: string) => (sub === "오시는 길" ? "/company/location" : "/company");
 
 // Top-level items that own a page directly (no dropdown). Anything absent (Contact) is still a #anchor
 // on Home, so it gets an <a> and has no active state. Solution and Company are deliberately NOT here:
