@@ -1,6 +1,9 @@
-import { motion, useReducedMotion, useScroll, useTransform, useInView } from "motion/react";
-import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, useSpring } from "motion/react";
+import type { MotionValue } from "motion/react";
+import { useRef, useState, useEffect } from "react";
+import type { RefObject } from "react";
 import type { ReactNode } from "react";
+import { Download } from "lucide-react";
 import Breadcrumb from "../components/Breadcrumb";
 import ConstellationField from "./ConstellationField";
 
@@ -46,7 +49,7 @@ const Hero = () => (
         src={asset("company_hero_visual.webp")}
         alt=""
         aria-hidden="true"
-        className="absolute right-[-3%] top-1/2 w-[60%] max-w-[1000px] -translate-y-1/2 select-none"
+        className="absolute right-[-3%] top-1/2 w-[60%] max-w-[1000px] -translate-x-[50px] -translate-y-1/2 select-none"
         style={{
           maskImage: "linear-gradient(to bottom, #000 72%, transparent 96%)",
           WebkitMaskImage: "linear-gradient(to bottom, #000 72%, transparent 96%)",
@@ -69,14 +72,14 @@ const Hero = () => (
         transition={{ duration: 0.8 }}
         className="max-w-[760px] flex flex-col"
       >
-        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-[27px]">에임위드를 움직이는 기술</p>
+        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-[27px]">에임위드가 만드는 변화</p>
         <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
           기술로 앞서가는<br />
-          AI 기술 중심 기업
+          AI 중심 기업
         </h1>
         <p className="text-white text-[18px] font-normal leading-[1.4] mt-6">
-          AI 기술과 스마트 모니터링 솔루션으로<br />
-          고객의 비즈니스 환경을 더 효율적이고 지능적으로 바꿉니다.
+          데이터와 AI를 현장의 실행으로 연결해<br />
+          고객의 비즈니스를 더 효율적이고 지능적으로 바꿉니다.
         </p>
       </motion.div>
     </div>
@@ -119,7 +122,7 @@ const Intro = () => (
         transition={{ duration: 0.6 }}
         className="mx-auto flex max-w-[820px] flex-col items-center text-center"
       >
-        <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">About</p>
+        <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">About Us</p>
         <h2 className="mt-6 text-[32px] md:text-[50px] font-bold leading-[1.4] text-white break-keep">
           끊임없는 연구개발로<br />
           기술경쟁력에서 앞서갑니다.
@@ -219,35 +222,49 @@ const PILLARS = [
   },
 ];
 
-const MediaCard = ({ label }: { label: string }) => (
-  // Placeholder until real imagery is supplied — a branded rounded block, clearly a stand-in.
-  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-br from-[#0c2036] to-[#040d18]">
-    <div
-      className="pointer-events-none absolute inset-0 opacity-[0.4]"
+const MediaCard = ({ img, label }: { img: string; label: string }) => (
+  // Real imagery (user-supplied, 2026-07-22). No frame — the renders already share the section's dark
+  // navy ground, so instead of a bordered box the edges are dissolved into the background with a radial
+  // alpha mask. The glowing subject then reads as floating in the section rather than trapped in a card
+  // (user, 2026-07-22). Mask stays opaque to ~62% so the subject is untouched, then fades to the edge.
+  <div className="relative aspect-[4/3] w-full">
+    <img
+      src={asset(img)}
+      alt={`AIMWID ${label}`}
+      className="absolute inset-0 h-full w-full object-cover"
       style={{
-        backgroundImage:
-          "linear-gradient(rgba(0,204,204,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,204,204,0.06) 1px, transparent 1px)",
-        backgroundSize: "40px 40px",
+        // Two linear masks — one per axis — intersected, so ALL FOUR straight edges fade evenly into the
+        // section (a radial mask only really dissolves the corners, which left the rectangle showing).
+        // The centre ~74% stays fully opaque; each edge dissolves over a 13% band. `intersect` is the
+        // standard composite; `source-in` is the -webkit- equivalent for older Safari.
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent, #000 13%, #000 87%, transparent), linear-gradient(to bottom, transparent, #000 13%, #000 87%, transparent)",
+        WebkitMaskComposite: "source-in",
+        maskImage:
+          "linear-gradient(to right, transparent, #000 13%, #000 87%, transparent), linear-gradient(to bottom, transparent, #000 13%, #000 87%, transparent)",
+        maskComposite: "intersect",
       }}
     />
-    <img
-      src={asset("brand_symbol.webp")}
-      alt=""
-      aria-hidden="true"
-      className="absolute left-1/2 top-1/2 w-[110px] -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.12]"
-    />
-    <span className="absolute bottom-5 right-6 text-[11px] font-medium tracking-[0.25em] text-white/25">
-      {label.toUpperCase()} IMAGE
-    </span>
   </div>
 );
 
 const MissionVision = () => (
   <section className="relative overflow-hidden bg-[#020617] pt-[150px] pb-[180px]">
-    {/* a soft central glow for warmth — no framed band, so the section reads open (pintel is airy) */}
+    {/* Two-tone edge glows (user, 2026-07-21). Two rules that keep them clean:
+        1. Contained VERTICALLY — each div sits fully inside the section (positive top/bottom insets) so
+           its closest-side gradient fades to 0 before the section edge. overflow-hidden then never clips
+           a bright glow, which is what left the hard horizontal seam between sections.
+        2. Same diagonal on BOTH glow sections (cyan upper-left → blue lower-right here AND on History),
+           so scanning down the page the colour alternates left, right, left, right — a true zigzag — and
+           at the MV↔History boundary the adjacent glows land on opposite sides instead of piling up.
+        Horizontally they still bleed off the side edges to read as edge glows. */}
     <div
-      className="pointer-events-none absolute left-1/2 top-1/2 h-[900px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.08), rgba(0,204,204,0) 70%)" }}
+      className="pointer-events-none absolute -left-[24%] top-[0px] h-[700px] w-[900px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.24), rgba(0,204,204,0) 72%)" }}
+    />
+    <div
+      className="pointer-events-none absolute -right-[28%] bottom-[60px] h-[740px] w-[940px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.26), rgba(54,132,247,0) 72%)" }}
     />
 
     <div className="container-custom relative">
@@ -264,7 +281,7 @@ const MissionVision = () => (
             }`}
           >
             <div className="w-full lg:w-[50%] shrink-0">
-              <MediaCard label={p.label} />
+              <MediaCard img={p.img} label={p.label} />
             </div>
 
             <div className={`flex-1 text-center ${p.imageLeft ? "lg:text-left" : "lg:text-right"}`}>
@@ -276,7 +293,7 @@ const MissionVision = () => (
                   p.imageLeft ? "lg:mx-0" : "lg:ml-auto lg:mr-0"
                 }`}
               />
-              <p className="mt-7 text-[26px] md:text-[34px] font-bold leading-[1.4] text-white break-keep">{p.title}</p>
+              <p className="mt-7 text-[26px] md:text-[40px] font-bold leading-[1.4] text-white break-keep">{p.title}</p>
               <p className="mt-7 max-w-[560px] text-[18px] font-normal leading-[1.9] text-[#b3b4b9] break-keep lg:max-w-none">
                 {p.body}
               </p>
@@ -347,17 +364,55 @@ const milestones: Milestone[] = [
 
 // pb is the History→핵심가치 gap now that a section follows, so it matches the 320px the page uses
 // between body sections rather than the 160px it had when it was the last one before the footer.
-// One timeline entry. Split out so each node can own its light-up. The observer root is the top ~65% of
-// the viewport (bottom margin -35%): `lit` flips true as the node crosses a line a little BELOW centre,
-// so it lights a beat before the node reaches the middle (user, 2026-07-21) — reading as the fill's glow
-// arriving just ahead of it. It unlights symmetrically on the way back up. NOTE an earlier -50%/-50%
-// collapsed the root to a zero-height line; a zero-area root never reports an intersection, so every
-// node stayed dark. Reduced-motion keeps every node lit.
-const MilestoneRow = ({ m, right }: { m: Milestone; right: boolean }) => {
+// One timeline entry. Its node lights when the RAIL FILL reaches it — not on a viewport line. Earlier it
+// used useInView at a fixed viewport position, but once the fill got a spring (which makes it trail the
+// scroll) the node lit before the glowing head arrived (user, 2026-07-21). Now each node measures its own
+// fraction down the fill track and lights when the smoothed progress passes that fraction, so the lamp
+// fires exactly as the head reaches it, spring lag and all. Reduced-motion keeps every node lit.
+const MilestoneRow = ({
+  m,
+  right,
+  progress,
+  railRef,
+}: {
+  m: Milestone;
+  right: boolean;
+  progress: MotionValue<number>;
+  railRef: RefObject<HTMLDivElement | null>;
+}) => {
   const nodeRef = useRef<HTMLSpanElement>(null);
   const reduce = useReducedMotion();
-  const inView = useInView(nodeRef, { margin: "0px 0px -35% 0px" });
-  const lit = reduce || inView;
+  const [lit, setLit] = useState(false);
+
+  useEffect(() => {
+    if (reduce) {
+      setLit(true);
+      return;
+    }
+    // fraction of the fill track (top-2 → bottom-2, i.e. rail height minus the 8px inset each end) at
+    // which this node's centre sits. Recomputed on resize since row heights change at the md breakpoint.
+    let frac = 1;
+    const measure = () => {
+      const rail = railRef.current, node = nodeRef.current;
+      if (!rail || !node) return;
+      const track = rail.clientHeight - 16;
+      const y = node.getBoundingClientRect().top + node.offsetHeight / 2 - rail.getBoundingClientRect().top - 8;
+      frac = track > 0 ? Math.min(1, Math.max(0, y / track)) : 1;
+    };
+    const update = () => setLit(progress.get() >= frac - 0.003);
+    measure();
+    update();
+    const onResize = () => {
+      measure();
+      update();
+    };
+    const unsub = progress.on("change", update);
+    window.addEventListener("resize", onResize);
+    return () => {
+      unsub();
+      window.removeEventListener("resize", onResize);
+    };
+  }, [reduce, progress, railRef]);
 
   return (
     <motion.div
@@ -379,19 +434,28 @@ const MilestoneRow = ({ m, right }: { m: Milestone; right: boolean }) => {
       <div className={right ? "md:col-start-2 md:pl-14" : "md:col-start-1 md:pr-14"}>
         {/* Year rides the same `lit` as the node: dim until the lamp fires, then white — so the whole
             year block activates together, not just the dot. */}
+        {/* Years use Rajdhani (loaded via the Google Fonts @import in index.css), not the page's
+            Pretendard sans — its angular, slightly-condensed digits make the milestones read as
+            engineered markers distinct from the Korean body. Chosen over Chakra Petch / Orbitron /
+            Space Mono in a per-year comparison (user, 2026-07-21). */}
         <p
-          className={`text-[30px] md:text-[48px] font-bold leading-none transition-colors duration-500 ${
+          style={{ fontFamily: "'Rajdhani', sans-serif" }}
+          className={`text-[32px] md:text-[60px] font-bold leading-none tracking-[0.02em] transition-colors duration-500 ${
             lit ? "text-white" : "text-white/25"
           } ${right ? "" : "md:text-right"}`}
         >
           {m.year}
         </p>
 
+        {/* Bullet ALWAYS leads its text (user, 2026-07-21) — a bullet reads before the item it marks.
+            The left column still hangs toward the rail via items-end, so each "· 사업명" block right-aligns
+            with its text edge at the rail and the bullet at the line's start; only the mirroring of the
+            bullet to the text's end (the old flex-row-reverse) is gone. */}
         <ul className={`mt-5 flex flex-col gap-3 ${right ? "" : "md:items-end"}`}>
           {m.items.map((it, k) => (
-            <li key={k} className={`flex gap-2.5 text-[15px] md:text-[16px] leading-[1.65] break-keep ${right ? "" : "md:flex-row-reverse"}`}>
+            <li key={k} className="flex gap-2.5 text-[15px] md:text-[16px] leading-[1.65] break-keep">
               <span className="mt-[9px] h-[3px] w-[3px] shrink-0 rounded-full bg-white/45" />
-              <span className={`text-white/75 ${right ? "" : "md:text-right"}`}>
+              <span className="text-white/75">
                 {it.patent && <span className="text-[#00f5ff] font-semibold">[특허] </span>}
                 {it.text}
               </span>
@@ -411,10 +475,13 @@ const History = () => {
   const railRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: railRef, offset: ["start center", "end center"] });
-  const fillHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  // A spring smooths the raw scroll value so the fill eases and trails the scroll instead of tracking it
+  // 1:1 — that direct mapping is what read as stiff. Low stiffness + light mass = fluid, slightly floaty.
+  const smooth = useSpring(scrollYProgress, { stiffness: 55, damping: 18, mass: 0.5 });
+  const fillHeight = useTransform(smooth, [0, 1], ["0%", "100%"]);
 
   return (
-    <section className="relative bg-[#020617] pt-[150px] pb-[220px] overflow-hidden">
+    <section className="relative bg-[#020617] pt-[150px] pb-[300px] overflow-hidden">
     {/* Faint tech grid — the History chapter gets its own ground so it reads as distinct from the airy
         sections around it (2026-07-21 rhythm rework). Kept very low so the timeline stays the subject. */}
     <div
@@ -425,7 +492,18 @@ const History = () => {
         backgroundSize: "64px 64px",
       }}
     />
-    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_44%_at_50%_38%,rgba(0,204,204,0.07),transparent_70%)]" />
+    {/* SAME diagonal as Mission/Vision (cyan upper-left → blue lower-right), not mirrored — that is what
+        makes the colour zigzag down the page (…MV blue lower-right, then History cyan upper-left on the
+        opposite side…) instead of piling on one side at the boundary. Contained vertically like MV so
+        overflow-hidden never clips a bright glow into a seam. Sits over the grid, under the timeline. */}
+    <div
+      className="pointer-events-none absolute -left-[24%] top-[40px] h-[700px] w-[900px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.24), rgba(0,204,204,0) 72%)" }}
+    />
+    <div
+      className="pointer-events-none absolute -right-[24%] bottom-[50px] h-[740px] w-[940px] rounded-[50%]"
+      style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.26), rgba(54,132,247,0) 72%)" }}
+    />
     <div className="container-custom relative">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -460,12 +538,22 @@ const History = () => {
         <div className="absolute top-2 bottom-2 left-[6px] md:left-1/2 md:-translate-x-1/2 w-[2px] bg-gradient-to-b from-[#00cccc]/10 via-[#00cccc]/45 to-[#00cccc]/10">
           <motion.div
             style={{ height: reduce ? "100%" : fillHeight }}
-            className="absolute inset-x-0 top-0 origin-top bg-gradient-to-b from-[#00e0e0] via-[#2fa8e8] to-[#3684f7] shadow-[0_0_12px_rgba(79,210,255,0.55)]"
-          />
+            className="absolute inset-x-0 top-0 origin-top bg-gradient-to-b from-[#00cccc] via-[#2fa8e8] to-[#4fd2ff]"
+          >
+            {/* Soft glowing head at the growing tip — travels with the fill's leading edge and dissolves
+                the otherwise hard bottom cut, so the fill reads as a fluid comet rather than a rising
+                bar. Hidden when reduced-motion fills the whole rail statically. */}
+            {!reduce && (
+              <div
+                className="pointer-events-none absolute bottom-0 left-1/2 h-[46px] w-[46px] -translate-x-1/2 translate-y-1/2 rounded-full"
+                style={{ background: "radial-gradient(closest-side, rgba(127,226,255,0.85), rgba(79,210,255,0) 72%)" }}
+              />
+            )}
+          </motion.div>
         </div>
 
         {milestones.map((m, i) => (
-          <MilestoneRow key={m.year} m={m} right={i % 2 === 1} />
+          <MilestoneRow key={m.year} m={m} right={i % 2 === 1} progress={smooth} railRef={railRef} />
         ))}
       </div>
     </div>
@@ -693,9 +781,9 @@ const VALUES = [
   },
 ];
 
-// pb-[160px] is the gap to the footer, the value History carried while it was the last section.
+// pb-[300px] is the gap down to the CI section below (user, 2026-07-22).
 const Values = () => (
-  <section className="relative bg-[#020617] pb-[160px] overflow-hidden">
+  <section className="relative bg-[#020617] pb-[300px] overflow-hidden">
     <div className="container-custom relative">
       {/* Label ONLY, no title (user, 2026-07-20). A title was tried and dropped for two reasons: any
           version leaned on the word 현장, which this page already overuses (it is in two of the three
@@ -709,7 +797,7 @@ const Values = () => (
         transition={{ duration: 0.6 }}
         className="mb-[90px] text-center"
       >
-        <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">Core Value</p>
+        <p className="text-[#00cccc] text-[40px] font-semibold leading-[1.2]">Core Value</p>
       </motion.div>
 
       {/* Hairline dividers BETWEEN the columns only, as drawn — divide-x gives that without a trailing
@@ -738,6 +826,73 @@ const Values = () => (
   </section>
 );
 
+// --- 6. CI 소개 ---
+// SCAFFOLD ONLY (user, 2026-07-21) — layout in place, copy/assets to follow. A single centred column
+// stacking three rows top-to-bottom (user, 2026-07-22): title block → logo grid → download buttons.
+// All text in [brackets] is placeholder. The download buttons have no href yet — point them at the real
+// CI files in public/ when supplied.
+const CISection = () => (
+  <section className="relative bg-[#020617] pb-[160px] overflow-hidden">
+    <div className="container-custom relative">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mx-auto flex max-w-[1240px] flex-col items-center text-center"
+      >
+        {/* Row 1 — label + title */}
+        <div>
+          <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">Corporate Identity</p>
+          <h2 className="mt-5 text-[38px] md:text-[54px] font-bold leading-none text-white">AIMWID CI</h2>
+        </div>
+
+        {/* Row 2 — logo previews on a fine ruled grid, no fill. Two tiles: 가로형 (horizontal lockup)
+            and 세로형 (vertical lockup, dark version only — user, 2026-07-22). Each grid is two crossed
+            repeating gradients; backgroundSize sets the cell (18px) and the low white alpha keeps the
+            ruling faint. logo_vertical.svg was rebuilt from Figma node 515-134. */}
+        <div className="mt-[90px] flex w-full max-w-[936px] flex-col gap-8">
+          {/* Heights are set so the "AIMWID" wordmark reads at the SAME cap-height (~45px) in both
+              lockups, not so the boxes match — the horizontal wordmark is 0.649 of its png height, the
+              vertical 0.265 of its svg height, hence 70 vs 170 (user, 2026-07-22). */}
+          {[
+            { src: "logo_horizontal.png", label: "가로형 / Horizontal", cls: "h-[70px]" },
+            { src: "logo_vertical.svg", label: "세로형 / Vertical", cls: "h-[170px]" },
+          ].map((lg) => (
+            <div key={lg.src}>
+              <div
+                className="flex h-[286px] items-center justify-center rounded-2xl border border-white/10"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
+                  backgroundSize: "18px 18px",
+                }}
+              >
+                <img src={asset(lg.src)} alt="AIMWID" className={`${lg.cls} w-auto select-none opacity-90`} />
+              </div>
+              <p className="mt-3 text-[13px] font-medium uppercase tracking-[0.14em] text-[#6b8199]">{lg.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Row 3 — download buttons */}
+        <div className="mt-12 flex flex-wrap justify-center gap-4">
+          {["AI", "PNG"].map((fmt) => (
+            <button
+              key={fmt}
+              type="button"
+              className="flex h-[54px] items-center gap-3 rounded-[8px] border border-white/15 bg-white/[0.04] px-6 text-[15px] font-medium text-white transition-colors hover:border-[#00cccc]/50 hover:bg-white/[0.07]"
+            >
+              <span>{fmt} 다운로드</span>
+              <Download size={18} className="text-[#00cccc]" />
+            </button>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  </section>
+);
+
 // pt-[80px] clears the fixed 80px navbar — without it the hero starts at y=0 and the breadcrumb,
 // which sits 60px into the hero, lands underneath the menu. Same wrapper as the other four pages.
 const Company = () => (
@@ -748,6 +903,7 @@ const Company = () => (
     <MissionVision />
     <History />
     <Values />
+    <CISection />
   </div>
 );
 
