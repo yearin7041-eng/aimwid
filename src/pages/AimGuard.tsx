@@ -69,6 +69,11 @@ const Hero = () => (
     {/* Header → hero color bridge (smooth transition from navbar) */}
     <div className="absolute top-0 inset-x-0 h-[200px] bg-gradient-to-b from-[#020617] via-[#020617]/70 to-transparent pointer-events-none z-[1]" />
 
+    {/* Hero → Problem bridge: the dashboard image used to cut off hard at the section edge. This fades the
+        hero's bottom into #020617 — the base colour the Problem section starts from — so the two blend
+        rather than showing a seam (user, 2026-07-22). Pairs with the Problem section's top fade-in. */}
+    <div className="absolute inset-x-0 bottom-0 h-[240px] bg-gradient-to-b from-transparent to-[#020617] pointer-events-none z-[1]" />
+
     <Breadcrumb />
 
     <div className="container-custom relative z-10 pt-[200px]">
@@ -150,6 +155,9 @@ const Problem = () => (
       className="absolute inset-0 w-full h-full object-cover opacity-90"
     />
     <div className="absolute inset-0 bg-[#020617]/40" />
+    {/* Top fade-in: the section's bg image starts as solid #020617 and reveals gradually, meeting the
+        hero's bottom fade at the same colour so the boundary disappears (user, 2026-07-22). */}
+    <div className="absolute inset-x-0 top-0 h-[240px] bg-gradient-to-b from-[#020617] to-transparent pointer-events-none" />
 
     <div className="container-custom relative z-10">
       <SectionHeading label="Problem" title="기존 솔루션으로는 사고를 막을 수 없습니다" align="center" className="mb-20" />

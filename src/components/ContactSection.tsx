@@ -14,7 +14,7 @@ import { useState } from "react";
 // to ship in client code. Korean field `name`s become the labels in the received email; `email` is the
 // special field Web3Forms uses as the reply-to; `botcheck` is its honeypot.
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
-const WEB3FORMS_ACCESS_KEY = "84b65a47-b996-4f2a-ae7b-f5fa5f8b6bbd"; // issued for aimwid@aimwid.ai (public key, safe to ship)
+const WEB3FORMS_ACCESS_KEY = "63314580-f017-4c4d-b632-4af1fda92647"; // public key (safe to ship); delivers to the address it was issued for
 
 const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -32,6 +32,8 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
           access_key: WEB3FORMS_ACCESS_KEY,
           subject: `[AIMWID 홈페이지 문의] ${fields["기업명"] || fields["이름"] || ""}`,
           from_name: "AIMWID 홈페이지",
+          // Second recipient (yhwoo@aimwid.ai) is handled by a mail-side forwarding/group rule on the
+          // account inbox, NOT by Web3Forms CC — CC (`ccemail`) is a Pro-only feature (user, 2026-07-22).
           ...fields,
         }),
       });

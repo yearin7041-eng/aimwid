@@ -935,7 +935,7 @@ const SceneScale = () => (
 // All alpha, so they sit straight on the dark slot.
 const partners: { name: string; logo?: string }[] = [
   { name: "한국서부발전", logo: "partner_kowepo.webp" },
-  { name: "한국전력연구원", logo: "partner_kepco.webp" },
+  { name: "한국전력공사", logo: "partner_kepco.webp" },
   { name: "한전KDN", logo: "partner_kdn.webp" },
   { name: "한국전자기술연구원", logo: "partner_keti.webp" },
   { name: "부산광역시", logo: "partner_busan.webp" },
