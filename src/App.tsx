@@ -40,6 +40,7 @@ import CompanyLocation from "./pages/CompanyLocation";
 import Contact from "./pages/Contact";
 import ContactSection from "./components/ContactSection";
 import SitePopup from "./components/SitePopup";
+import newsContent from "./content/news.json";
 import { SOLUTION_SUBS, subRoute, ROUTED, COMPANY_SUBS, companySubRoute } from "./nav";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
@@ -631,19 +632,10 @@ const VisionSection = () => {
   );
 };
 
+// TO CHANGE THE NEWS: edit src/content/news.json — NOT this file. Kept as plain data there so it can be
+// edited without touching code, and so a Git-based CMS can own it.
 const NewsSection = () => {
-  const news = [
-    {
-      date: "2026-04-27",
-      title: "에임위드, MWC 2026서 '에이전트 기반 AI 빌더' AIMNIS 공개... 'SI 시장 판도 바꾼다'",
-      category: "NEWS"
-    },
-    {
-      date: "2026-04-20",
-      title: "\"말 한마디로 시스템 진화까지\" 에임위드, 엔터프라이즈 전용 '지능형 SaaS' 생태계 구축 가속화",
-      category: "NEWS"
-    }
-  ];
+  const news = newsContent.items;
 
   return (
     <section id="business" className="py-32 bg-cover bg-center" style={{ backgroundImage: `url(${asset("main_news_bg.png")})` }}>
