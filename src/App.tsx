@@ -39,6 +39,7 @@ import Company from "./pages/Company";
 import CompanyLocation from "./pages/CompanyLocation";
 import Contact from "./pages/Contact";
 import ContactSection from "./components/ContactSection";
+import SitePopup from "./components/SitePopup";
 import { SOLUTION_SUBS, subRoute, ROUTED, COMPANY_SUBS, companySubRoute } from "./nav";
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
@@ -882,6 +883,9 @@ export default function App() {
       </Routes>
       <Footer />
       <ScrollToTopButton />
+      {/* Site-entry notice. Mounted at the root, not per-page, so it fires once on arrival whatever the
+          landing route is — and is not re-triggered by navigation between pages. */}
+      <SitePopup />
     </div>
   );
 }

@@ -235,17 +235,28 @@ const SvgDefs = () => (
 // right edge stays pinned, so the extra width — and the site with it — extends LEFT. Vertically
 // centred so the 18% surplus splits top and bottom rather than dumping the site's base past the fold.
 //
-// No edge masks: the raster's own background is #030a1c–#040c20, within a couple of points of the
-// section's #040813, so its edges do not read as a seam — verified at 1440/1600/1920. The top and
-// bottom are the image's own empty sky and the bottom fade. The two radial glows that used to sit
-// here are gone; the raster carries its own.
+// Left edge IS masked (changed 2026-07-23 with the new raster). The previous 16:9 image was ~1720px wide
+// here and its edges sat within a couple of points of the section's #040813, so it needed nothing. This
+// raster is 4:3 — only ~1290px wide at the same height, so its left edge lands further into view — and its
+// mid-left is #011c48, bright enough to read as a vertical seam. The fade dissolves that edge; top and
+// bottom are still the image's own dark sky and the bottom fade below.
 const HeroVisual = () => (
   <div className="absolute inset-0 pointer-events-none">
     <img
       src={asset("business_hero.webp")}
       alt=""
       aria-hidden
-      className="absolute right-0 top-1/2 -translate-y-1/2 h-[118%] w-auto max-w-none select-none"
+      className="absolute right-0 top-1/2 -translate-y-1/2 h-[85%] w-auto max-w-none select-none"
+      style={{
+        // Left + top + bottom fades, intersected. Below 100% height the raster no longer covers the hero,
+        // so its top and bottom edges would cut against the section too — all three are dissolved here.
+        maskImage:
+          "linear-gradient(to right, transparent 0%, #000 22%), linear-gradient(to bottom, transparent 0%, #000 14%), linear-gradient(to bottom, #000 86%, transparent 100%)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent 0%, #000 22%), linear-gradient(to bottom, transparent 0%, #000 14%), linear-gradient(to bottom, #000 86%, transparent 100%)",
+        maskComposite: "intersect",
+        WebkitMaskComposite: "source-in",
+      }}
     />
 
     {/* readability: left→right darkening, then a fade into Our Business below */}

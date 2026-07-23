@@ -41,18 +41,23 @@ const Hero = () => (
         className="absolute right-[14%] bottom-[-16%] h-[700px] w-[860px] rounded-[50%]"
         style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.18), rgba(54,132,247,0) 70%)" }}
       />
-      {/* Hero visual (Figma 492:259) — the render's white ground was keyed to alpha (it was built on
-          white; here it floats on the dark hero). Pinned right, behind the copy; the left→right darkening
-          below keeps the text side legible where the two overlap. A bottom mask dissolves the render's
-          hard lower edge into the section instead of cutting off square. */}
+      {/* Hero visual. Replaced 2026-07-23 with a render built ON a dark ground (#00051a-ish) — the earlier
+          one was built on white and had to be keyed to alpha, which is what left its glass cards patchy.
+          This one needs no keying, but it IS opaque, so all three exposed edges are faded rather than just
+          the bottom: left and top would otherwise cut a rectangle against the section. Pinned right behind
+          the copy; the left→right darkening below keeps the text side legible where the two overlap. */}
       <img
         src={asset("company_hero_visual.webp")}
         alt=""
         aria-hidden="true"
         className="absolute right-[-3%] top-1/2 w-[60%] max-w-[1000px] -translate-x-[50px] -translate-y-1/2 select-none"
         style={{
-          maskImage: "linear-gradient(to bottom, #000 72%, transparent 96%)",
-          WebkitMaskImage: "linear-gradient(to bottom, #000 72%, transparent 96%)",
+          maskImage:
+            "linear-gradient(to right, transparent 0%, #000 18%), linear-gradient(to bottom, transparent 0%, #000 12%), linear-gradient(to bottom, #000 72%, transparent 96%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, #000 18%), linear-gradient(to bottom, transparent 0%, #000 12%), linear-gradient(to bottom, #000 72%, transparent 96%)",
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/55 via-[36%] to-transparent to-[62%]" />
