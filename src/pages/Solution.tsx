@@ -54,10 +54,12 @@ const ActionButtons = () => (
 );
 
 // Centered label + heading used by the 전환/Framework sections
+// Matches CoHeading/BizHeading/SectionHeading: 16px label→title gap and break-keep on the title so Korean
+// headings don't wrap mid-word (was mt-3 = 12px with no break-keep — a drift from the other three).
 const CenterHeading = ({ label, title }: { label: string; title: ReactNode }) => (
   <div className="text-center">
     <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{label}</p>
-    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] mt-3">{title}</h2>
+    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] mt-4 break-keep">{title}</h2>
   </div>
 );
 

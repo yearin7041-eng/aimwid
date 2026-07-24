@@ -85,7 +85,7 @@ const KakaoMap = () => {
           href={KAKAO_MAP_URL}
           target="_blank"
           rel="noreferrer"
-          className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#0a1424] text-white/50 transition-colors hover:text-brand-cyan"
+          className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#0a1420] text-white/50 transition-colors hover:text-brand-cyan"
         >
           <MapPin size={40} strokeWidth={1.5} />
           <p className="text-[15px]">카카오맵에서 위치 보기 →</p>

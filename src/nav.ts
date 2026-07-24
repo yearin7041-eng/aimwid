@@ -35,8 +35,8 @@ export const ROUTED: Record<string, string> = {
 export type Crumb = { label: string; to?: string };
 
 // The trail after Home, derived from the nav config above rather than restated — a `to` means the crumb
-// links, its absence means it is the current page. Returns [] for Home, Contact and anything unrouted,
-// which is the breadcrumb's signal to render nothing at all.
+// links, its absence means it is the current page. Returns [] only for Home and genuinely unrouted paths
+// (Contact is routed now, so it gets a "Contact" crumb); [] is the breadcrumb's signal to render nothing.
 export const crumbsFor = (pathname: string): Crumb[] => {
   const sub = SOLUTION_SUBS.find((s) => subRoute(s) === pathname);
   if (sub) {

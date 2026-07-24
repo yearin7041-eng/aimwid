@@ -30,6 +30,15 @@
   button:disabled {
     cursor: not-allowed;
   }
+
+  /* Keyboard-focus ring (accessibility). :focus-visible fires on keyboard / assistive-tech navigation and
+     on text-input focus, but NOT on a mouse click of a button/link — so pointer users never see it and the
+     design is untouched, while Tab users always know where they are. Brand-cyan with an offset so it stands
+     off the dark surfaces; !important guarantees it over any Tailwind `outline-none` (the inputs set that). */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-cyan) !important;
+    outline-offset: 2px;
+  }
 }
 
 .glass {

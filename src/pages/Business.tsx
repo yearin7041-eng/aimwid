@@ -53,13 +53,8 @@ const BizHeading = ({ label, title, align = "left" }: { label: string; title: Re
 );
 
 // --- 1. Hero ---
-// Title and body are verbatim from Figma (410:109 / 410:151).
-//
-// The mockup's eyebrow (410:107 "Industry AI Solutions") is deliberately DROPPED: it duplicated
-// Solution's own category line, and at 18px teal it read as the same device as the 24px teal
-// section labels below while doing a different job. With it gone, a teal label on this page means
-// exactly one thing — "a section starts here". Business is now the only hero without an eyebrow
-// (Solution / AIMNIS / AIM GUARD all keep theirs).
+// Title and body are verbatim from Figma (410:109 / 410:151); the hero carries a gray eyebrow
+// ("산업 AI 전환의 시작") in the #90a1b9/20px style every hero shares.
 //
 // The mockup's hero image layer (410:99 "sub_visual_product 1") is HIDDEN — it is an empty 1920×943
 // placeholder rect, so the frame ships with no visual and this is drawn in code. To swap in a raster

@@ -20,16 +20,9 @@ const CoHeading = ({ label, title, align = "left" }: { label: string; title: Rea
 );
 
 // --- 1. Hero ---
-// Structure only, matching the other pages so the section is in place: min-h-[820px] on #040813 like
-// Solution and Business (AIMNIS / AIM GUARD run 900px), h1 40/64px, 18px body, the 96px header bridge,
-// and the left→right darkening a visual would sit behind. No eyebrow — all four heroes dropped theirs
-// (see the hero-eyebrow memory), so a teal label on this site means "a section starts here".
-//
-// TWO THINGS ARE PROVISIONAL AND NEED THE CLIENT:
-//   1. The copy below is DERIVED from the 소개 section's own text, not supplied. It is a placeholder.
-//   2. There is no visual. The other four heroes all carry one (Business/Solution a raster pinned
-//      right, AIMNIS a video). The gradients here already assume that shape, so dropping an image in
-//      later means adding one <img> — nothing else moves.
+// Same shape as every other hero: min-h-[820px] on #040813, gray eyebrow + h1 40/64px + 18px body, the
+// 96px header bridge, and a raster (company_hero_visual.webp) pinned right behind the left→right
+// darkening. The copy is the user's chosen version (2026-07-24), still worth a final client check.
 const Hero = () => (
   <section className="relative min-h-[820px] overflow-hidden bg-[#040813]">
     <div className="absolute inset-0 pointer-events-none">
@@ -185,11 +178,9 @@ const StatsBand = () => (
 // earlier abstract diagrams read as meaningless. This resolves both: NO rail (nothing to collide with
 // History), and a large evocative IMAGE per pillar instead of a diagram. Each row is a big rounded media
 // block beside a big display label ("Mission"/"Vision") + statement + body, alternating sides. Airy, not
-// banded — the images carry the visual weight.
-//
-// IMAGES ARE PLACEHOLDERS. `img` names a file to drop into public/ (company_mission.webp /
-// company_vision.webp); until it exists the card shows a branded placeholder. Real imagery (a data/city
-// scene for Mission, a global/AI scene for Vision) is what makes this composition work — to be supplied.
+// banded — the images carry the visual weight. Each pillar's `img` (company_mission.webp /
+// company_vision.webp) is the real user-supplied render — a data→plant scene for Mission, an industry
+// network for Vision — dissolved into the section by MediaCard's edge mask.
 const PILLARS = [
   {
     label: "Mission",
@@ -836,10 +827,9 @@ const Values = () => (
 );
 
 // --- 6. CI 소개 ---
-// SCAFFOLD ONLY (user, 2026-07-21) — layout in place, copy/assets to follow. A single centred column
-// stacking three rows top-to-bottom (user, 2026-07-22): title block → logo grid → download buttons.
-// All text in [brackets] is placeholder. The download buttons have no href yet — point them at the real
-// CI files in public/ when supplied.
+// A single centred column, three rows top-to-bottom: label+title → the 가로형/세로형 logo tiles → the
+// download buttons. Fully wired — the buttons download the real CI files in public/ (AIMWID_logo.ai /
+// AIMWID_logo.zip).
 const CISection = () => (
   <section className="relative bg-[#020617] pb-[160px] overflow-hidden">
     <div className="container-custom relative">

@@ -139,7 +139,7 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
               <label htmlFor="terms" className="text-[16px] font-normal text-[#9fb0c4] cursor-pointer select-none">개인정보 수집 및 이용에 동의합니다.</label>
             </div>
 
-            <button type="submit" disabled={status === "sending"} className="flex items-center justify-center w-[200px] h-[50px] bg-brand-cyan text-bg-dark text-[18px] font-bold rounded-[50px] hover:shadow-[0_0_20px_rgba(47,212,196,0.4)] transition-all tracking-widest flex-shrink-0 disabled:opacity-60 disabled:cursor-not-allowed">
+            <button type="submit" disabled={status === "sending"} style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }} className="flex items-center justify-center w-[200px] h-[50px] text-[#000028] text-[18px] font-bold rounded-[8px] hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all tracking-widest flex-shrink-0 disabled:opacity-60 disabled:cursor-not-allowed">
               {status === "sending" ? "전송 중..." : "문의하기"}
             </button>
           </div>

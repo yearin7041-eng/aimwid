@@ -755,6 +755,14 @@ const UseCases = () => {
 // can share it. It is imported at the top of this file.
 
 const Footer = () => {
+  // Legal pages (개인정보처리방침 / 이용약관) are not written yet, so the links show a transient
+  // "준비 중입니다" notice instead of navigating to a dead href="#" (user, 2026-07-24). Swap the button
+  // back to a <Link to="/privacy"> etc. once the documents exist.
+  const [notice, setNotice] = useState(false);
+  const showNotice = () => {
+    setNotice(true);
+    window.setTimeout(() => setNotice(false), 2000);
+  };
   return (
     <footer className="py-20 border-t border-white/5 bg-[#020617]">
       <div className="container-custom">
@@ -786,8 +794,9 @@ const Footer = () => {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[16px] text-[#c7c7c7] font-normal">
               <p>© 2023. AIMWID All rights reserved.</p>
               <div className="flex items-center gap-6 mt-4 sm:mt-0">
-                <a href="#" className="font-semibold text-[#c7c7c7]">개인정보처리방침</a>
-                <a href="#" className="font-normal hover:text-white transition-colors">이용약관</a>
+                <button type="button" onClick={showNotice} className="font-semibold text-[#c7c7c7] hover:text-white transition-colors">개인정보처리방침</button>
+                <button type="button" onClick={showNotice} className="font-normal hover:text-white transition-colors">이용약관</button>
+                <span className={`text-[14px] text-brand-cyan transition-opacity duration-300 ${notice ? "opacity-100" : "opacity-0"}`}>준비 중입니다</span>
               </div>
             </div>
           </div>

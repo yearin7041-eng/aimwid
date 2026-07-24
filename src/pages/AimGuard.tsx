@@ -39,8 +39,8 @@ export const SectionHeading = ({
   className?: string;
 }) => (
   <div className={`${align === "center" ? "text-center" : ""} ${className}`}>
-    <p className="text-[#2fd4c4] text-[20px] mb-4">{label}</p>
-    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5]">{title}</h2>
+    <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2] mb-4">{label}</p>
+    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
     {subtitle && (
       <p
         className={`text-white/70 text-[18px] md:text-[20px] font-normal leading-[1.5] mt-3 ${
