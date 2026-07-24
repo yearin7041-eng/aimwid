@@ -4,6 +4,7 @@
  */
 
 import { useState } from "react";
+import ConstellationField from "../pages/ConstellationField";
 
 // The 문의 form. Extracted from App.tsx (2026-07-22) so the /contact page and Home can share it.
 //
@@ -56,6 +57,24 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
     <section id="contact" className={`pb-32 relative overflow-hidden ${showHero ? "pt-0" : "pt-[160px]"}`}>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[600px] bg-brand-cyan/5 rounded-full blur-[140px] -z-10" />
 
+      {/* Dedicated /contact page only (showHero=false): the standalone page has no big hero graphic, so
+          the area under the title read empty next to the tall form (user, 2026-07-23). The drifting
+          dot/line field — the same ambient the Company About uses — fills it and suits a "연결·파트너"
+          page. A right-side veil keeps it calm behind the form; the content sits above via z-10. */}
+      {!showHero && (
+        <>
+          <ConstellationField className="pointer-events-none absolute inset-0 h-full w-full select-none" />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "linear-gradient(to right, transparent 0%, transparent 38%, rgba(2,6,23,0.72) 72%)" }}
+          />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "radial-gradient(70% 60% at 28% 42%, transparent 0%, rgba(2,6,23,0.55) 100%)" }}
+          />
+        </>
+      )}
+
       {showHero && (
         <div className="relative flex justify-center items-center mb-0 mt-[200px] h-[730px] w-full">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1237px] bg-center bg-no-repeat bg-contain pointer-events-none" style={{ backgroundImage: `url(${asset("main_partner_bg.png")})` }}></div>
@@ -65,7 +84,7 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
         </div>
       )}
 
-      <div className="container-custom flex flex-col lg:flex-row justify-between gap-10">
+      <div className="container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10">
         <div className="flex-1">
           <h2 className="text-4xl md:text-5xl lg:text-[54px] font-bold font-display mb-8 whitespace-nowrap leading-tight">
             <span className="text-brand-cyan">에임위드</span>와 미래를<br />함께할 파트너

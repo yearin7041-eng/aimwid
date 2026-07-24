@@ -56,13 +56,11 @@ export const SectionHeading = ({
 // --- 1. Hero ---
 const Hero = () => (
   <section className="relative min-h-[900px] overflow-hidden bg-[#040813]">
-    {/* Dashboard visual (right). A looping AI-generated clip was tried here on 2026-07-23 and dropped: it
-        carried a generator watermark, its on-screen text was gibberish baked into the pixels, and it was
-        low resolution — all of which undercut a page selling video-analysis accuracy. This still shows the
-        product doing its job (detection boxes over a plant, four live channels, event stats) with legible
-        Korean UI, which reads far more credible than motion for its own sake. aimguard_hero.mp4 is left in
-        public/ for whenever a real screen recording of the dashboard replaces it.
-        NOTE: aimguard_hero_main.png (the previous still) is still used by Business.tsx — do not delete it. */}
+    {/* Dashboard visual (right). A looping video was tried here but reverted to this still (user,
+        2026-07-24) — every clip we had was watermarked, low-res with gibberish on-screen text, or 25MB
+        (too heavy for a hero); the unused files were removed. The still shows the product working
+        (detection boxes, four live channels, event stats) with legible Korean UI.
+        NOTE: aimguard_hero_main.png (the previous still) is still used by Business.tsx — do not delete. */}
     <div className="absolute inset-0 pointer-events-none">
       <img
         src={asset("aimguard_hero_main.webp")}
