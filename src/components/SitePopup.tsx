@@ -96,7 +96,7 @@ const SitePopup = () => {
             {/* Cyan corner glow, contained so it never clips into a seam */}
             <div
               className="pointer-events-none absolute -right-[18%] -top-[30%] h-[320px] w-[380px] rounded-[50%]"
-              style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.22), rgba(0,204,204,0) 72%)" }}
+              style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.22), rgba(47,212,196,0) 72%)" }}
             />
 
             <button
@@ -109,14 +109,14 @@ const SitePopup = () => {
             </button>
 
             <div className="relative px-8 pt-11 pb-8 md:px-10">
-              <p className="text-[#00cccc] text-[13px] md:text-[14px] font-medium uppercase tracking-[0.2em]">
+              <p className="text-[#2fd4c4] text-[13px] md:text-[14px] font-medium uppercase tracking-[0.2em]">
                 {popup.label}
               </p>
-              <div className="mt-4 h-px w-[44px] bg-[#00cccc]/60" />
+              <div className="mt-4 h-px w-[44px] bg-[#2fd4c4]/60" />
               <h2 className="mt-5 text-[24px] md:text-[28px] font-bold leading-[1.45] text-white break-keep">
                 {nl2br(popup.title)}
               </h2>
-              <p className="mt-4 text-[15px] md:text-[16px] font-normal leading-[1.8] text-[#b3b4b9] break-keep">
+              <p className="mt-4 text-[15px] md:text-[16px] font-normal leading-[1.8] text-[#9fb0c4] break-keep">
                 {nl2br(popup.body, "hidden sm:block")}
               </p>
 
@@ -126,7 +126,7 @@ const SitePopup = () => {
                   close();
                   window.scrollTo(0, 0);
                 }}
-                className="mt-7 inline-flex h-[48px] items-center justify-center rounded-[50px] bg-brand-cyan px-7 text-[15px] font-bold tracking-wide text-bg-dark transition-all hover:shadow-[0_0_24px_rgba(0,245,255,0.45)]"
+                className="mt-7 inline-flex h-[48px] items-center justify-center rounded-[50px] bg-brand-cyan px-7 text-[15px] font-bold tracking-wide text-bg-dark transition-all hover:shadow-[0_0_24px_rgba(47,212,196,0.45)]"
               >
                 {popup.ctaLabel}
               </Link>

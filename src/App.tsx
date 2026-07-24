@@ -83,9 +83,12 @@ const Navbar = () => {
             if (item === "Solution") {
               return (
                 <div key={item} className="relative group flex items-center h-[80px]">
-                  <a href={`#${item.toLowerCase()}`} className={`text-[18px] font-semibold group-hover:text-brand-cyan transition-colors flex items-center gap-1 cursor-pointer ${isActive(item) ? "text-brand-cyan" : "text-white"}`}>
+                  {/* Parent links to /solution (the Industries overview), same as the Company parent →
+                      /company. It used to be an <a href="#solution"> anchor that only worked on Home and
+                      did nothing on every other page (user, 2026-07-24). */}
+                  <Link to="/solution" onClick={() => window.scrollTo(0, 0)} className={`text-[18px] font-semibold group-hover:text-brand-cyan transition-colors flex items-center gap-1 cursor-pointer ${isActive(item) ? "text-brand-cyan" : "text-white"}`}>
                     {item} <ChevronDown size={16} className="mt-0.5 opacity-70 group-hover:opacity-100 transition-opacity" />
-                  </a>
+                  </Link>
                   {/* Dropdown Menu */}
                   <div className="absolute top-[65px] left-1/2 -translate-x-1/2 pt-2 w-[160px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                     <div className="bg-bg-dark/95 backdrop-blur-md border border-brand-cyan/20 rounded-xl overflow-hidden shadow-2xl flex flex-col py-2">
@@ -173,9 +176,9 @@ const Navbar = () => {
           >
             {["Solution", "Business", "Company", "Contact"].map((item) => (
               <div key={item} className="flex flex-col">
-                {ROUTED[item] || item === "Company" ? (
+                {ROUTED[item] || item === "Company" || item === "Solution" ? (
                   <Link
-                    to={item === "Company" ? "/company" : ROUTED[item]}
+                    to={item === "Company" ? "/company" : item === "Solution" ? "/solution" : ROUTED[item]}
                     className={`text-lg font-medium py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
                     onClick={() => {
                       setMobileMenuOpen(false);
@@ -240,7 +243,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative h-[920px] flex items-center overflow-hidden">
+    <section className="relative min-h-[820px] flex items-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
@@ -348,7 +351,7 @@ const WorkflowDetails = () => {
                 className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
                 style={{
                   backgroundColor: activeIcon === 0 ? '#00CCCC' : '#3b82f6',
-                  boxShadow: activeIcon === 0 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
+                  boxShadow: activeIcon === 0 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
                 <img src={asset("icon_01.png")} alt="Icon 01" className="w-6 h-6" />
@@ -362,7 +365,7 @@ const WorkflowDetails = () => {
                 className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
                 style={{
                   backgroundColor: activeIcon === 1 ? '#00CCCC' : '#3b82f6',
-                  boxShadow: activeIcon === 1 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
+                  boxShadow: activeIcon === 1 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
                 <img src={asset("icon_02.png")} alt="Icon 02" className="w-6 h-6" />
@@ -376,7 +379,7 @@ const WorkflowDetails = () => {
                 className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
                 style={{
                   backgroundColor: activeIcon === 2 ? '#00CCCC' : '#3b82f6',
-                  boxShadow: activeIcon === 2 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
+                  boxShadow: activeIcon === 2 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
                 <img src={asset("icon_03.png")} alt="Icon 03" className="w-6 h-6" />
@@ -390,7 +393,7 @@ const WorkflowDetails = () => {
                 className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
                 style={{
                   backgroundColor: activeIcon === 3 ? '#00CCCC' : '#3b82f6',
-                  boxShadow: activeIcon === 3 ? '0 0 20px rgba(0,204,204,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
+                  boxShadow: activeIcon === 3 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
                 }}
               >
                 <img src={asset("icon_04.png")} alt="Icon 04" className="w-6 h-6" />
@@ -514,10 +517,10 @@ const SolutionShowcase = () => {
   }, [scrollYProgress, activeIndex]);
 
   const solutions = [
-    { logo: "aimnis_logo_horizontal.png" },
-    { logo: "aimguard_logo_horizontal.png" },
-    { logo: "aimnis_logo_horizontal.png" },
-    { logo: "aimnis_logo_horizontal.png" },
+    { logo: "aimnis_logo_horizontal.png", to: "/aimnis" },
+    { logo: "aimguard_logo_horizontal.png", to: "/aimguard" },
+    { logo: "aimnis_logo_horizontal.png", to: "/aimnis" },
+    { logo: "aimnis_logo_horizontal.png", to: "/aimnis" },
   ];
 
   return (
@@ -559,9 +562,13 @@ const SolutionShowcase = () => {
                       직접 운영하고 진화시키십시오.
                     </p>
                   </div>
-                  <button className="w-[200px] h-[50px] bg-brand-cyan text-bg-dark font-bold rounded-full text-[18px] hover:shadow-[0_0_30px_rgba(0,245,255,0.4)] transition-all mt-4 flex items-center justify-center">
+                  <Link
+                    to={item.to}
+                    onClick={() => window.scrollTo(0, 0)}
+                    className="w-[200px] h-[50px] bg-brand-cyan text-bg-dark font-bold rounded-full text-[18px] hover:shadow-[0_0_30px_rgba(47,212,196,0.4)] transition-all mt-4 flex items-center justify-center"
+                  >
                     자세히 보기
-                  </button>
+                  </Link>
                 </div>
 
                 {/* Image (Right) */}

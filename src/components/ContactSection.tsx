@@ -89,7 +89,7 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
           <h2 className="text-4xl md:text-5xl lg:text-[54px] font-bold font-display mb-8 whitespace-nowrap leading-tight">
             <span className="text-brand-cyan">에임위드</span>와 미래를<br />함께할 파트너
           </h2>
-          <p className="text-gray-400 text-lg break-keep">문의사항을 남겨주시면 확인 후 연락드리겠습니다.</p>
+          <p className="text-[#9fb0c4] text-lg break-keep">문의사항을 남겨주시면 확인 후 연락드리겠습니다.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="w-full lg:w-[800px] flex-shrink-0 p-10 border border-white/10 rounded-2xl space-y-6">
@@ -136,10 +136,10 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-0">
             <div className="flex items-center gap-3 cursor-pointer">
               <input type="checkbox" id="terms" required className="accent-brand-cyan w-5 h-5 cursor-pointer rounded-sm" />
-              <label htmlFor="terms" className="text-[16px] font-normal text-gray-400 cursor-pointer select-none">개인정보 수집 및 이용에 동의합니다.</label>
+              <label htmlFor="terms" className="text-[16px] font-normal text-[#9fb0c4] cursor-pointer select-none">개인정보 수집 및 이용에 동의합니다.</label>
             </div>
 
-            <button type="submit" disabled={status === "sending"} className="flex items-center justify-center w-[200px] h-[50px] bg-brand-cyan text-bg-dark text-[18px] font-bold rounded-[50px] hover:shadow-[0_0_20px_rgba(0,245,255,0.4)] transition-all tracking-widest flex-shrink-0 disabled:opacity-60 disabled:cursor-not-allowed">
+            <button type="submit" disabled={status === "sending"} className="flex items-center justify-center w-[200px] h-[50px] bg-brand-cyan text-bg-dark text-[18px] font-bold rounded-[50px] hover:shadow-[0_0_20px_rgba(47,212,196,0.4)] transition-all tracking-widest flex-shrink-0 disabled:opacity-60 disabled:cursor-not-allowed">
               {status === "sending" ? "전송 중..." : "문의하기"}
             </button>
           </div>

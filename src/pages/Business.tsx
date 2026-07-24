@@ -47,7 +47,7 @@ const edgeFadeStyle = {
 // including AimGuard's SectionHeading, which used to be the odd one out at leading-[1.3].
 const BizHeading = ({ label, title, align = "left" }: { label: string; title: ReactNode; align?: "left" | "center" }) => (
   <div className={`flex flex-col gap-4 ${align === "center" ? "items-center text-center" : "items-start"}`}>
-    <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">{label}</p>
+    <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{label}</p>
     <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
   </div>
 );
@@ -209,8 +209,8 @@ const SvgDefs = () => (
       <stop offset="1" stopColor="#0d4356" />
     </linearGradient>
     <radialGradient id="hw-glow">
-      <stop offset="0" stopColor="#00f5ff" stopOpacity="0.3" />
-      <stop offset="100%" stopColor="#00f5ff" stopOpacity="0" />
+      <stop offset="0" stopColor="#2fd4c4" stopOpacity="0.3" />
+      <stop offset="100%" stopColor="#2fd4c4" stopOpacity="0" />
     </radialGradient>
   </defs>
 );
@@ -274,7 +274,7 @@ const Hero = () => (
 
     <Breadcrumb />
 
-    <div className="container-custom relative z-10 pt-[227px] pb-[120px]">
+    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -448,7 +448,7 @@ const OurBusiness = () => (
     {/* glossy glows — same teal/blue alternation Solution runs down its sections */}
     <div
       className="pointer-events-none absolute -left-[520px] -top-[10%] h-[1000px] w-[1120px] rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.30), rgba(0,210,210,0) 72%)" }}
+      style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.30), rgba(47,212,196,0) 72%)" }}
     />
     {/* h trimmed 1100→900 so the 72% alpha-0 stop lands ~y1035, inside this ~1087px section —
         overflow-hidden was clipping the old glow ~120px early into a seam at the next section. */}
@@ -512,7 +512,7 @@ const OurBusiness = () => (
             the client does not want them spelled out at 48px (2026-07-16), so the title generalises
             and this carries the list. Do not trim the list out of the opener to "세 분야" or similar:
             with the title no longer naming them, that reference would point at nothing. */}
-        <p className="max-w-[1223px] text-center text-[#b3b4b9] text-[18px] md:text-[20px] font-normal leading-[1.6] break-keep">
+        <p className="max-w-[1223px] text-center text-[#9fb0c4] text-[18px] md:text-[20px] font-normal leading-[1.6] break-keep">
           에임위드는 에너지산업, 스마트시티, 안전·환경 분야에서 고객 현장의 시스템을 직접 구축해 왔습니다.<br /> 현장에서 검증된
           기능은 재사용 가능한 제품으로 표준화되고, AI 빌더 AIMNIS 위에서 조립되어 다음 현장에 더 빠르게 적용됩니다.
         </p>
@@ -611,7 +611,7 @@ const BusinessApplications = () => {
     <section className="relative overflow-hidden py-28 bg-[#020617]">
       <div
         className="pointer-events-none absolute -right-[460px] top-[-6%] h-[1100px] w-[980px] rounded-[50%]"
-        style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.22), rgba(0,210,210,0) 72%)" }}
+        style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.22), rgba(47,212,196,0) 72%)" }}
       />
       <div className="container-custom relative">
         <motion.div
@@ -649,7 +649,7 @@ const BusinessApplications = () => {
                   onClick={() => setActive(i)}
                   className={`flex-1 min-h-[150px] px-6 py-9 rounded-[10px] flex flex-col justify-between text-left border transition-all ${
                     isActive
-                      ? "border-[#2fd4c4]/70 shadow-[0_0_24px_rgba(0,204,204,0.18)]"
+                      ? "border-[#2fd4c4]/70 shadow-[0_0_24px_rgba(47,212,196,0.18)]"
                       : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06]"
                   }`}
                   style={
@@ -700,7 +700,7 @@ const BusinessApplications = () => {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="group relative overflow-hidden rounded-[30px] border border-[#00cccc] bg-[rgba(10,18,30,0.5)] backdrop-blur-[10px] shadow-[0_0_40px_-6px_rgba(0,204,204,0.4)] min-h-[600px]"
+            className="group relative overflow-hidden rounded-[30px] border border-[#2fd4c4] bg-[rgba(10,18,30,0.5)] backdrop-blur-[10px] shadow-[0_0_40px_-6px_rgba(47,212,196,0.4)] min-h-[600px]"
           >
             {/* Art bleeds in from the right at full height — Solution's card treatment verbatim
                 (Solution.tsx:479). NOT a grid cell: boxing the image in a column made its left edge
@@ -717,7 +717,7 @@ const BusinessApplications = () => {
             {/* Text sits over the art at 52%, vertically centred so spacing adapts to the height —
                 again Solution's pattern rather than a fixed 3-group justify-between. */}
             <div className="relative z-10 flex flex-col justify-center lg:h-[600px] lg:max-w-[52%] px-8 py-12 lg:pl-[64px] lg:pr-6 lg:py-0">
-              <p className="text-[#00cccc] text-[15px] font-bold tracking-[0.14em] uppercase">{app.en}</p>
+              <p className="text-[#2fd4c4] text-[15px] font-bold tracking-[0.14em] uppercase">{app.en}</p>
               <h3 className="whitespace-pre-line text-white text-[26px] md:text-[36px] font-bold leading-[1.45] mt-4 break-keep">
                 {app.title}
               </h3>
@@ -813,7 +813,7 @@ const SceneVerify = () => (
       <motion.g animate={{ y: [8, -34] }} transition={{ duration: 2.6, repeat: Infinity, ease: "linear" }}>
         <polygon
           points={poly([ip(28, 20, 0), ip(96, 20, 0), ip(96, 72, 0), ip(28, 72, 0)])}
-          fill="#00f5ff"
+          fill="#2fd4c4"
           fillOpacity="0.14"
           stroke="#5ff5f5"
           strokeWidth="1.1"
@@ -828,7 +828,7 @@ const SceneVerify = () => (
       transition={{ duration: 0.45, delay: 0.6, ease: "backOut" }}
       style={{ transformOrigin: "296px 62px" }}
     >
-      <circle cx="296" cy="62" r="25" fill="#052a2c" stroke="#00f5ff" strokeWidth="2" />
+      <circle cx="296" cy="62" r="25" fill="#052a2c" stroke="#2fd4c4" strokeWidth="2" />
       <path d="M285 62 L293 70 L308 54" fill="none" stroke="#5ff5f5" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
     </motion.g>
     <motion.circle
@@ -836,7 +836,7 @@ const SceneVerify = () => (
       cy="62"
       r="25"
       fill="none"
-      stroke="#00f5ff"
+      stroke="#2fd4c4"
       strokeWidth="1.4"
       animate={{ r: [25, 40], opacity: [0.7, 0] }}
       transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut" }}
@@ -1049,7 +1049,7 @@ const HowWeWork = () => (
         clip against Partner above. Bottom (~y740) still dies inside this ~928px section. */}
     <div
       className="pointer-events-none absolute -right-[520px] top-[-120px] h-[1000px] w-[1120px] rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.24), rgba(0,210,210,0) 72%)" }}
+      style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.24), rgba(47,212,196,0) 72%)" }}
     />
 
     <div className="container-custom relative">
@@ -1079,7 +1079,7 @@ const HowWeWork = () => (
                   description being LARGER than the English label is intentional there, so it is
                   here. Keep the two in sync — this section is meant to read as the same component. */}
               <Scene />
-              <span className="h-7 px-3 rounded-full bg-[#00cccc] text-[#00121a] text-[13px] font-extrabold tracking-wide flex items-center shadow-[0_0_16px_rgba(0,204,204,0.5)] mt-5">
+              <span className="h-7 px-3 rounded-full bg-[#2fd4c4] text-[#00121a] text-[13px] font-extrabold tracking-wide flex items-center shadow-[0_0_16px_rgba(47,212,196,0.5)] mt-5">
                 {s.no}
               </span>
               <h3 className="text-white text-[22px] font-bold mt-4">{s.ko}</h3>
@@ -1150,7 +1150,7 @@ const RelatedSolutions = () => (
           >
             <Link
               to={r.to}
-              className="group relative block h-[290px] rounded-[14px] overflow-hidden border border-white/10 bg-[#0a1420] hover:border-[#00cccc]/45 transition-colors"
+              className="group relative block h-[290px] rounded-[14px] overflow-hidden border border-white/10 bg-[#0a1420] hover:border-[#2fd4c4]/45 transition-colors"
             >
               <img
                 src={asset(r.img)}
@@ -1191,7 +1191,7 @@ const RelatedSolutions = () => (
 // --- 6. CTA ---
 // Uses the site-wide CTA shell verbatim (Solution.tsx:519 / AimNis.tsx:978 / AimGuard.tsx:656): a
 // contained rounded card inside container-custom — section py-20, card rounded-[20px] with a
-// #00cccc/25 border, inner py-[68px], h2 26/42px, body 15/18px mt-3, buttons mt-7 at 54×232.
+// #2fd4c4/25 border, inner py-[68px], h2 26/42px, body 15/18px mt-3, buttons mt-7 at 54×232.
 // The mockup draws a full-bleed 1920×458 band instead; consistency with the other pages won.
 //
 // Backdrop is solution_hero_bg.png — the same clean abstract particle field Solution's CTA uses.
@@ -1204,7 +1204,7 @@ const RelatedSolutions = () => (
 const CTA = () => (
   <section className="py-20 bg-[#020617]">
     <div className="container-custom">
-      <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#00cccc]/25 bg-[#04090f]">
+      <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#2fd4c4]/25 bg-[#04090f]">
         <img
           src={asset("solution_hero_bg.png")}
           alt=""
@@ -1222,7 +1222,7 @@ const CTA = () => (
         >
           <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
             <span className="text-white">당신의 데이터로 시작하는 </span>
-            <span className="text-[#00cccc]">맞춤형 AI 사업</span>
+            <span className="text-[#2fd4c4]">맞춤형 AI 사업</span>
           </h2>
           <p className="text-white/70 text-[15px] md:text-[18px] leading-[1.6] mt-3 break-keep">
             산업 현장과 업무 과제에 맞는<br />
@@ -1241,7 +1241,7 @@ const CTA = () => (
             <a
               href={asset("aimwid_brochure.pdf")}
               download="2026_AIMWID_회사소개서.pdf"
-              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#00cccc] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
             >
               회사소개서 다운로드
             </a>

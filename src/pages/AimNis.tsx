@@ -35,7 +35,7 @@ const ActionButtons = () => (
     <a
       href={asset("aimwid_brochure.pdf")}
       download="2026_AIMWID_회사소개서.pdf"
-      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#00cccc] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
     >
       회사소개서 다운로드
     </a>
@@ -44,7 +44,7 @@ const ActionButtons = () => (
 
 // --- 1. Hero ---
 const Hero = () => (
-  <section className="relative min-h-[900px] overflow-hidden bg-[#040813]">
+  <section className="relative min-h-[820px] overflow-hidden bg-[#040813]">
     {/* Ecosystem loop video — placed in the right area (not full-bleed). The clip's rings bleed off
         its edges, so each edge fades into the hero background to hide the crop. Poster = still image
         until the video loads. */}
@@ -75,7 +75,7 @@ const Hero = () => (
 
     <Breadcrumb />
 
-    <div className="container-custom relative z-10 pt-[200px]">
+    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -247,9 +247,9 @@ const AimnisEmblem = () => (
   <svg viewBox="0 0 140 152" className="w-[124px] h-auto" fill="none" role="img" aria-label="검증된 AI 마스터 플랫폼">
     <defs>
       <radialGradient id="ani-glow" cx="50%" cy="46%" r="58%">
-        <stop offset="0%" stopColor="#00f5ff" stopOpacity="0.5" />
-        <stop offset="55%" stopColor="#00cccc" stopOpacity="0.12" />
-        <stop offset="100%" stopColor="#00cccc" stopOpacity="0" />
+        <stop offset="0%" stopColor="#2fd4c4" stopOpacity="0.5" />
+        <stop offset="55%" stopColor="#2fd4c4" stopOpacity="0.12" />
+        <stop offset="100%" stopColor="#2fd4c4" stopOpacity="0" />
       </radialGradient>
       <linearGradient id="ani-shield" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="#1fd8d8" />
@@ -271,7 +271,7 @@ const AimnisEmblem = () => (
     <path
       d="M70 20 L110 37 V74 C110 101 93 120 70 130 C47 120 30 101 30 74 V37 Z"
       fill="url(#ani-shield)"
-      stroke="#00f5ff"
+      stroke="#2fd4c4"
       strokeWidth="2"
     />
     <path
@@ -280,7 +280,7 @@ const AimnisEmblem = () => (
       fillOpacity="0.55"
     />
     {/* check */}
-    <path d="M55 74 l11 12 l20 -25" stroke="#00f5ff" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M55 74 l11 12 l20 -25" stroke="#2fd4c4" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -328,20 +328,20 @@ const Problem = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.24, duration: 0.5 }}
-          className="flex-1 min-w-[350px] rounded-2xl bg-[#103d48] border-2 border-[#00cccc] overflow-hidden flex flex-col shadow-[0_0_40px_rgba(0,204,204,0.25)]"
+          className="flex-1 min-w-[350px] rounded-2xl bg-[#103d48] border-2 border-[#2fd4c4] overflow-hidden flex flex-col shadow-[0_0_40px_rgba(47,212,196,0.25)]"
         >
-          <div className="h-[60px] bg-[#00cccc] flex items-center justify-center">
+          <div className="h-[60px] bg-[#2fd4c4] flex items-center justify-center">
             <span className="text-[#000028] font-bold text-[22px]">AIMNIS</span>
           </div>
           <div className="px-6 pt-8 pb-7 flex flex-col flex-1">
-            <h3 className="text-[#00cccc] font-bold text-[20px] text-center leading-[1.4]">검증된 AI 마스터 플랫폼</h3>
+            <h3 className="text-[#2fd4c4] font-bold text-[20px] text-center leading-[1.4]">검증된 AI 마스터 플랫폼</h3>
             <div className="flex justify-center my-8">
               <AimnisEmblem />
             </div>
             <div className="text-white text-[16px] leading-[1.9] text-left mt-auto space-y-1 w-fit mx-auto">
               {aimnisPoints.map((p, j) => (
                 <p key={j}>
-                  <span className="text-[#00cccc] font-bold">✓ {p.k} :</span> {p.v}
+                  <span className="text-[#2fd4c4] font-bold">✓ {p.k} :</span> {p.v}
                 </p>
               ))}
             </div>
@@ -405,7 +405,7 @@ const Features = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="rounded-[30px] border border-[#00cccc]/45 bg-[rgba(10,18,30,0.55)] backdrop-blur-[10px] shadow-[0_0_60px_-12px_rgba(0,204,204,0.4)] px-6 py-12 md:px-14 md:py-14"
+        className="rounded-[30px] border border-[#2fd4c4]/45 bg-[rgba(10,18,30,0.55)] backdrop-blur-[10px] shadow-[0_0_60px_-12px_rgba(47,212,196,0.4)] px-6 py-12 md:px-14 md:py-14"
       >
         {/* 3 core values */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
@@ -428,7 +428,7 @@ const Features = () => (
               <p className="text-[#22e0e0] text-[15px] font-semibold mt-2">{f.en}</p>
               <p className="text-white/80 text-[16px] mt-4 leading-relaxed">{f.desc}</p>
               <div className="mt-auto pt-7 flex justify-center">
-                <div className="inline-flex items-center gap-2 rounded-full bg-[#00cccc]/15 border border-[#00cccc]/40 px-5 py-2.5">
+                <div className="inline-flex items-center gap-2 rounded-full bg-[#2fd4c4]/15 border border-[#2fd4c4]/40 px-5 py-2.5">
                   <span className="text-white/90 text-[14px]">{f.metricLabel}</span>
                   <span className="text-[#22e0e0] text-[18px] font-bold leading-none">{f.metricValue}</span>
                   {f.metricSuffix && <span className="text-white/90 text-[14px]">{f.metricSuffix}</span>}
@@ -465,7 +465,7 @@ const Banner = () => (
       >
         <div className="flex flex-col lg:flex-row lg:items-start gap-10 lg:gap-12">
           <div className="lg:w-[300px] shrink-0 flex flex-col gap-2">
-            <Quote className="w-6 h-6 text-[#00cccc] fill-[#00cccc]" />
+            <Quote className="w-6 h-6 text-[#2fd4c4] fill-[#2fd4c4]" />
             <p className="text-white/85 text-[18px] leading-[1.6] break-keep">
               코딩 없는 조립과 완벽한 화이트 라벨링으로 복잡한 SI를 단 2개월 만에 자사 플랫폼으로 완성했습니다.
             </p>
@@ -475,7 +475,7 @@ const Banner = () => (
               <div key={i} className="flex flex-col gap-2.5">
                 <div className="flex items-center gap-2.5">
                   <div className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center shrink-0">
-                    <f.icon className="w-5 h-5 text-[#00cccc]" strokeWidth={1.7} />
+                    <f.icon className="w-5 h-5 text-[#2fd4c4]" strokeWidth={1.7} />
                   </div>
                   <span className="text-white font-bold text-[16px]">{f.title}</span>
                 </div>
@@ -569,7 +569,7 @@ const tiers = [
 
 // Per-tier surface graphic — content-matched, animates when its layer is active
 const TierGraphic = ({ i, lifted }: { i: number; lifted: boolean }) => {
-  const S = lifted ? "#00f5ff" : "#94a3b8";
+  const S = lifted ? "#2fd4c4" : "#94a3b8";
   const svgProps = {
     viewBox: "0 0 260 260",
     className: "absolute inset-0 w-full h-full transition-opacity duration-300",
@@ -779,7 +779,7 @@ const Architecture = () => {
         <div className="grid lg:grid-cols-[minmax(0,450px)_1fr] gap-8 lg:gap-12 items-stretch">
           {/* LEFT — label + 3D tower grouped, vertically centered against cards */}
           <div className="flex flex-col items-center justify-center overflow-visible">
-            <h3 className="text-[#00cccc] text-[20px] font-bold mb-14 text-center">4-Tier System Architecture</h3>
+            <h3 className="text-[#2fd4c4] text-[20px] font-bold mb-14 text-center">4-Tier System Architecture</h3>
             <div className="scale-[0.8] sm:scale-95 lg:scale-110 lg:translate-y-[44px]">
               <div
                 className="relative flex items-center justify-center"
@@ -787,7 +787,7 @@ const Architecture = () => {
               >
                 <div
                   className="absolute left-1/2 bottom-8 -translate-x-1/2 w-[240px] h-[120px] rounded-full blur-2xl pointer-events-none"
-                  style={{ background: "radial-gradient(ellipse, rgba(0,204,204,0.3), transparent 70%)" }}
+                  style={{ background: "radial-gradient(ellipse, rgba(47,212,196,0.3), transparent 70%)" }}
                 />
                 <div
                   className="relative"
@@ -816,10 +816,10 @@ const Architecture = () => {
                         className="absolute inset-0 rounded-[24px] border cursor-pointer transition-[transform,box-shadow,border-color] duration-300"
                         style={{
                           transform: `translateZ(${z}px)`,
-                          borderColor: lifted ? "rgba(0,245,255,0.9)" : "rgba(148,163,184,0.28)",
+                          borderColor: lifted ? "rgba(47,212,196,0.9)" : "rgba(148,163,184,0.28)",
                           background: `linear-gradient(135deg, rgba(${rgb}, ${lifted ? 0.2 : 0.09}), rgba(4,13,25,0.64))`,
                           boxShadow: lifted
-                            ? "0 0 60px -4px rgba(0,245,255,0.75)"
+                            ? "0 0 60px -4px rgba(47,212,196,0.75)"
                             : "0 0 24px -12px rgba(148,163,184,0.35)",
                           backdropFilter: "blur(2px)",
                         }}
@@ -867,14 +867,14 @@ const Architecture = () => {
                   key={i}
                   onMouseEnter={() => setActive(i)}
                   className={`rounded-xl border p-5 flex flex-col md:flex-row md:items-center gap-4 md:gap-5 cursor-pointer transition-colors duration-300 ${
-                    lifted ? "border-[#00f5ff]/50 bg-[#00cccc]/[0.06]" : "border-white/10 bg-white/[0.02]"
+                    lifted ? "border-[#2fd4c4]/50 bg-[#2fd4c4]/[0.06]" : "border-white/10 bg-white/[0.02]"
                   }`}
                 >
                   {/* number */}
                   <div
                     className={`w-11 h-11 rounded-full border-2 flex items-center justify-center shrink-0 text-[16px] font-bold transition-colors ${
                       lifted
-                        ? "border-[#00f5ff] text-[#00f5ff] bg-[#00f5ff]/10"
+                        ? "border-[#2fd4c4] text-[#2fd4c4] bg-[#2fd4c4]/10"
                         : "border-white/20 text-white/60 bg-white/[0.03]"
                     }`}
                   >
@@ -901,7 +901,7 @@ const Architecture = () => {
                           key={it}
                           className={`rounded-md border px-2.5 py-1.5 text-[12.5px] whitespace-nowrap transition-colors ${
                             lifted
-                              ? "border-[#00f5ff]/30 bg-[#00f5ff]/[0.07] text-white/90"
+                              ? "border-[#2fd4c4]/30 bg-[#2fd4c4]/[0.07] text-white/90"
                               : "border-white/10 bg-white/[0.05] text-white/70"
                           }`}
                         >
@@ -957,8 +957,8 @@ const ImpactResult = () => (
           >
             {/* icon + metric grouped on the left */}
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#00cccc]/[0.08] border border-[#00cccc]/25 flex items-center justify-center shrink-0 shadow-[0_0_18px_-6px_rgba(0,204,204,0.6)]">
-                <s.icon className="w-[22px] h-[22px] text-[#00cccc]" strokeWidth={1.7} />
+              <div className="w-12 h-12 rounded-full bg-[#2fd4c4]/[0.08] border border-[#2fd4c4]/25 flex items-center justify-center shrink-0 shadow-[0_0_18px_-6px_rgba(47,212,196,0.6)]">
+                <s.icon className="w-[22px] h-[22px] text-[#2fd4c4]" strokeWidth={1.7} />
               </div>
               <div className="flex flex-col">
                 <span className="text-white/70 text-[14px] font-medium">{s.label}</span>
@@ -987,7 +987,7 @@ const ImpactResult = () => (
 const CTA = () => (
   <section className="py-20 bg-[#020617]">
     <div className="container-custom">
-      <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#00cccc]/25 bg-[#04090f]">
+      <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#2fd4c4]/25 bg-[#04090f]">
         <img
           src={asset("aimnis_cta_graphic.png")}
           alt=""
@@ -1005,7 +1005,7 @@ const CTA = () => (
         >
           <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
             <span className="text-white">현장에 최적화된 에임니스, </span>
-            <span className="text-[#00cccc]">지금 바로 시작하세요</span>
+            <span className="text-[#2fd4c4]">지금 바로 시작하세요</span>
           </h2>
           <p className="text-white/70 text-[15px] md:text-[18px] mt-3">
             전문가와 상담하고 에임니스를 직접 경험해 보세요.

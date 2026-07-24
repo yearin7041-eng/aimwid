@@ -14,7 +14,7 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 // unified on 2026-07-16.
 const CoHeading = ({ label, title, align = "left" }: { label: string; title: ReactNode; align?: "left" | "center" }) => (
   <div className={`flex flex-col gap-4 ${align === "center" ? "items-center text-center" : "items-start"}`}>
-    <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">{label}</p>
+    <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{label}</p>
     <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
   </div>
 );
@@ -35,7 +35,7 @@ const Hero = () => (
     <div className="absolute inset-0 pointer-events-none">
       <div
         className="absolute right-[-10%] top-[4%] h-[820px] w-[980px] rounded-[50%]"
-        style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.20), rgba(0,204,204,0) 70%)" }}
+        style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.20), rgba(47,212,196,0) 70%)" }}
       />
       <div
         className="absolute right-[14%] bottom-[-16%] h-[700px] w-[860px] rounded-[50%]"
@@ -70,7 +70,7 @@ const Hero = () => (
     <Breadcrumb />
 
     {/* pt matches Business */}
-    <div className="container-custom relative z-10 pt-[227px] pb-[120px]">
+    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -127,12 +127,12 @@ const Intro = () => (
         transition={{ duration: 0.6 }}
         className="mx-auto flex max-w-[820px] flex-col items-center text-center"
       >
-        <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">About Us</p>
+        <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">About Us</p>
         <h2 className="mt-6 text-[32px] md:text-[50px] font-bold leading-[1.4] text-white break-keep">
           끊임없는 연구개발로<br />
           기술경쟁력에서 앞서갑니다.
         </h2>
-        <div className="mx-auto mt-8 h-px w-[60px] bg-[#00cccc]/60" />
+        <div className="mx-auto mt-8 h-px w-[60px] bg-[#2fd4c4]/60" />
         <div className="mt-10 flex flex-col gap-7">
           {ABOUT_BODY.map((p, i) => (
             <p key={i} className="text-[#9fb0c4] text-[16px] md:text-[18px] font-normal leading-[1.85] break-keep">
@@ -265,7 +265,7 @@ const MissionVision = () => (
         Horizontally they still bleed off the side edges to read as edge glows. */}
     <div
       className="pointer-events-none absolute -left-[24%] top-[0px] h-[700px] w-[900px] rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.24), rgba(0,204,204,0) 72%)" }}
+      style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.24), rgba(47,212,196,0) 72%)" }}
     />
     <div
       className="pointer-events-none absolute -right-[28%] bottom-[60px] h-[740px] w-[940px] rounded-[50%]"
@@ -292,14 +292,14 @@ const MissionVision = () => (
             <div className={`flex-1 text-center ${p.imageLeft ? "lg:text-left" : "lg:text-right"}`}>
               {/* Label at the site's shared 20px spec (CoHeading / BizHeading …), not the big display
                   word — user, 2026-07-21. Title/body bumped 2px the same day. */}
-              <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">{p.label}</p>
+              <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{p.label}</p>
               <div
-                className={`mx-auto mt-6 h-[26px] w-px bg-gradient-to-b from-[#00cccc] to-transparent ${
+                className={`mx-auto mt-6 h-[26px] w-px bg-gradient-to-b from-[#2fd4c4] to-transparent ${
                   p.imageLeft ? "lg:mx-0" : "lg:ml-auto lg:mr-0"
                 }`}
               />
               <p className="mt-7 text-[26px] md:text-[40px] font-bold leading-[1.4] text-white break-keep">{p.title}</p>
-              <p className="mt-7 max-w-[560px] text-[18px] font-normal leading-[1.9] text-[#b3b4b9] break-keep lg:max-w-none">
+              <p className="mt-7 max-w-[560px] text-[18px] font-normal leading-[1.9] text-[#9fb0c4] break-keep lg:max-w-none">
                 {p.body}
               </p>
             </div>
@@ -435,7 +435,7 @@ const MilestoneRow = ({
         ref={nodeRef}
         className={`absolute left-[6px] md:left-1/2 top-[10px] -translate-x-1/2 h-[13px] w-[13px] rounded-full border transition-all duration-500 ${
           lit
-            ? "bg-[#00f5ff] border-white shadow-[0_0_16px_4px_rgba(0,245,255,0.5)]"
+            ? "bg-[#2fd4c4] border-white shadow-[0_0_16px_4px_rgba(47,212,196,0.5)]"
             : "bg-[#0e2731] border-white/30"
         }`}
       />
@@ -465,7 +465,7 @@ const MilestoneRow = ({
             <li key={k} className="flex gap-2.5 text-[15px] md:text-[16px] leading-[1.65] break-keep">
               <span className="mt-[9px] h-[3px] w-[3px] shrink-0 rounded-full bg-white/45" />
               <span className="text-white/75">
-                {it.patent && <span className="text-[#00f5ff] font-semibold">[특허] </span>}
+                {it.patent && <span className="text-[#2fd4c4] font-semibold">[특허] </span>}
                 {it.text}
               </span>
             </li>
@@ -497,7 +497,7 @@ const History = () => {
       className="pointer-events-none absolute inset-0 opacity-[0.5]"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(0,204,204,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(0,204,204,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(47,212,196,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(47,212,196,0.045) 1px, transparent 1px)",
         backgroundSize: "64px 64px",
       }}
     />
@@ -507,7 +507,7 @@ const History = () => {
         overflow-hidden never clips a bright glow into a seam. Sits over the grid, under the timeline. */}
     <div
       className="pointer-events-none absolute -left-[24%] top-[40px] h-[700px] w-[900px] rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.24), rgba(0,204,204,0) 72%)" }}
+      style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.24), rgba(47,212,196,0) 72%)" }}
     />
     <div
       className="pointer-events-none absolute -right-[24%] bottom-[50px] h-[740px] w-[940px] rounded-[50%]"
@@ -522,7 +522,7 @@ const History = () => {
         className="flex flex-col items-center gap-6"
       >
         <CoHeading label="History" title="AIMWID의 성장" align="center" />
-        <p className="max-w-[1000px] text-center text-[#b3b4b9] text-[17px] md:text-[19px] font-normal leading-[1.7] break-keep">
+        <p className="max-w-[1000px] text-center text-[#9fb0c4] text-[17px] md:text-[19px] font-normal leading-[1.7] break-keep">
           에임위드는 2023년 설립 이후 빠른 속도로 성장하며 주요 공공기관 및 에너지 기업과의 협력을 확대해 왔습니다.
         </p>
       </motion.div>
@@ -544,10 +544,10 @@ const History = () => {
       <div ref={railRef} className="relative mx-auto mt-[120px] max-w-[1120px]">
         {/* one rail for the whole run: centred on md+, hard left below it. The dim gradient is the
             unfilled TRACK; the bright motion.div nested inside is the scroll-driven fill. */}
-        <div className="absolute top-2 bottom-2 left-[6px] md:left-1/2 md:-translate-x-1/2 w-[2px] bg-gradient-to-b from-[#00cccc]/10 via-[#00cccc]/45 to-[#00cccc]/10">
+        <div className="absolute top-2 bottom-2 left-[6px] md:left-1/2 md:-translate-x-1/2 w-[2px] bg-gradient-to-b from-[#2fd4c4]/10 via-[#2fd4c4]/45 to-[#2fd4c4]/10">
           <motion.div
             style={{ height: reduce ? "100%" : fillHeight }}
-            className="absolute inset-x-0 top-0 origin-top bg-gradient-to-b from-[#00cccc] via-[#2fa8e8] to-[#4fd2ff]"
+            className="absolute inset-x-0 top-0 origin-top bg-gradient-to-b from-[#2fd4c4] via-[#2fa8e8] to-[#4fd2ff]"
           >
             {/* Soft glowing head at the growing tip — travels with the fill's leading edge and dissolves
                 the otherwise hard bottom cut, so the fill reads as a fluid comet rather than a rising
@@ -806,7 +806,7 @@ const Values = () => (
         transition={{ duration: 0.6 }}
         className="mb-[90px] text-center"
       >
-        <p className="text-[#00cccc] text-[40px] font-semibold leading-[1.2]">Core Value</p>
+        <p className="text-[#2fd4c4] text-[40px] font-semibold leading-[1.2]">Core Value</p>
       </motion.div>
 
       {/* Hairline dividers BETWEEN the columns only, as drawn — divide-x gives that without a trailing
@@ -827,7 +827,7 @@ const Values = () => (
                 as much illustration as they are icons, and on touch there is no hover to find it with. */}
             <Icon />
             <h3 className="mt-9 text-[27px] font-bold leading-[1.3] text-white">{title}</h3>
-            <p className="mt-5 text-[18px] font-normal leading-[1.8] text-[#b3b4b9] break-keep">{body}</p>
+            <p className="mt-5 text-[18px] font-normal leading-[1.8] text-[#9fb0c4] break-keep">{body}</p>
           </motion.div>
         ))}
       </div>
@@ -852,7 +852,7 @@ const CISection = () => (
       >
         {/* Row 1 — label + title */}
         <div>
-          <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">Corporate Identity</p>
+          <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">Corporate Identity</p>
           <h2 className="mt-5 text-[38px] md:text-[54px] font-bold leading-none text-white">AIMWID CI</h2>
         </div>
 
@@ -896,10 +896,10 @@ const CISection = () => (
               key={fmt}
               href={asset(file)}
               download
-              className="flex h-[54px] items-center gap-3 rounded-[8px] border border-white/15 bg-white/[0.04] px-6 text-[15px] font-medium text-white transition-colors hover:border-[#00cccc]/50 hover:bg-white/[0.07]"
+              className="flex h-[54px] items-center gap-3 rounded-[8px] border border-white/15 bg-white/[0.04] px-6 text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
             >
               <span>{fmt} 다운로드</span>
-              <Download size={18} className="text-[#00cccc]" />
+              <Download size={18} className="text-[#2fd4c4]" />
             </a>
           ))}
         </div>

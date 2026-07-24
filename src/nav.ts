@@ -8,7 +8,10 @@
 // the breadcrumb). Add a Solution sub-page here and the navbar, its active state, and every
 // breadcrumb trail pick it up together.
 
-export const SOLUTION_SUBS = ["AIMNIS", "AIM GUARD", "SOLUTION"] as const;
+// "Industries" is the /solution overview page — renamed from the redundant "SOLUTION" (user, 2026-07-24)
+// so "Solution ▸ Solution" is gone. The page is the industry-domain solution lineup (its own eyebrow reads
+// "Industry AI Solutions"), distinct from the two branded products AIMNIS / AIM GUARD.
+export const SOLUTION_SUBS = ["AIMNIS", "AIM GUARD", "Industries"] as const;
 
 export const subRoute = (sub: string) =>
   sub === "AIM GUARD" ? "/aimguard" : sub === "AIMNIS" ? "/aimnis" : "/solution";
@@ -37,10 +40,10 @@ export type Crumb = { label: string; to?: string };
 export const crumbsFor = (pathname: string): Crumb[] => {
   const sub = SOLUTION_SUBS.find((s) => subRoute(s) === pathname);
   if (sub) {
-    // "SOLUTION" is the section's own overview page, so it is the leaf — not a child of itself.
-    return sub === "SOLUTION"
-      ? [{ label: "Solution" }]
-      : [{ label: "Solution", to: "/solution" }, { label: sub }];
+    // Two depths for every Solution sub-page, matching Company below: the section (links to the overview)
+    // then the sub-page. On /solution that reads "Solution › Industries" (the overview linked as parent AND
+    // named as the leaf, same as Company's "Company › 회사개요").
+    return [{ label: "Solution", to: "/solution" }, { label: sub }];
   }
   const csub = COMPANY_SUBS.find((s) => companySubRoute(s) === pathname);
   if (csub) {

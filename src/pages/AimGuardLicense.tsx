@@ -46,8 +46,8 @@ const issueLicense = async (_values: Record<string, string>) => "AG-TRIAL-4X7B-2
 
 // The four panels, the inputs and the buttons all copy Home's Contact form rather than the Figma
 // render. The render used its own form language — labels beside the field, transparent inputs, square
-// gradient buttons, #00cccc focus — which would have made this the only page on the site not sharing
-// the form system, and hardcoded a cyan that is NOT the brand token (#00f5ff). The user chose the site
+// gradient buttons, #2fd4c4 focus — which would have made this the only page on the site not sharing
+// the form system, and hardcoded a cyan that is NOT the brand token (#2fd4c4). The user chose the site
 // system on 2026-07-20, so the render's form styling is deliberately not followed. Layout and copy
 // still come from the render; only the component skin is the site's.
 const PANEL = "rounded-2xl border border-white/10";
@@ -68,13 +68,13 @@ const Hero = ({ onStart }: { onStart: () => void }) => (
       className="pointer-events-none absolute inset-0 opacity-[0.28]"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(0,204,204,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,204,204,0.07) 1px, transparent 1px)",
+          "linear-gradient(rgba(47,212,196,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(47,212,196,0.07) 1px, transparent 1px)",
         backgroundSize: "72px 72px",
       }}
     />
     <div
       className="pointer-events-none absolute -right-[6%] top-[6%] h-[720px] w-[900px] rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,204,204,0.16), rgba(0,204,204,0) 70%)" }}
+      style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.16), rgba(47,212,196,0) 70%)" }}
     />
 
     {/* Header → hero bridge, same device the other four heroes use */}
@@ -222,7 +222,7 @@ const Agreements = ({
                 disabled={locked}
                 onChange={(e) => setChecked((c) => ({ ...c, [a.id]: e.target.checked }))}
               />
-              <span className="select-none text-[16px] font-normal text-gray-400">{a.label}</span>
+              <span className="select-none text-[16px] font-normal text-[#9fb0c4]">{a.label}</span>
             </label>
             <button className="flex items-center gap-2 text-[15px] text-brand-cyan transition-opacity hover:opacity-70">
               자세히 보기

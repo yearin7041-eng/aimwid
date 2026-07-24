@@ -98,7 +98,7 @@ const KakaoMap = () => {
 // Hero visual for 오시는 길 (user, 2026-07-22). Code-drawn rather than a raster: the page is about a
 // place, so a stylised night navigation-map — city blocks, a road grid with avenues + a diagonal, a
 // river, and a glowing route threading to the destination pin (with radar pings) — reads the subject at
-// a glance and stays crisp as vector. Palette is the site's cyan #00cccc → blue #3684f7. First pass was
+// a glance and stays crisp as vector. Palette is the site's cyan #2fd4c4 → blue #3684f7. First pass was
 // a plain slanted grid; the block fills + river + turning route are what make it read as a map, not
 // graph paper (user feedback, 2026-07-22). Pinned right, behind the copy; the hero's left→right
 // darkening keeps the text legible.
@@ -190,7 +190,7 @@ const MapGraphic = () => {
             cy={PIN_TIP_Y}
             r={30}
             fill="none"
-            stroke="#00cccc"
+            stroke="#2fd4c4"
             strokeWidth={1.3}
             initial={{ opacity: 0 }}
             animate={{ r: [30, 150], opacity: [0.5, 0] }}
@@ -211,11 +211,11 @@ const MapGraphic = () => {
       <circle cx="70" cy="540" r="6" fill="#00f0e0" />
 
       {/* Ground disc + the pin, with a gentle bob for life */}
-      <ellipse cx={PIN_X} cy={PIN_TIP_Y} rx="34" ry="11" fill="#00cccc" fillOpacity="0.14" />
+      <ellipse cx={PIN_X} cy={PIN_TIP_Y} rx="34" ry="11" fill="#2fd4c4" fillOpacity="0.14" />
       <motion.g
         animate={reduce ? undefined : { y: [0, -9, 0] }}
         transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
-        style={{ filter: "drop-shadow(0 6px 16px rgba(0,204,204,0.4))" }}
+        style={{ filter: "drop-shadow(0 6px 16px rgba(47,212,196,0.4))" }}
       >
         <path
           d={`M${PIN_X} ${PIN_TIP_Y} C ${PIN_X - 20} ${PIN_TIP_Y - 26} ${PIN_X - 34} ${PIN_TIP_Y - 42} ${PIN_X - 34} ${PIN_TIP_Y - 64} A 34 34 0 1 1 ${PIN_X + 34} ${PIN_TIP_Y - 64} C ${PIN_X + 34} ${PIN_TIP_Y - 42} ${PIN_X + 20} ${PIN_TIP_Y - 26} ${PIN_X} ${PIN_TIP_Y} Z`}
@@ -255,7 +255,7 @@ const Hero = () => (
 
     <Breadcrumb />
 
-    <div className="container-custom relative z-10 pt-[227px] pb-[120px]">
+    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -295,7 +295,7 @@ const LocationBody = () => (
                 <Icon size={20} className="mt-1 shrink-0 text-brand-cyan" />
                 <div>
                   <dt className="text-[14px] font-bold text-white">{label}</dt>
-                  <dd className="mt-1 text-[15px] leading-[1.6] text-[#b3b4b9] break-keep">{value}</dd>
+                  <dd className="mt-1 text-[15px] leading-[1.6] text-[#9fb0c4] break-keep">{value}</dd>
                 </div>
               </div>
             ))}
@@ -305,9 +305,9 @@ const LocationBody = () => (
             href={KAKAO_MAP_URL}
             target="_blank"
             rel="noreferrer"
-            className="mt-auto flex h-[52px] items-center justify-center gap-2.5 rounded-[10px] border border-white/15 bg-white/[0.04] text-[15px] font-medium text-white transition-colors hover:border-[#00cccc]/50 hover:bg-white/[0.07]"
+            className="mt-auto flex h-[52px] items-center justify-center gap-2.5 rounded-[10px] border border-white/15 bg-white/[0.04] text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
           >
-            <Navigation size={17} className="text-[#00cccc]" />
+            <Navigation size={17} className="text-[#2fd4c4]" />
             카카오맵 길찾기
           </a>
         </div>

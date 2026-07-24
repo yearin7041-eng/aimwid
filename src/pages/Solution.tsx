@@ -46,7 +46,7 @@ const ActionButtons = () => (
     <a
       href={asset("aimwid_brochure.pdf")}
       download="2026_AIMWID_회사소개서.pdf"
-      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#00cccc] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
     >
       회사소개서 다운로드
     </a>
@@ -56,7 +56,7 @@ const ActionButtons = () => (
 // Centered label + heading used by the 전환/Framework sections
 const CenterHeading = ({ label, title }: { label: string; title: ReactNode }) => (
   <div className="text-center">
-    <p className="text-[#00cccc] text-[20px] font-normal leading-[1.2]">{label}</p>
+    <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{label}</p>
     <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] mt-3">{title}</h2>
   </div>
 );
@@ -172,11 +172,11 @@ const steps = [
 const Lifecycle = () => (
   <section className="relative pt-[170px] pb-28 bg-[#020617] overflow-hidden">
     {/* ambient depth behind the row */}
-    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_48%_at_50%_46%,rgba(0,204,204,0.07),transparent_70%)]" />
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_48%_at_50%_46%,rgba(47,212,196,0.07),transparent_70%)]" />
     {/* glossy glow — teal, bleeding in from the left (Figma: Ellipse 12) */}
     <div
       className="pointer-events-none absolute -left-[520px] top-0 h-[1000px] w-[1120px] rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.42), rgba(0,210,210,0) 72%)" }}
+      style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.42), rgba(47,212,196,0) 72%)" }}
     />
 
     <div className="container-custom relative">
@@ -199,8 +199,8 @@ const Lifecycle = () => (
 
       <div className="relative mt-24">
         {/* energy rail — one glowing line the three cards sit on, with a pulse flowing through it */}
-        <div className="hidden md:block absolute left-[9%] right-[9%] top-[104px] h-px bg-gradient-to-r from-transparent via-[#00cccc]/45 to-transparent">
-          <span className="absolute top-1/2 -translate-y-1/2 h-[3px] w-[90px] rounded-full bg-gradient-to-r from-transparent via-[#00f5ff] to-transparent shadow-[0_0_14px_2px_rgba(0,245,255,0.7)] animate-[rail-flow_3.6s_linear_infinite]" />
+        <div className="hidden md:block absolute left-[9%] right-[9%] top-[104px] h-px bg-gradient-to-r from-transparent via-[#2fd4c4]/45 to-transparent">
+          <span className="absolute top-1/2 -translate-y-1/2 h-[3px] w-[90px] rounded-full bg-gradient-to-r from-transparent via-[#2fd4c4] to-transparent shadow-[0_0_14px_2px_rgba(47,212,196,0.7)] animate-[rail-flow_3.6s_linear_infinite]" />
         </div>
 
         <div className="flex flex-col md:flex-row items-stretch justify-center gap-8 md:gap-6">
@@ -213,18 +213,18 @@ const Lifecycle = () => (
               transition={{ duration: 0.55, delay: i * 0.15 }}
               className="group relative flex-1 md:max-w-[330px]"
             >
-              <div className="relative flex flex-col items-center text-center rounded-[20px] border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.012] px-8 pt-12 pb-9 backdrop-blur-sm transition-all duration-300 group-hover:border-[#00cccc]/45 group-hover:-translate-y-1.5 group-hover:shadow-[0_12px_50px_-12px_rgba(0,204,204,0.55)]">
+              <div className="relative flex flex-col items-center text-center rounded-[20px] border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.012] px-8 pt-12 pb-9 backdrop-blur-sm transition-all duration-300 group-hover:border-[#2fd4c4]/45 group-hover:-translate-y-1.5 group-hover:shadow-[0_12px_50px_-12px_rgba(47,212,196,0.55)]">
                 {/* icon orb */}
                 <div className="relative w-[112px] h-[112px] flex items-center justify-center">
                   <div
                     className="absolute inset-0 rounded-full"
-                    style={{ background: `radial-gradient(circle, rgba(0,204,204,${0.2 + i * 0.07}), transparent 68%)` }}
+                    style={{ background: `radial-gradient(circle, rgba(47,212,196,${0.2 + i * 0.07}), transparent 68%)` }}
                   />
-                  <div className="absolute inset-0 rounded-full border border-dashed border-[#00cccc]/25 animate-[spin_18s_linear_infinite]" />
-                  <div className="absolute inset-[9px] rounded-full border border-[#00cccc]/45 bg-[#020617]/70 transition-colors duration-300 group-hover:border-[#00cccc]/75" />
+                  <div className="absolute inset-0 rounded-full border border-dashed border-[#2fd4c4]/25 animate-[spin_18s_linear_infinite]" />
+                  <div className="absolute inset-[9px] rounded-full border border-[#2fd4c4]/45 bg-[#020617]/70 transition-colors duration-300 group-hover:border-[#2fd4c4]/75" />
                   <s.icon className="relative w-[44px] h-[44px] text-[#22e0e0] transition-colors duration-300 group-hover:text-[#5ff5f5]" strokeWidth={1.4} />
                   {/* number badge integrated on the orb */}
-                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 h-7 px-3 rounded-full bg-[#00cccc] text-[#00121a] text-[13px] font-extrabold tracking-wide flex items-center shadow-[0_0_16px_rgba(0,204,204,0.6)]">
+                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 h-7 px-3 rounded-full bg-[#2fd4c4] text-[#00121a] text-[13px] font-extrabold tracking-wide flex items-center shadow-[0_0_16px_rgba(47,212,196,0.6)]">
                     {s.no}
                   </div>
                 </div>
@@ -280,13 +280,13 @@ const HexIcon = ({ icon: Icon, emphasis = false }: { icon: typeof CloudDownload;
   <div className="relative w-[96px] h-[104px] shrink-0 flex items-center justify-center">
     {/* radial glow core */}
     <div
-      className={`absolute w-[64px] h-[64px] rounded-full blur-[12px] ${emphasis ? "bg-[#00cccc]/40" : "bg-[#00cccc]/15"}`}
+      className={`absolute w-[64px] h-[64px] rounded-full blur-[12px] ${emphasis ? "bg-[#2fd4c4]/40" : "bg-[#2fd4c4]/15"}`}
     />
     <svg viewBox="0 0 96 104" className="absolute inset-0 w-full h-full" fill="none">
       <path
         d="M48 3 L90 27 V77 L48 101 L6 77 V27 Z"
-        fill={emphasis ? "rgba(0,204,204,0.10)" : "rgba(0,204,204,0.05)"}
-        stroke={emphasis ? "rgba(0,245,255,0.8)" : "rgba(0,204,204,0.45)"}
+        fill={emphasis ? "rgba(47,212,196,0.10)" : "rgba(47,212,196,0.05)"}
+        stroke={emphasis ? "rgba(47,212,196,0.8)" : "rgba(47,212,196,0.45)"}
         strokeWidth="1.5"
       />
     </svg>
@@ -316,8 +316,8 @@ const Framework = () => (
 
       <div className="relative mt-16 max-w-[1040px] mx-auto">
         {/* vertical pipeline rail — ties the 4 layers into one top→down data flow */}
-        <div className="hidden md:block absolute top-[52px] bottom-[150px] left-[72px] w-px bg-gradient-to-b from-[#00cccc]/10 via-[#00cccc]/45 to-[#00cccc]/10 z-0">
-          <span className="absolute left-1/2 -translate-x-1/2 w-[3px] h-[64px] rounded-full bg-gradient-to-b from-transparent via-[#00f5ff] to-transparent shadow-[0_0_14px_2px_rgba(0,245,255,0.65)] animate-[rail-flow-v_4.2s_linear_infinite]" />
+        <div className="hidden md:block absolute top-[52px] bottom-[150px] left-[72px] w-px bg-gradient-to-b from-[#2fd4c4]/10 via-[#2fd4c4]/45 to-[#2fd4c4]/10 z-0">
+          <span className="absolute left-1/2 -translate-x-1/2 w-[3px] h-[64px] rounded-full bg-gradient-to-b from-transparent via-[#2fd4c4] to-transparent shadow-[0_0_14px_2px_rgba(47,212,196,0.65)] animate-[rail-flow-v_4.2s_linear_infinite]" />
         </div>
 
         <div className="relative z-[1] flex flex-col gap-5">
@@ -330,10 +330,10 @@ const Framework = () => (
               transition={{ duration: 0.5, delay: i * 0.12 }}
               className="group"
             >
-              <div className="relative rounded-2xl border border-white/10 bg-[rgba(12,20,34,0.6)] backdrop-blur-[8px] p-5 md:p-6 flex flex-col md:flex-row md:items-center gap-5 md:gap-8 transition-all duration-300 group-hover:border-[#00cccc]/45 group-hover:shadow-[0_10px_44px_-16px_rgba(0,204,204,0.5)]">
+              <div className="relative rounded-2xl border border-white/10 bg-[rgba(12,20,34,0.6)] backdrop-blur-[8px] p-5 md:p-6 flex flex-col md:flex-row md:items-center gap-5 md:gap-8 transition-all duration-300 group-hover:border-[#2fd4c4]/45 group-hover:shadow-[0_10px_44px_-16px_rgba(47,212,196,0.5)]">
                 <HexIcon icon={l.icon} />
                 <div className="min-w-0 md:w-[300px] shrink-0">
-                  <p className="text-[#00cccc] text-[12.5px] font-bold tracking-[0.16em] uppercase">{l.no}</p>
+                  <p className="text-[#2fd4c4] text-[12.5px] font-bold tracking-[0.16em] uppercase">{l.no}</p>
                   <h3 className="text-white font-bold text-[22px] md:text-[23px] mt-2 leading-tight">{l.krTitle}</h3>
                   <p className="text-[#22e0e0]/65 text-[13px] font-medium mt-1">{l.title}</p>
                   <p className="text-white/45 text-[13.5px] leading-[1.6] mt-2.5">{l.kr}</p>
@@ -342,7 +342,7 @@ const Framework = () => (
                   {l.tags.map((t) => (
                     <span
                       key={t}
-                      className="rounded-full border border-[#00cccc]/20 bg-[#00cccc]/[0.05] text-white/75 text-[13.5px] font-medium leading-none px-3.5 py-2 whitespace-nowrap transition-colors group-hover:border-[#00cccc]/35"
+                      className="rounded-full border border-[#2fd4c4]/20 bg-[#2fd4c4]/[0.05] text-white/75 text-[13.5px] font-medium leading-none px-3.5 py-2 whitespace-nowrap transition-colors group-hover:border-[#2fd4c4]/35"
                     >
                       {t}
                     </span>
@@ -457,7 +457,7 @@ const SolutionCards = () => (
     {/* glossy glows — teal / blue alternating down the cards (Figma: Ellipse 13, 14) */}
     <div
       className="pointer-events-none absolute -left-[520px] top-[8%] h-[1000px] w-[1120px] rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.36), rgba(0,210,210,0) 72%)" }}
+      style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.36), rgba(47,212,196,0) 72%)" }}
     />
     <div
       className="pointer-events-none absolute -right-[440px] top-[42%] h-[1150px] w-[940px] rounded-[50%]"
@@ -465,7 +465,7 @@ const SolutionCards = () => (
     />
     <div
       className="pointer-events-none absolute -left-[520px] top-[74%] h-[1000px] w-[1120px] rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.34), rgba(0,210,210,0) 72%)" }}
+      style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.34), rgba(47,212,196,0) 72%)" }}
     />
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -485,7 +485,7 @@ const SolutionCards = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
-          className="group relative w-full max-w-[1472px] mx-auto md:h-[840px] scroll-mt-[150px] overflow-hidden rounded-[30px] border border-[#00cccc] bg-[rgba(10,18,30,0.5)] backdrop-blur-[10px] shadow-[0_0_40px_-6px_rgba(0,204,204,0.4)] hover:shadow-[0_0_60px_-2px_rgba(0,204,204,0.6)] transition-shadow duration-300"
+          className="group relative w-full max-w-[1472px] mx-auto md:h-[840px] scroll-mt-[150px] overflow-hidden rounded-[30px] border border-[#2fd4c4] bg-[rgba(10,18,30,0.5)] backdrop-blur-[10px] shadow-[0_0_40px_-6px_rgba(47,212,196,0.4)] hover:shadow-[0_0_60px_-2px_rgba(47,212,196,0.6)] transition-shadow duration-300"
         >
           {/* 3D visual (cropped from the original render) — right side on desktop */}
           <img
@@ -498,7 +498,7 @@ const SolutionCards = () => (
 
           {/* text content — real HTML, vertically centered so spacing adapts to the 840px height */}
           <div className="relative z-10 flex flex-col justify-center md:h-full md:max-w-[48%] px-8 py-12 md:pl-[72px] md:pr-6 md:py-0">
-            <p className="text-[#00cccc] text-[15px] md:text-[16px] font-bold tracking-[0.14em]">{c.no}</p>
+            <p className="text-[#2fd4c4] text-[15px] md:text-[16px] font-bold tracking-[0.14em]">{c.no}</p>
             <h3 className="whitespace-pre-line text-white font-bold text-[30px] md:text-[42px] leading-[1.12] mt-3 md:mt-4">{c.en}</h3>
             <p className="whitespace-pre-line text-white text-[18px] md:text-[22px] font-semibold mt-2.5 md:mt-3">{c.kr}</p>
             <p className="whitespace-pre-line text-white/55 text-[15px] md:text-[16px] leading-[1.75] mt-5 md:mt-6 max-w-[540px]">{c.desc}</p>
@@ -506,7 +506,7 @@ const SolutionCards = () => (
               {c.chips.map((chip) => (
                 <div
                   key={chip.label}
-                  className="flex items-center gap-3 rounded-xl border border-[#00cccc]/25 bg-[#00cccc]/[0.04] px-5 h-[58px] transition-colors group-hover:border-[#00cccc]/40"
+                  className="flex items-center gap-3 rounded-xl border border-[#2fd4c4]/25 bg-[#2fd4c4]/[0.04] px-5 h-[58px] transition-colors group-hover:border-[#2fd4c4]/40"
                 >
                   <chip.icon className="w-[20px] h-[20px] text-[#22e0e0] shrink-0" strokeWidth={1.6} />
                   <span className="text-white/85 text-[14px] md:text-[15px] font-medium leading-tight">{chip.label}</span>
@@ -537,10 +537,10 @@ const CTA = () => (
         72% alpha-0 stop lands ~y542, clear of the edge. */}
     <div
       className="pointer-events-none absolute -left-[480px] top-[-60px] h-[700px] w-[1080px] rounded-[50%]"
-      style={{ background: "radial-gradient(closest-side, rgba(0,210,210,0.32), rgba(0,210,210,0) 72%)" }}
+      style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.32), rgba(47,212,196,0) 72%)" }}
     />
     <div className="container-custom relative">
-      <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#00cccc]/25 bg-[#04090f]">
+      <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#2fd4c4]/25 bg-[#04090f]">
         <img
           src={asset("solution_hero_bg.png")}
           alt=""
@@ -558,7 +558,7 @@ const CTA = () => (
         >
           <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
             <span className="text-white">산업 AI의 미래, </span>
-            <span className="text-[#00cccc]">지금 바로 시작하세요</span>
+            <span className="text-[#2fd4c4]">지금 바로 시작하세요</span>
           </h2>
           <p className="text-white/70 text-[15px] md:text-[18px] mt-3">
             전문가와 상담하고 에임위드의 AI 솔루션을 직접 경험해 보세요.

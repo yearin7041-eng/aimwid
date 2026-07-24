@@ -6,7 +6,7 @@
   --font-sans: "Pretendard Variable", "Pretendard", "Inter", "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Pretendard Variable", "Pretendard", "Inter", "Noto Sans KR", ui-sans-serif, system-ui, sans-serif;
 
-  --color-brand-cyan: #00f5ff;
+  --color-brand-cyan: #2fd4c4;
   --color-brand-blue: #3b82f6;
   --color-bg-dark: #020617;
 }
@@ -39,7 +39,7 @@
 }
 
 .glow-cyan {
-  box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
+  box-shadow: 0 0 20px rgba(47, 212, 196, 0.2);
 }
 
 .text-gradient {

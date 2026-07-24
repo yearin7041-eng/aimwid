@@ -39,7 +39,7 @@ export const SectionHeading = ({
   className?: string;
 }) => (
   <div className={`${align === "center" ? "text-center" : ""} ${className}`}>
-    <p className="text-[#00cccc] text-[20px] mb-4">{label}</p>
+    <p className="text-[#2fd4c4] text-[20px] mb-4">{label}</p>
     <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5]">{title}</h2>
     {subtitle && (
       <p
@@ -55,7 +55,7 @@ export const SectionHeading = ({
 
 // --- 1. Hero ---
 const Hero = () => (
-  <section className="relative min-h-[900px] overflow-hidden bg-[#040813]">
+  <section className="relative min-h-[820px] overflow-hidden bg-[#040813]">
     {/* Dashboard visual (right). A looping video was tried here but reverted to this still (user,
         2026-07-24) — every clip we had was watermarked, low-res with gibberish on-screen text, or 25MB
         (too heavy for a hero); the unused files were removed. The still shows the product working
@@ -80,7 +80,7 @@ const Hero = () => (
 
     <Breadcrumb />
 
-    <div className="container-custom relative z-10 pt-[200px]">
+    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -273,7 +273,7 @@ const Features = () => (
             </div>
             <div className="p-6">
               <div className="flex items-center gap-3">
-                <span className="text-[#00cccc] text-[22px] font-bold leading-none">{c.no}</span>
+                <span className="text-[#2fd4c4] text-[22px] font-bold leading-none">{c.no}</span>
                 <span className="w-px h-5 bg-white/20" />
                 <h4 className="text-white font-bold text-[18px] leading-tight">{c.title}</h4>
               </div>
@@ -315,7 +315,7 @@ const Banner = () => (
         <div className="flex flex-col lg:flex-row lg:items-start gap-10 lg:gap-12">
           {/* Lead quote */}
           <div className="lg:w-[300px] shrink-0 flex flex-col gap-2">
-            <Quote className="w-6 h-6 text-[#00cccc] fill-[#00cccc]" />
+            <Quote className="w-6 h-6 text-[#2fd4c4] fill-[#2fd4c4]" />
             <p className="text-white/85 text-[18px] leading-[1.6]">
               실시간 감지와 즉각적인 알림으로 <br /> 사고를 사전에 차단하고 운영 효율을<br /> 극대화했습니다.
             </p>
@@ -326,7 +326,7 @@ const Banner = () => (
               <div key={i} className="flex flex-col gap-2.5">
                 <div className="flex items-center gap-2.5">
                   <div className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center shrink-0">
-                    <f.icon className="w-5 h-5 text-[#00cccc]" strokeWidth={1.7} />
+                    <f.icon className="w-5 h-5 text-[#2fd4c4]" strokeWidth={1.7} />
                   </div>
                   <span className="text-white font-bold text-[16px]">{f.title}</span>
                 </div>
@@ -422,7 +422,7 @@ export const boxGrad = "bg-gradient-to-b from-[#12313d] to-[#0a1420]";
 
 const ArchArrow = () => (
   <div className="flex items-center justify-center shrink-0">
-    <ChevronRight className="w-5 h-5 text-[#00cccc]/60" />
+    <ChevronRight className="w-5 h-5 text-[#2fd4c4]/60" />
   </div>
 );
 
@@ -434,7 +434,7 @@ const Pill = ({ children }: { children: ReactNode }) => (
 
 const FlowColumn = ({ title, deviceImg, items }: { title: string; deviceImg: string; items: string[] }) => (
   <div className="flex-1 min-w-[120px] flex flex-col items-center">
-    <p className="text-[#00cccc] text-[14px] font-bold mb-3 tracking-wide shrink-0">{title}</p>
+    <p className="text-[#2fd4c4] text-[14px] font-bold mb-3 tracking-wide shrink-0">{title}</p>
     <div className={`w-full h-[64px] rounded-lg ${boxGrad} border border-white/10 flex items-center justify-center p-2 mb-4 shrink-0`}>
       <img src={asset(deviceImg)} alt={title} className="max-h-full max-w-full object-contain" />
     </div>
@@ -494,7 +494,7 @@ const TechResult = () => (
         transition={{ duration: 0.7 }}
         className="rounded-2xl border border-white/10 bg-white/[0.015] p-6 md:p-8 flex flex-col"
       >
-        <h3 className="text-[#00cccc] text-[20px] font-bold mb-8 shrink-0">AIMGUARD 시스템 아키텍처</h3>
+        <h3 className="text-[#2fd4c4] text-[20px] font-bold mb-8 shrink-0">AIMGUARD 시스템 아키텍처</h3>
 
         <div className="overflow-x-auto flex-1 flex flex-col">
           <div className="min-w-[820px] flex-1 flex flex-col">
@@ -521,8 +521,8 @@ const TechResult = () => (
               {/* Secure link */}
               <div className="flex flex-col items-center justify-center gap-2 px-1 shrink-0">
                 <span className="text-white/50 text-[11px] whitespace-nowrap">보안 통신</span>
-                <div className="w-11 h-11 rounded-full bg-white/[0.04] border border-[#00cccc]/40 flex items-center justify-center">
-                  <Lock className="w-4 h-4 text-[#00cccc]" strokeWidth={1.6} />
+                <div className="w-11 h-11 rounded-full bg-white/[0.04] border border-[#2fd4c4]/40 flex items-center justify-center">
+                  <Lock className="w-4 h-4 text-[#2fd4c4]" strokeWidth={1.6} />
                 </div>
               </div>
 
@@ -537,7 +537,7 @@ const TechResult = () => (
                   {integrations.map((c) => (
                     <div key={c.title} className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0">
-                        <c.icon className="w-4 h-4 text-[#00cccc]" strokeWidth={1.6} />
+                        <c.icon className="w-4 h-4 text-[#2fd4c4]" strokeWidth={1.6} />
                       </div>
                       <div>
                         <p className="text-white text-[13px] font-semibold leading-tight">{c.title}</p>
@@ -551,7 +551,7 @@ const TechResult = () => (
 
             {/* Bottom security bar */}
             <div className={`mt-6 shrink-0 rounded-xl ${boxGrad} border border-white/10 py-3.5 flex items-center justify-center gap-3`}>
-              <Lock className="w-4 h-4 text-[#00cccc]" strokeWidth={1.6} />
+              <Lock className="w-4 h-4 text-[#2fd4c4]" strokeWidth={1.6} />
               <span className="text-white/75 text-[16px]">데이터 암호화 (TLS/SSL)</span>
               <span className="text-white/25">·</span>
               <span className="text-white/75 text-[16px]">접근 제어</span>
@@ -577,8 +577,8 @@ export const MiniChart = ({ data, gradId }: { data: number[]; gradId: string }) 
     <svg viewBox="0 0 240 104" className="w-full h-auto mt-3" role="img">
       <defs>
         <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#00cccc" stopOpacity="0.32" />
-          <stop offset="100%" stopColor="#00cccc" stopOpacity="0" />
+          <stop offset="0%" stopColor="#2fd4c4" stopOpacity="0.32" />
+          <stop offset="100%" stopColor="#2fd4c4" stopOpacity="0" />
         </linearGradient>
       </defs>
       {[0, 50, 100].map((g) => (
@@ -643,8 +643,8 @@ const ImpactResult = () => (
           >
             {/* icon + metric grouped on the left */}
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#00cccc]/[0.08] border border-[#00cccc]/25 flex items-center justify-center shrink-0 shadow-[0_0_18px_-6px_rgba(0,204,204,0.6)]">
-                <s.icon className="w-[22px] h-[22px] text-[#00cccc]" strokeWidth={1.7} />
+              <div className="w-12 h-12 rounded-full bg-[#2fd4c4]/[0.08] border border-[#2fd4c4]/25 flex items-center justify-center shrink-0 shadow-[0_0_18px_-6px_rgba(47,212,196,0.6)]">
+                <s.icon className="w-[22px] h-[22px] text-[#2fd4c4]" strokeWidth={1.7} />
               </div>
               <div className="flex flex-col">
                 <span className="text-white/70 text-[14px] font-medium">{s.label}</span>
@@ -673,7 +673,7 @@ const ImpactResult = () => (
 const CTA = () => (
   <section className="py-20 bg-[#020617]">
     <div className="container-custom">
-      <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#00cccc]/25 bg-gradient-to-b from-[#08131c] to-[#04090f] shadow-[0_0_50px_rgba(0,204,204,0.07)]">
+      <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#2fd4c4]/25 bg-gradient-to-b from-[#08131c] to-[#04090f] shadow-[0_0_50px_rgba(47,212,196,0.07)]">
         {/* Particle graphic (left) */}
         <img
           src={asset("aimguard_cta_particle.png")}
@@ -701,21 +701,27 @@ const CTA = () => (
         >
           <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3]">
             <span className="text-white">현장의 안전, </span>
-            <span className="text-[#00cccc]">지금 바로 시작하세요</span>
+            <span className="text-[#2fd4c4]">지금 바로 시작하세요</span>
           </h2>
           <p className="text-white/70 text-[15px] md:text-[18px] mt-3">
             전문가와 상담하고 AIMGUARD 데모를 통해 직접 경험해 보세요.
           </p>
           <div className="flex flex-wrap justify-center gap-5 mt-7">
-            <button
-              className="h-[54px] w-[232px] rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
+            <Link
+              to="/contact"
+              onClick={() => window.scrollTo(0, 0)}
+              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
               style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }}
             >
               데모 요청
-            </button>
-            <button className="h-[54px] w-[232px] rounded-[8px] border border-[#00cccc] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all">
+            </Link>
+            <Link
+              to="/contact"
+              onClick={() => window.scrollTo(0, 0)}
+              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+            >
               문의하기
-            </button>
+            </Link>
           </div>
         </motion.div>
       </div>
