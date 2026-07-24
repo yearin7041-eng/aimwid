@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumb";
@@ -23,11 +23,11 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
 // Shared CTA button pair (도입 상담 신청 / 소개서 다운로드)
 const ActionButtons = () => (
-  <div className="flex flex-wrap gap-5">
+  <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-5">
     <Link
       to="/contact"
       onClick={() => window.scrollTo(0, 0)}
-      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
+      className="flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[16px] sm:text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
       style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }}
     >
       도입 상담 신청
@@ -35,7 +35,7 @@ const ActionButtons = () => (
     <a
       href={asset("aimwid_brochure.pdf")}
       download="2026_AIMWID_회사소개서.pdf"
-      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+      className="flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[16px] sm:text-[18px] font-bold hover:bg-white/30 transition-all"
     >
       회사소개서 다운로드
     </a>
@@ -44,12 +44,18 @@ const ActionButtons = () => (
 
 // --- 1. Hero ---
 const Hero = () => (
-  <section className="relative min-h-[820px] overflow-hidden bg-[#040813]">
-    {/* Ecosystem loop video — placed in the right area (not full-bleed). The clip's rings bleed off
-        its edges, so each edge fades into the hero background to hide the crop. Poster = still image
-        until the video loads. */}
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 h-[62%] aspect-video">
+  <section className="relative overflow-hidden bg-[#040813] lg:min-h-[820px]">
+    {/* Header → hero color bridge */}
+    <div className="absolute top-0 inset-x-0 h-[200px] bg-gradient-to-b from-[#020617] via-[#020617]/70 to-transparent pointer-events-none z-[1]" />
+
+    <Breadcrumb />
+
+    {/* Ecosystem loop video. On mobile it stacks ABOVE the copy as an in-flow block — overlaying the
+        headline made the rings clash with the text and read as busy (user, 2026-07-24); from lg up it
+        returns to the absolute right-side overlay. ONE <video>, only its position switches at lg, so the
+        clip is never downloaded twice. The rings bleed off the clip's edges, so each edge fades to bg. */}
+    <div className="relative pt-[104px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none overflow-hidden">
+      <div className="relative mx-auto aspect-video w-[86%] max-w-[420px] lg:absolute lg:right-0 lg:top-1/2 lg:mx-0 lg:h-[62%] lg:w-auto lg:max-w-none lg:-translate-y-1/2">
         <video
           autoPlay
           loop
@@ -64,18 +70,15 @@ const Hero = () => (
         <div className="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-[#040813] to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-[28%] bg-gradient-to-t from-[#040813] to-transparent" />
         <div className="absolute inset-y-0 left-0 w-[26%] bg-gradient-to-r from-[#040813] to-transparent" />
+        {/* right edge only needs fading on mobile, where the clip is centred rather than pinned off-screen */}
+        <div className="absolute inset-y-0 right-0 w-[26%] bg-gradient-to-l from-[#040813] to-transparent lg:hidden" />
       </div>
 
-      {/* left → right darkening so the headline stays readable */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-20% via-[#040813]/45 via-40% to-transparent to-56%" />
+      {/* left → right darkening so the headline stays readable — desktop only (mobile stacks, no overlap) */}
+      <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#040813] from-20% via-[#040813]/45 via-40% to-transparent to-56%" />
     </div>
 
-    {/* Header → hero color bridge */}
-    <div className="absolute top-0 inset-x-0 h-[200px] bg-gradient-to-b from-[#020617] via-[#020617]/70 to-transparent pointer-events-none z-[1]" />
-
-    <Breadcrumb />
-
-    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
+    <div className="container-custom relative z-10 pt-8 lg:pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -83,12 +86,12 @@ const Hero = () => (
         className="max-w-[714px] flex flex-col"
       >
         {/* margins, not a column gap — the label sits closer to the title (16px) than the title does to the body (28px) */}
-        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-4">데이터 연동부터 통합관제까지,</p>
-        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7">
+        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-4">데이터 연동부터 통합관제까지,</p>
+        <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7 break-keep">
           엔터프라이즈를 위한 <br />
           단 하나의 화이트 라벨 <br /> AI 빌더
         </h1>
-        <p className="text-white text-[18px] font-normal leading-[1.5] mb-[74px]">
+        <p className="text-white text-[16px] md:text-[18px] font-normal leading-[1.5] mb-[74px]">
           6개월이 걸리던 복잡한 프로젝트를 단 2개월 만에.<br />
           AI 에이전트와 함께 코딩 없이 조립하고,<br />
           완벽한 자사 브랜드 플랫폼으로 커스터마이징 하십시오.
@@ -295,7 +298,7 @@ const Problem = () => (
         className="mb-16"
       />
 
-      <div className="flex flex-wrap justify-center gap-10 items-stretch">
+      <div className="flex flex-wrap justify-center gap-6 sm:gap-10 items-stretch">
         {legacyCards.map((c, i) => (
           <motion.div
             key={i}
@@ -328,7 +331,7 @@ const Problem = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.24, duration: 0.5 }}
-          className="flex-1 min-w-[350px] rounded-2xl bg-[#103d48] border-2 border-[#2fd4c4] overflow-hidden flex flex-col shadow-[0_0_40px_rgba(47,212,196,0.25)]"
+          className="flex-1 min-w-0 sm:min-w-[350px] rounded-2xl bg-[#103d48] border-2 border-[#2fd4c4] overflow-hidden flex flex-col shadow-[0_0_40px_rgba(47,212,196,0.25)]"
         >
           <div className="h-[60px] bg-[#2fd4c4] flex items-center justify-center">
             <span className="text-[#000028] font-bold text-[22px]">AIMNIS</span>
@@ -452,8 +455,22 @@ const bannerFeatures = [
 
 const Banner = () => (
   <section className="relative min-h-[800px] overflow-hidden bg-[#020617]">
-    <img src={asset("aimnis_banner_bg.png")} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60" />
-    <div className="absolute inset-0 bg-[#020617]/50" />
+    {/* Scene sits in the LOWER part of the section (bottom-anchored, 76% tall) so the intro heading up top
+        rests on clean #020617 instead of over the image's bright grid lines (user, 2026-07-24). A top mask
+        fades the image in so its upper edge blends into the dark ground rather than cutting a hard line.
+        On mobile it is blurred + low-contrast rather than uniformly darkened: that softens the bright grid
+        LINES specifically (they read through the small feature text) while keeping the scene's overall tone,
+        where cranking the dark overlay just killed the whole image (user, 2026-07-24). */}
+    <img
+      src={asset("aimnis_banner_bg.png")}
+      alt=""
+      className="absolute inset-x-0 bottom-0 h-[76%] w-full object-cover opacity-60 blur-[1px] contrast-[.75] lg:blur-0 lg:contrast-100"
+      style={{
+        maskImage: "linear-gradient(to bottom, transparent 0%, #000 14%)",
+        WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, #000 14%)",
+      }}
+    />
+    <div className="absolute inset-0 bg-[#020617]/55 lg:bg-[#020617]/50" />
 
     <div className="relative z-10 flex flex-col min-h-[800px]">
       <motion.div
@@ -470,16 +487,16 @@ const Banner = () => (
               코딩 없는 조립과 완벽한 화이트 라벨링으로 복잡한 SI를 단 2개월 만에 자사 플랫폼으로 완성했습니다.
             </p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 flex-1">
             {bannerFeatures.map((f, i) => (
               <div key={i} className="flex flex-col gap-2.5">
                 <div className="flex items-center gap-2.5">
                   <div className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center shrink-0">
                     <f.icon className="w-5 h-5 text-[#2fd4c4]" strokeWidth={1.7} />
                   </div>
-                  <span className="text-white font-bold text-[16px]">{f.title}</span>
+                  <span className="text-white font-bold text-[16px] break-keep">{f.title}</span>
                 </div>
-                <p className="text-white/55 text-[14px] leading-[1.6]">{f.desc}</p>
+                <p className="text-white/55 text-[14px] leading-[1.6] break-keep">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -491,7 +508,7 @@ const Banner = () => (
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="flex-1 flex items-center justify-center px-6 pb-16"
+        className="flex-1 flex items-center justify-center px-6 pt-16 pb-16 lg:pt-0"
       >
         <img src={asset("aimnis_logo.png")} alt="AIMNIS" className="w-[476px] max-w-[80vw] h-auto" />
       </motion.div>
@@ -513,7 +530,7 @@ const Solutions = () => (
         <SectionHeading
           label="Solutions"
           title="멀티 테넌트 보안과 엔터프라이즈 통합으로 완성하는 자사 브랜드 플랫폼"
-          subtitle={<span className="whitespace-nowrap">복잡한 SI 프로젝트를 2개월 만에, 코딩 없이 조립하고, 완벽한 자사 브랜드 플랫폼으로 커스터마이징 하십시오.</span>}
+          subtitle={<span className="md:whitespace-nowrap">복잡한 SI 프로젝트를 2개월 만에, 코딩 없이 조립하고, 완벽한 자사 브랜드 플랫폼으로 커스터마이징 하십시오.</span>}
         />
       </motion.div>
 
@@ -752,6 +769,23 @@ const TierGraphic = ({ i, lifted }: { i: number; lifted: boolean }) => {
 
 const Architecture = () => {
   const [active, setActive] = useState(0);
+  // Below lg the hover-driven tier interaction has no touch equivalent AND the tower sits above the cards,
+  // so a tap's effect would be off-screen (user, 2026-07-24). There we DECOUPLE: the tower auto-cycles as a
+  // living decorative graphic, and every card renders lit (see `lifted` below) so all four read as equal,
+  // self-contained content instead of one cyan + three dimmed. Desktop keeps the original hover behaviour.
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const apply = () => setIsTouch(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+  useEffect(() => {
+    if (!isTouch) return;
+    const id = setInterval(() => setActive((a) => (a + 1) % tiers.length), 2800);
+    return () => clearInterval(id);
+  }, [isTouch]);
   return (
   <section className="py-24 bg-[#020617]">
     <div className="container-custom">
@@ -764,7 +798,7 @@ const Architecture = () => {
         <SectionHeading
           label="Architecture"
           title="확장에 한계가 없는 엔터프라이즈 모듈형 생태계"
-          subtitle={<span className="whitespace-nowrap">프론트엔드부터 AI 인프라까지, 4개 계층이 독립적으로 동작하며 필요한 만큼 확장하는 모듈형 아키텍처입니다.</span>}
+          subtitle={<span className="md:whitespace-nowrap">프론트엔드부터 AI 인프라까지, 4개 계층이 독립적으로 동작하며 필요한 만큼 확장하는 모듈형 아키텍처입니다.</span>}
         />
       </motion.div>
 
@@ -813,7 +847,7 @@ const Architecture = () => {
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.12, duration: 0.6 }}
                         onMouseEnter={() => setActive(i)}
-                        className="absolute inset-0 rounded-[24px] border cursor-pointer transition-[transform,box-shadow,border-color] duration-300"
+                        className="absolute inset-0 rounded-[24px] border cursor-pointer transition-[transform,box-shadow,border-color] duration-900 ease-[cubic-bezier(0.22,1,0.36,1)] lg:duration-300 lg:ease-out"
                         style={{
                           transform: `translateZ(${z}px)`,
                           borderColor: lifted ? "rgba(47,212,196,0.9)" : "rgba(148,163,184,0.28)",
@@ -858,10 +892,11 @@ const Architecture = () => {
             </div>
           </div>
 
-          {/* RIGHT — upright layer details (hover-synced) */}
+          {/* RIGHT — upright layer details. Hover-synced on desktop; on touch every card is lit (isTouch)
+              so all four read equally rather than one cyan + three dimmed (user, 2026-07-24). */}
           <div className="flex flex-col gap-3">
             {tiers.map((t, i) => {
-              const lifted = active === i;
+              const lifted = isTouch || active === i;
               return (
                 <div
                   key={i}
