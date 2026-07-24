@@ -1230,15 +1230,21 @@ const CTA = () => (
           </p>
 
           <div className="flex flex-wrap gap-5 justify-center mt-7">
-            <button
-              className="h-[54px] w-[232px] rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
+            <Link
+              to="/contact"
+              onClick={() => window.scrollTo(0, 0)}
+              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
               style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }}
             >
               프로젝트 문의
-            </button>
-            <button className="h-[54px] w-[232px] rounded-[8px] border border-[#00cccc] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all">
+            </Link>
+            <a
+              href={asset("aimwid_brochure.pdf")}
+              download="2026_AIMWID_회사소개서.pdf"
+              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#00cccc] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+            >
               회사소개서 다운로드
-            </button>
+            </a>
           </div>
         </motion.div>
       </div>

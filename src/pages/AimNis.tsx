@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumb";
 import {
   ArrowRight,
@@ -23,15 +24,21 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 // Shared CTA button pair (도입 상담 신청 / 소개서 다운로드)
 const ActionButtons = () => (
   <div className="flex flex-wrap gap-5">
-    <button
-      className="h-[54px] w-[232px] rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
+    <Link
+      to="/contact"
+      onClick={() => window.scrollTo(0, 0)}
+      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
       style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }}
     >
       도입 상담 신청
-    </button>
-    <button className="h-[54px] w-[232px] rounded-[8px] border border-[#00cccc] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all">
-      소개서 다운로드
-    </button>
+    </Link>
+    <a
+      href={asset("aimwid_brochure.pdf")}
+      download="2026_AIMWID_회사소개서.pdf"
+      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#00cccc] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+    >
+      회사소개서 다운로드
+    </a>
   </div>
 );
 
@@ -331,7 +338,7 @@ const Problem = () => (
             <div className="flex justify-center my-8">
               <AimnisEmblem />
             </div>
-            <div className="text-white text-[16px] leading-[1.9] text-left mt-auto space-y-1">
+            <div className="text-white text-[16px] leading-[1.9] text-left mt-auto space-y-1 w-fit mx-auto">
               {aimnisPoints.map((p, j) => (
                 <p key={j}>
                   <span className="text-[#00cccc] font-bold">✓ {p.k} :</span> {p.v}
