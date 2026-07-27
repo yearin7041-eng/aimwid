@@ -288,7 +288,7 @@ const AimnisEmblem = () => (
 );
 
 const Problem = () => (
-  <section className="py-24 bg-[#020617]">
+  <section className="py-[86px] lg:py-24 bg-[#020617]">
     <div className="container-custom">
       <SectionHeading
         label="Problem"
@@ -387,7 +387,7 @@ const featureValues = [
 ];
 
 const Features = () => (
-  <section className="py-24 bg-[#020617]">
+  <section className="py-[86px] lg:py-24 bg-[#020617]">
     <div className="container-custom">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -518,7 +518,7 @@ const Banner = () => (
 
 // --- 5. Solutions ---
 const Solutions = () => (
-  <section className="py-24 bg-[#050914]">
+  <section className="py-[86px] lg:py-24 bg-[#050914]">
     <div className="container-custom">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -787,7 +787,7 @@ const Architecture = () => {
     return () => clearInterval(id);
   }, [isTouch]);
   return (
-  <section className="py-24 bg-[#020617]">
+  <section className="py-[86px] lg:py-24 bg-[#020617]">
     <div className="container-custom">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -965,7 +965,7 @@ const stats = [
 ];
 
 const ImpactResult = () => (
-  <section className="py-24 bg-[#020617]">
+  <section className="py-[86px] lg:py-24 bg-[#020617]">
     <div className="container-custom">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -980,7 +980,7 @@ const ImpactResult = () => (
         />
       </motion.div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-16">
         {stats.map((s, i) => (
           <motion.div
             key={s.id}
@@ -988,23 +988,26 @@ const ImpactResult = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.08, duration: 0.5 }}
-            className={`rounded-2xl ${boxGrad} border border-white/10 p-6 flex flex-col`}
+            className={`rounded-2xl ${boxGrad} border border-white/10 p-4 lg:p-6 flex flex-col`}
           >
-            {/* icon + metric grouped on the left */}
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#2fd4c4]/[0.08] border border-[#2fd4c4]/25 flex items-center justify-center shrink-0 shadow-[0_0_18px_-6px_rgba(47,212,196,0.6)]">
-                <s.icon className="w-[22px] h-[22px] text-[#2fd4c4]" strokeWidth={1.7} />
+            {/* icon + metric. Stacks vertically on the narrow 2-col mobile card so the label and the
+                40px number get the card's full width — side-by-side there left only ~39px for the text
+                and both spilled outside the card (user, 2026-07-27). Desktop (4-col, wide) keeps the
+                original icon-left row. */}
+            <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#2fd4c4]/[0.08] border border-[#2fd4c4]/25 flex items-center justify-center shrink-0 shadow-[0_0_18px_-6px_rgba(47,212,196,0.6)]">
+                <s.icon className="w-5 h-5 sm:w-[22px] sm:h-[22px] text-[#2fd4c4]" strokeWidth={1.7} />
               </div>
-              <div className="flex flex-col">
-                <span className="text-white/70 text-[14px] font-medium">{s.label}</span>
-                <div className="flex items-end gap-1.5 mt-2">
-                  <span className="text-[40px] font-bold text-brand-cyan leading-none tracking-tight">{s.value}%</span>
+              <div className="flex flex-col min-w-0">
+                <span className="text-white/70 text-[14px] font-medium break-keep">{s.label}</span>
+                <div className="flex items-end gap-1 sm:gap-1.5 mt-1.5 sm:mt-2">
+                  <span className="text-[30px] sm:text-[40px] font-bold text-brand-cyan leading-none tracking-tight">{s.value}%</span>
                   {s.up ? (
-                    <ArrowUp className="w-6 h-6 text-brand-cyan mb-1" strokeWidth={3} />
+                    <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6 text-brand-cyan mb-0.5 sm:mb-1" strokeWidth={3} />
                   ) : (
-                    <ArrowDown className="w-6 h-6 text-brand-cyan mb-1" strokeWidth={3} />
+                    <ArrowDown className="w-5 h-5 sm:w-6 sm:h-6 text-brand-cyan mb-0.5 sm:mb-1" strokeWidth={3} />
                   )}
-                  <span className="text-white/50 text-[13px] mb-1.5">{s.unit}</span>
+                  <span className="text-white/50 text-[12px] sm:text-[13px] mb-1 sm:mb-1.5 whitespace-nowrap">{s.unit}</span>
                 </div>
               </div>
             </div>
@@ -1020,14 +1023,18 @@ const ImpactResult = () => (
 
 // --- 8. CTA ---
 const CTA = () => (
-  <section className="py-20 bg-[#020617]">
+  <section className="py-[50px] md:py-20 bg-[#020617]">
     <div className="container-custom">
       <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#2fd4c4]/25 bg-[#04090f]">
+        {/* The graphic has marketing copy baked into its TOP edge. On desktop the wide-short banner makes
+            object-cover crop top+bottom off, so that text never shows. On the portrait mobile banner the
+            full image height is visible, exposing the text — so there we scale the image up from centre,
+            pushing the top text band out past overflow-hidden (user, 2026-07-27). Desktop keeps 1:1. */}
         <img
           src={asset("aimnis_cta_graphic.png")}
           alt=""
           aria-hidden
-          className="absolute inset-0 w-full h-full object-cover opacity-90 pointer-events-none select-none"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-90 pointer-events-none select-none scale-[1.25] lg:scale-100"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#020617]/70 via-[#020617]/40 to-[#020617]/80" />
 
@@ -1036,16 +1043,16 @@ const CTA = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative z-10 flex flex-col items-center text-center px-6 py-[68px]"
+          className="relative z-10 flex flex-col items-center text-center px-6 py-14 md:py-[68px]"
         >
-          <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+          <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] break-keep text-balance">
             <span className="text-white">현장에 최적화된 에임니스, </span>
             <span className="text-[#2fd4c4]">지금 바로 시작하세요</span>
           </h2>
-          <p className="text-white/70 text-[15px] md:text-[18px] mt-3">
+          <p className="text-white/70 text-[15px] md:text-[18px] mt-3 break-keep text-balance">
             전문가와 상담하고 에임니스를 직접 경험해 보세요.
           </p>
-          <div className="mt-7">
+          <div className="mt-7 w-full sm:w-auto">
             <ActionButtons />
           </div>
         </motion.div>

@@ -6,7 +6,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import popup from "../content/popup.json";
 import { nl2br } from "../lib/text";
 
@@ -28,8 +28,13 @@ const STORAGE_KEY = "aimwid_popup_hidden_until_v2";
 const SitePopup = () => {
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
+  // Home only (user, 2026-07-27): the notice is a landing greeting, so it must not fire on /aimnis,
+  // /solution, etc. Mounted once at the app root, this component does not remount on navigation, so the
+  // effect below re-runs on pathname change and only opens when the home route ("/") is active.
+  const { pathname } = useLocation();
 
   useEffect(() => {
+    if (pathname !== "/") return;
     let hiddenUntil = 0;
     try {
       hiddenUntil = Number(localStorage.getItem(STORAGE_KEY) || 0);
@@ -40,7 +45,7 @@ const SitePopup = () => {
     // Small delay so the landing page paints first and the popup reads as arriving, not blocking.
     const t = setTimeout(() => setOpen(true), 700);
     return () => clearTimeout(t);
-  }, []);
+  }, [pathname]);
 
   // While open: lock page scroll and let Escape close it.
   useEffect(() => {
