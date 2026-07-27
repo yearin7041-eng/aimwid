@@ -40,10 +40,10 @@ export const SectionHeading = ({
 }) => (
   <div className={`${align === "center" ? "text-center" : ""} ${className}`}>
     <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2] mb-4">{label}</p>
-    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
+    <h2 className="text-[24px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
     {subtitle && (
       <p
-        className={`text-white/70 text-[18px] md:text-[20px] font-normal leading-[1.5] mt-3 ${
+        className={`text-white/70 text-[16px] md:text-[20px] font-normal leading-[1.5] mt-3 ${
           align === "center" ? "mx-auto" : "max-w-[900px]"
         }`}
       >
@@ -55,32 +55,31 @@ export const SectionHeading = ({
 
 // --- 1. Hero ---
 const Hero = () => (
-  <section className="relative min-h-[820px] overflow-hidden bg-[#040813]">
-    {/* Dashboard visual (right). A looping video was tried here but reverted to this still (user,
-        2026-07-24) — every clip we had was watermarked, low-res with gibberish on-screen text, or 25MB
-        (too heavy for a hero); the unused files were removed. The still shows the product working
-        (detection boxes, four live channels, event stats) with legible Korean UI.
-        NOTE: aimguard_hero_main.png (the previous still) is still used by Business.tsx — do not delete. */}
-    <div className="absolute inset-0 pointer-events-none">
-      <img
-        src={asset("aimguard_hero_main.webp")}
-        alt="AIM GUARD Dashboard"
-        className="absolute inset-y-0 right-0 h-full w-auto max-w-none object-cover object-right"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/40 via-30% to-transparent to-50%" />
-    </div>
-
+  <section className="relative overflow-hidden bg-[#040813] lg:min-h-[820px]">
     {/* Header → hero color bridge (smooth transition from navbar) */}
     <div className="absolute top-0 inset-x-0 h-[200px] bg-gradient-to-b from-[#020617] via-[#020617]/70 to-transparent pointer-events-none z-[1]" />
 
-    {/* Hero → Problem bridge: the dashboard image used to cut off hard at the section edge. This fades the
-        hero's bottom into #020617 — the base colour the Problem section starts from — so the two blend
-        rather than showing a seam (user, 2026-07-22). Pairs with the Problem section's top fade-in. */}
+    {/* Hero → Problem bridge: fades the hero's bottom into #020617 — the base colour the Problem section
+        starts from — so the two blend rather than showing a seam (user, 2026-07-22). */}
     <div className="absolute inset-x-0 bottom-0 h-[240px] bg-gradient-to-b from-transparent to-[#020617] pointer-events-none z-[1]" />
 
     <Breadcrumb />
 
-    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
+    {/* Dashboard visual. On mobile it stacks as an in-flow block above the copy so the headline sits on
+        clean dark instead of over the busy dashboard — matching the AIMNIS hero (user, 2026-07-27); from
+        lg it returns to the absolute right-side background overlay. Same <img>, only positioning switches.
+        NOTE: aimguard_hero_main.png (the previous still) is still used by Business.tsx — do not delete. */}
+    <div className="relative pt-[104px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none">
+      <img
+        src={asset("aimguard_hero_main.webp")}
+        alt="AIM GUARD Dashboard"
+        className="mx-auto block w-[90%] max-w-[460px] h-auto rounded-xl lg:mx-0 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-auto lg:max-w-none lg:rounded-none lg:object-cover lg:object-right"
+      />
+      {/* left → right darkening so the headline stays readable — desktop only (mobile stacks, no overlap) */}
+      <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/40 via-30% to-transparent to-50%" />
+    </div>
+
+    <div className="container-custom relative z-10 pt-8 lg:pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -88,15 +87,15 @@ const Hero = () => (
         className="max-w-[714px] flex flex-col"
       >
         {/* margins, not a column gap — the label sits closer to the title (16px) than the title block does to the body (28px) */}
-        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-4">AI가 위험을 감지하기 전에 대응합니다</p>
+        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-4">AI가 위험을 감지하기 전에 대응합니다</p>
         <div className="flex flex-col gap-6 mb-7">
-          <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
+          <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] break-keep">
             산업 현장의 안전을 지키는<br />
             AI 영상 분석 솔루션
           </h1>
-          <img src={asset("aimguard_logo_bi.png")} alt="AIM GUARD" className="w-[488px] max-w-full h-auto" />
+          <img src={asset("aimguard_logo_bi.png")} alt="AIM GUARD" className="w-[488px] max-w-[80%] lg:max-w-full h-auto" />
         </div>
-        <p className="text-white text-[18px] font-normal leading-[1.5] mb-[74px]">
+        <p className="text-white text-[16px] md:text-[18px] font-normal leading-[1.5] mb-10 lg:mb-[74px]">
           실시간 영상 분석과 지능형 알림으로<br />
           사고를 사전에 예측하고 대응하여 안전한 현장을 만듭니다.
         </p>
@@ -105,10 +104,10 @@ const Hero = () => (
             user dropped the second and renamed the first to 라이선스 발급 on 2026-07-20. The wrapper
             keeps flex/gap so a second button can be dropped back in without re-deriving the layout.
             It is a Link, not a button — it navigates to the licence-issue page (Figma 486:118). */}
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-5">
           <Link
             to="/aimguard/license"
-            className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
+            className="flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[16px] sm:text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
             style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }}
           >
             라이선스 발급
@@ -125,28 +124,28 @@ const problems = [
     icon: "aimguard_prob_ico1.svg",
     title: "사고는 발생 후에야 인지됩니다.",
     desc: (
-      <>모니터링 한계로 인해 위험 상황을<br />실시간으로 파악하기 어렵습니다.</>
+      <>모니터링 한계로 인해 위험 상황을<br className="hidden lg:block" />실시간으로 파악하기 어렵습니다.</>
     ),
   },
   {
     icon: "aimguard_prob_ico2.svg",
     title: "야간/악천후 환경에서 감지 한계",
     desc: (
-      <>어둡거나 비,눈, 안개 등 환경 요인으로<br />정확한 영상 분석이 어렵습니다.</>
+      <>어둡거나 비,눈, 안개 등 환경 요인으로<br className="hidden lg:block" />정확한 영상 분석이 어렵습니다.</>
     ),
   },
   {
     icon: "aimguard_prob_ico3.svg",
     title: "24시간 모니터링은 현실적으로 불가능",
     desc: (
-      <>인력 운영의 한계로 인해 지속적인<br />모니터링과 집중력 유지가 어렵습니다.</>
+      <>인력 운영의 한계로 인해 지속적인<br className="hidden lg:block" />모니터링과 집중력 유지가 어렵습니다.</>
     ),
   },
   {
     icon: "aimguard_prob_ico4.svg",
     title: "데이터는 있지만 대응은 느립니다.",
     desc: (
-      <>위험 상황 발생 후 수동 확인 및 보고체계로<br />신속한 대응이 이루어지지 않습니다.</>
+      <>위험 상황 발생 후 수동 확인 및 보고체계로<br className="hidden lg:block" />신속한 대응이 이루어지지 않습니다.</>
     ),
   },
 ];
@@ -164,7 +163,7 @@ const Problem = () => (
     <div className="absolute inset-x-0 top-0 h-[240px] bg-gradient-to-b from-[#020617] to-transparent pointer-events-none" />
 
     <div className="container-custom relative z-10">
-      <SectionHeading label="Problem" title="기존 솔루션으로는 사고를 막을 수 없습니다" align="center" className="mb-20" />
+      <SectionHeading label="Problem" title="기존 솔루션으로는 사고를 막을 수 없습니다" align="center" className="mb-10 lg:mb-20" />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
         {problems.map((p, i) => (
@@ -177,10 +176,10 @@ const Problem = () => (
             className="flex flex-col items-center text-center"
           >
             <img src={asset(p.icon)} alt="" className="w-[130px] h-[130px] mb-8" />
-            <h3 className="text-[20px] md:text-[24px] font-bold text-white mb-3 tracking-tight leading-[1.3]">
+            <h3 className="text-[18px] md:text-[24px] font-bold text-white mb-3 tracking-tight leading-[1.3] break-keep">
               {p.title}
             </h3>
-            <p className="text-white/70 text-[16px] font-normal leading-[1.6]">{p.desc}</p>
+            <p className="text-white/70 text-[14px] md:text-[16px] font-normal leading-[1.6] break-keep">{p.desc}</p>
           </motion.div>
         ))}
       </div>
@@ -321,16 +320,16 @@ const Banner = () => (
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 flex-1">
             {bannerFeatures.map((f, i) => (
               <div key={i} className="flex flex-col gap-2.5">
                 <div className="flex items-center gap-2.5">
                   <div className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center shrink-0">
                     <f.icon className="w-5 h-5 text-[#2fd4c4]" strokeWidth={1.7} />
                   </div>
-                  <span className="text-white font-bold text-[16px]">{f.title}</span>
+                  <span className="text-white font-bold text-[16px] break-keep">{f.title}</span>
                 </div>
-                <p className="text-white/55 text-[14px] leading-[1.6]">{f.desc}</p>
+                <p className="text-white/55 text-[14px] leading-[1.6] break-keep">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -343,7 +342,7 @@ const Banner = () => (
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="flex-1 flex items-center justify-center px-6 pb-16"
+        className="flex-1 flex items-center justify-center px-6 pt-16 pb-16 lg:pt-0"
       >
         <img src={asset("aimguard_logo_bi.png")} alt="AIM GUARD" className="w-[668px] max-w-[85vw] h-auto" />
       </motion.div>
@@ -450,7 +449,7 @@ const TechResult = () => (
   <section className="py-24 bg-[#020617]">
     <div className="container-custom grid lg:grid-cols-[minmax(0,500px)_1fr] gap-12 items-stretch">
       {/* Left: heading + feature grid */}
-      <div>
+      <div className="min-w-0">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -464,7 +463,7 @@ const TechResult = () => (
           />
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-x-8 gap-y-10 mt-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10 mt-14">
           {techFeatures.map((f, i) => (
             <motion.div
               key={i}
@@ -492,7 +491,7 @@ const TechResult = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="rounded-2xl border border-white/10 bg-white/[0.015] p-6 md:p-8 flex flex-col"
+        className="min-w-0 rounded-2xl border border-white/10 bg-white/[0.015] p-6 md:p-8 flex flex-col"
       >
         <h3 className="text-[#2fd4c4] text-[20px] font-bold mb-8 shrink-0">AIMGUARD 시스템 아키텍처</h3>
 
@@ -631,7 +630,7 @@ const ImpactResult = () => (
         />
       </motion.div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-16">
         {stats.map((s, i) => (
           <motion.div
             key={s.id}
@@ -639,23 +638,25 @@ const ImpactResult = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.08, duration: 0.5 }}
-            className={`rounded-2xl ${boxGrad} border border-white/10 p-6 flex flex-col`}
+            className={`rounded-2xl ${boxGrad} border border-white/10 p-4 lg:p-6 flex flex-col`}
           >
-            {/* icon + metric grouped on the left */}
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#2fd4c4]/[0.08] border border-[#2fd4c4]/25 flex items-center justify-center shrink-0 shadow-[0_0_18px_-6px_rgba(47,212,196,0.6)]">
-                <s.icon className="w-[22px] h-[22px] text-[#2fd4c4]" strokeWidth={1.7} />
+            {/* icon + metric. Stacks vertically on the narrow 2-col mobile card so the label and the 40px
+                number get the card's full width — side-by-side they spilled outside the card (user,
+                2026-07-27). Desktop (4-col, wide) keeps the original icon-left row. Mirrors AimNis. */}
+            <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#2fd4c4]/[0.08] border border-[#2fd4c4]/25 flex items-center justify-center shrink-0 shadow-[0_0_18px_-6px_rgba(47,212,196,0.6)]">
+                <s.icon className="w-5 h-5 sm:w-[22px] sm:h-[22px] text-[#2fd4c4]" strokeWidth={1.7} />
               </div>
-              <div className="flex flex-col">
-                <span className="text-white/70 text-[14px] font-medium">{s.label}</span>
-                <div className="flex items-end gap-1.5 mt-2">
-                  <span className="text-[40px] font-bold text-brand-cyan leading-none tracking-tight">{s.value}%</span>
+              <div className="flex flex-col min-w-0">
+                <span className="text-white/70 text-[14px] font-medium break-keep">{s.label}</span>
+                <div className="flex items-end gap-1 sm:gap-1.5 mt-1.5 sm:mt-2">
+                  <span className="text-[30px] sm:text-[40px] font-bold text-brand-cyan leading-none tracking-tight">{s.value}%</span>
                   {s.up ? (
-                    <ArrowUp className="w-6 h-6 text-brand-cyan mb-1" strokeWidth={3} />
+                    <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6 text-brand-cyan mb-0.5 sm:mb-1" strokeWidth={3} />
                   ) : (
-                    <ArrowDown className="w-6 h-6 text-brand-cyan mb-1" strokeWidth={3} />
+                    <ArrowDown className="w-5 h-5 sm:w-6 sm:h-6 text-brand-cyan mb-0.5 sm:mb-1" strokeWidth={3} />
                   )}
-                  <span className="text-white/50 text-[13px] mb-1.5">{s.unit}</span>
+                  <span className="text-white/50 text-[12px] sm:text-[13px] mb-1 sm:mb-1.5 whitespace-nowrap">{s.unit}</span>
                 </div>
               </div>
             </div>
@@ -699,18 +700,18 @@ const CTA = () => (
           transition={{ duration: 0.6 }}
           className="relative z-10 flex flex-col items-center text-center px-6 py-[68px]"
         >
-          <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3]">
+          <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] break-keep text-balance">
             <span className="text-white">현장의 안전, </span>
             <span className="text-[#2fd4c4]">지금 바로 시작하세요</span>
           </h2>
-          <p className="text-white/70 text-[15px] md:text-[18px] mt-3">
+          <p className="text-white/70 text-[15px] md:text-[18px] mt-3 break-keep text-balance">
             전문가와 상담하고 AIMGUARD 데모를 통해 직접 경험해 보세요.
           </p>
-          <div className="flex flex-wrap justify-center gap-5 mt-7">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 sm:gap-5 mt-7 w-full sm:w-auto">
             <Link
               to="/contact"
               onClick={() => window.scrollTo(0, 0)}
-              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
+              className="flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[16px] sm:text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
               style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }}
             >
               데모 요청
@@ -718,7 +719,7 @@ const CTA = () => (
             <Link
               to="/contact"
               onClick={() => window.scrollTo(0, 0)}
-              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+              className="flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[16px] sm:text-[18px] font-bold hover:bg-white/30 transition-all"
             >
               문의하기
             </Link>
