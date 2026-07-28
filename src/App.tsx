@@ -433,6 +433,8 @@ const WorkflowDetails = () => {
   );
 };
 
+// Feathers each showcase visual's edges into the card — an elliptical alpha fade, opaque core to
+// transparent rim, so no image reads as a hard rectangle (user, 2026-07-28).
 const SolutionShowcase = () => {
   const targetRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -452,7 +454,8 @@ const SolutionShowcase = () => {
   });
 
   // Mapping progress (0.2 to 0.9) to horizontal translation
-  const x = useTransform(springProgress, [0.2, 0.9], ["0px", "-4656px"]);
+  // 3 slides: each card is 1472px + 80px gap = 1552px, so bringing the 3rd into view travels 2×1552.
+  const x = useTransform(springProgress, [0.2, 0.9], ["0px", "-3104px"]);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -463,20 +466,20 @@ const SolutionShowcase = () => {
 
       if (isSticky) {
         const atStart = activeIndex === 0 && e.deltaY < 0;
-        const atEnd = activeIndex === 3 && e.deltaY > 0;
-        
+        const atEnd = activeIndex === 2 && e.deltaY > 0;
+
         if (atStart || atEnd) return;
 
         if (Math.abs(e.deltaY) > 1) { // Ultra-sensitive
           e.preventDefault();
           const direction = e.deltaY > 0 ? 1 : -1;
-          const nextIndex = Math.min(Math.max(activeIndex + direction, 0), 3);
+          const nextIndex = Math.min(Math.max(activeIndex + direction, 0), 2);
 
           if (nextIndex !== activeIndex) {
             isAutoScrolling.current = true;
             setActiveIndex(nextIndex);
 
-            const snapPoints = [0.2, 0.4333, 0.6666, 0.9];
+            const snapPoints = [0.2, 0.55, 0.9];
             const targetP = snapPoints[nextIndex];
             const maxScroll = rect.height - window.innerHeight;
             const targetScrollY = window.scrollY + rect.top + (targetP * maxScroll);
@@ -505,7 +508,7 @@ const SolutionShowcase = () => {
   useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (latest) => {
       if (isAutoScrolling.current) return;
-      const snapPoints = [0.2, 0.4333, 0.6666, 0.9];
+      const snapPoints = [0.2, 0.55, 0.9];
       const closest = snapPoints.reduce((prev, curr, idx) => 
         Math.abs(curr - latest) < Math.abs(snapPoints[prev] - latest) ? idx : prev, 0
       );
@@ -516,22 +519,50 @@ const SolutionShowcase = () => {
     return () => unsubscribe();
   }, [scrollYProgress, activeIndex]);
 
+  // Three real solutions (user, 2026-07-28): the two branded products plus the industry-solution lineup.
+  // The showcase used to carry four slides, but two were AIMNIS placeholders with the copy hard-coded —
+  // AIM ECO/GRID/PULSE aren't productised yet, so 자세히 보기 now points only where a real page exists.
   const solutions = [
-    { logo: "aimnis_logo_horizontal.png", to: "/aimnis" },
-    { logo: "aimguard_logo_horizontal.png", to: "/aimguard" },
-    { logo: "aimnis_logo_horizontal.png", to: "/aimnis" },
-    { logo: "aimnis_logo_horizontal.png", to: "/aimnis" },
+    {
+      logo: "aimnis_logo_horizontal.png",
+      // Built from img_02.png: padded on top/bottom only to a 1.2:1 frame — same aspect as cards 2 & 3, so
+      // all three render at the same height (~625px) and the card/sticky overflow-hidden never clips it. The
+      // infinity keeps its full width (not shrunk); the baked elliptical alpha fade lands on that vertical
+      // margin + the side edges, so the loops stay whole and dissolve into the card.
+      img: "aimnis_wide.webp",
+      to: "/aimnis",
+      title: <>엔터프라이즈를 위한<br />지능형 마스터 빌더</>,
+      body: "AI 에이전트는 사용자의 의도를 실시간으로 반영하여, 변화하는 비즈니스 환경에 맞춰 아키텍처를 유연하게 수정하고 발전시킵니다. 검증된 위젯 시스템과 AI-SDLC 공정으로 보안과 품질을 견고하게 유지하며, 귀하의 브랜드 DNA가 100% 투영된 독자적인 플랫폼을 직접 운영하고 진화시키십시오.",
+    },
+    {
+      logo: "aimguard_logo_horizontal.png",
+      // From aimguard_hero_main.webp: cropped to drop the empty left ~40% (built for the hero's right side),
+      // padded, then an alpha fade baked in so the dashboard floats and dissolves into the card like the rest.
+      img: "aimguard_hub.webp",
+      to: "/aimguard",
+      title: <>산업 현장의 안전을 지키는<br />AI 영상 분석 솔루션</>,
+      body: "실시간 영상 분석과 지능형 알림으로 위험을 감지하기 전에 대응합니다. 안전장비 착용, 위험 구역 접근, 낙상, 화재·연기까지 AI가 24시간 감지하여 사고를 사전에 예방하고 안전한 현장을 만듭니다.",
+    },
+    {
+      label: <>Industry <span className="text-brand-cyan">Solutions</span></>,
+      // From the Solution page's solution_card_city_v.webp: cropped to ~1.2:1 (empty left band removed) to
+      // match the other cards' size, padded, then an alpha fade baked in so the edges dissolve into the card.
+      img: "city_hub.webp",
+      to: "/solution",
+      title: <>현장에서 검증된<br />산업별 AI 솔루션</>,
+      body: "에너지, 스마트시티, 안전 등 다양한 산업 현장의 요구에 맞춘 AI 솔루션 라인업입니다. 검증된 플랫폼을 기반으로 각 산업의 문제를 해결하고, 현장에 최적화된 가치를 제공합니다.",
+    },
   ];
 
   return (
-    <section ref={targetRef} className="relative h-[450vh] bg-bg-dark">
+    <section ref={targetRef} className="relative h-[350vh] bg-bg-dark">
       {/* Title is now outside the sticky container so it scrolls away first */}
       <div className="container-custom text-center pt-32 mb-[72px]">
         <h2 className="text-[40px] font-bold mb-2">AIM Solutions</h2>
         <p className="text-[20px] font-normal text-[#C2C2C2]">당신의 비즈니스에 꼭 맞는 AI 솔루션을 찾아보세요.</p>
       </div>
 
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden pt-[160px] pb-20">
+      <div className="sticky top-0 h-screen flex items-center overflow-hidden pt-[120px] pb-20">
         <div className="flex items-center px-[calc((100vw-1472px)/2)]">
           <motion.div style={{ x }} className="flex gap-20">
             {solutions.map((item, i) => (
@@ -546,20 +577,22 @@ const SolutionShowcase = () => {
                     : "#020617"
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-[1472px] h-[780px] flex-shrink-0 bg-[#050810] rounded-[30px] border-2 flex items-center p-20 gap-16 relative overflow-hidden"
+                className="w-[1472px] h-[min(760px,100vh_-_200px)] flex-shrink-0 bg-[#050810] rounded-[30px] border-2 flex items-center p-20 gap-16 relative overflow-hidden"
               >
                 {/* Glowing Backdrop */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-blue/5 blur-[120px] rounded-full pointer-events-none" />
                 
                 {/* Content (Left) */}
                 <div className="flex-1 z-10 flex flex-col gap-10">
-                  <img src={asset(item.logo)} alt="Logo" className="w-[280px] h-auto" />
+                  {item.logo ? (
+                    <img src={asset(item.logo)} alt="Logo" className="w-[280px] h-auto" />
+                  ) : (
+                    <span className="text-[40px] font-bold font-display tracking-tight text-white leading-none">{item.label}</span>
+                  )}
                   <div className="space-y-6">
-                    <h3 className="text-[34px] font-bold leading-tight">엔터프라이즈를 위한<br />지능형 마스터 빌더</h3>
-                    <p className="text-white/60 text-[18px] leading-relaxed max-w-xl">
-                      AI 에이전트는 사용자의 의도를 실시간으로 반영하여, 변화하는 비즈니스 환경에 맞춰 아키텍처를 유연하게 수정하고 발전시킵니다.
-                      검증된 위젯 시스템과 AI-SDLC 공정으로 보안과 품질을 견고하게 유지하며, 귀하의 브랜드 DNA가 100% 투영된 독자적인 플랫폼을
-                      직접 운영하고 진화시키십시오.
+                    <h3 className="text-[34px] font-bold leading-tight break-keep">{item.title}</h3>
+                    <p className="text-white/60 text-[18px] leading-relaxed max-w-xl break-keep">
+                      {item.body}
                     </p>
                   </div>
                   <Link
@@ -571,13 +604,15 @@ const SolutionShowcase = () => {
                   </Link>
                 </div>
 
-                {/* Image (Right) */}
-                <div className="flex-1 z-10 flex items-center justify-center">
-                  <div className="relative w-full max-w-[650px]">
-                    <img 
-                      src={asset("img_02.png")} 
-                      alt="Solution Visual" 
-                      className="w-full h-auto object-contain drop-shadow-[0_0_50px_rgba(59,130,246,0.3)]" 
+                {/* Image (Right). Takes 1.5× the content column's width so the visual reads large. Each image
+                    has its edge-fade baked in (a transparent feathered rim), so it dissolves into the card
+                    with no rectangle — no CSS mask needed. */}
+                <div className="flex-[1.5] z-10 flex items-center justify-center">
+                  <div className="relative w-full max-w-[820px]">
+                    <img
+                      src={asset(item.img)}
+                      alt="Solution Visual"
+                      className="w-full h-auto object-contain"
                     />
                   </div>
                 </div>
