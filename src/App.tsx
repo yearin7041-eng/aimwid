@@ -243,7 +243,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[820px] flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
@@ -253,7 +253,7 @@ const Hero = () => {
           playsInline
           className="w-full h-full object-cover"
         >
-          <source src={asset("main_video.mp4")} type="video/mp4" />
+          <source src={asset("main_hero_video.mp4")} type="video/mp4" />
         </video>
         {/* Overlay to ensure text readability if needed, or just a dark tint */}
         <div className="absolute inset-0 bg-black/40" />
