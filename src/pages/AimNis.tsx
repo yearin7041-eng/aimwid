@@ -86,7 +86,7 @@ const Hero = () => (
         className="max-w-[714px] flex flex-col"
       >
         {/* margins, not a column gap — the label sits closer to the title (16px) than the title does to the body (28px) */}
-        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-4">데이터 연동부터 통합관제까지,</p>
+        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-4">데이터 연동부터 통합관제까지,</p>
         <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7 break-keep">
           엔터프라이즈를 위한 <br />
           단 하나의 화이트 라벨 <br /> AI 빌더
@@ -316,7 +316,7 @@ const Problem = () => (
               <div className="my-7 flex justify-center">
                 <c.emblem />
               </div>
-              <div className="text-[#c2c4c8] text-[16px] leading-[1.7] text-left mt-auto space-y-1">
+              <div className="text-[#c2c4c8] text-[15px] leading-[1.7] text-left mt-auto space-y-1">
                 {c.points.map((p, j) => (
                   <p key={j}>✓ {p}</p>
                 ))}
@@ -341,7 +341,7 @@ const Problem = () => (
             <div className="flex justify-center my-8">
               <AimnisEmblem />
             </div>
-            <div className="text-white text-[16px] leading-[1.9] text-left mt-auto space-y-1 w-fit mx-auto">
+            <div className="text-white text-[15px] leading-[1.9] text-left mt-auto space-y-1 w-fit mx-auto">
               {aimnisPoints.map((p, j) => (
                 <p key={j}>
                   <span className="text-[#2fd4c4] font-bold">✓ {p.k} :</span> {p.v}

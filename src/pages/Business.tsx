@@ -47,8 +47,8 @@ const edgeFadeStyle = {
 // including AimGuard's SectionHeading, which used to be the odd one out at leading-[1.3].
 const BizHeading = ({ label, title, align = "left" }: { label: string; title: ReactNode; align?: "left" | "center" }) => (
   <div className={`flex flex-col gap-4 ${align === "center" ? "items-center text-center" : "items-start"}`}>
-    <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{label}</p>
-    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
+    <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">{label}</p>
+    <h2 className="text-[24px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
   </div>
 );
 
@@ -235,16 +235,27 @@ const SvgDefs = () => (
 // raster is 4:3 — only ~1290px wide at the same height, so its left edge lands further into view — and its
 // mid-left is #011c48, bright enough to read as a vertical seam. The fade dissolves that edge; top and
 // bottom are still the image's own dark sky and the bottom fade below.
+// On mobile the raster stacks as an in-flow block above the copy (matching the AIMNIS/AIM GUARD/Solution
+// heroes); from lg it returns to the right-pinned background. Two <img> (same file → one download): the
+// mobile one gets a simple radial edge-fade, the desktop one keeps the left+top+bottom intersect mask.
 const HeroVisual = () => (
-  <div className="absolute inset-0 pointer-events-none">
+  <div className="relative pt-[104px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none">
+    {/* mobile: contained block above the copy — uses a pre-baked "_m" version whose radial edge-fade is
+        burned into the file's alpha so the blue scene dissolves into the dark section (CSS mask was flaky). */}
+    <img
+      src={asset("business_hero_m.webp")}
+      alt=""
+      aria-hidden
+      className="lg:hidden mx-auto block w-[92%] max-w-[520px] h-auto select-none"
+    />
+    {/* desktop: right-pinned. Below 100% height the raster no longer covers the hero, so its top and bottom
+        edges would cut against the section too — left + top + bottom fades are intersected to dissolve them. */}
     <img
       src={asset("business_hero.webp")}
       alt=""
       aria-hidden
-      className="absolute right-0 top-1/2 -translate-y-1/2 h-[85%] w-auto max-w-none select-none"
+      className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 h-[85%] w-auto max-w-none select-none"
       style={{
-        // Left + top + bottom fades, intersected. Below 100% height the raster no longer covers the hero,
-        // so its top and bottom edges would cut against the section too — all three are dissolved here.
         maskImage:
           "linear-gradient(to right, transparent 0%, #000 22%), linear-gradient(to bottom, transparent 0%, #000 14%), linear-gradient(to bottom, #000 86%, transparent 100%)",
         WebkitMaskImage:
@@ -254,22 +265,22 @@ const HeroVisual = () => (
       }}
     />
 
-    {/* readability: left→right darkening, then a fade into Our Business below */}
-    <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/55 via-[36%] to-transparent to-[62%]" />
-    <div className="absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-b from-transparent to-[#020617]" />
+    {/* readability: left→right darkening, then a fade into Our Business below — desktop only (mobile stacks) */}
+    <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/55 via-[36%] to-transparent to-[62%]" />
+    <div className="hidden lg:block absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-b from-transparent to-[#020617]" />
   </div>
 );
 
 const Hero = () => (
-  <section className="relative min-h-[820px] overflow-hidden bg-[#040813]">
-    <HeroVisual />
-
+  <section className="relative overflow-hidden bg-[#040813] lg:min-h-[820px]">
     {/* Header → hero color bridge — darkens the navbar strip only */}
     <div className="absolute top-0 inset-x-0 h-[96px] bg-gradient-to-b from-[#020617] via-[#020617]/55 to-transparent pointer-events-none z-[1]" />
 
     <Breadcrumb />
 
-    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
+    <HeroVisual />
+
+    <div className="container-custom relative z-10 pt-8 lg:pt-[200px] pb-[70px] lg:pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -277,12 +288,12 @@ const Hero = () => (
         className="max-w-[760px] flex flex-col"
       >
         {/* same rhythm as the Solution-menu heroes: label 16px off the title, title 28px off the body */}
-        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-4">산업 AI 전환의 시작</p>
-        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7">
+        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-4">산업 AI 전환의 시작</p>
+        <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7 break-keep">
           고객의 데이터로,<br />
           현장에 맞는 AI를 만듭니다.
         </h1>
-        <p className="text-white text-[18px] font-normal leading-[1.5]">
+        <p className="text-white text-[16px] md:text-[18px] font-normal leading-[1.5]">
           복잡한 현장과 업무 환경을 이해하고,<br />
           운영 과제를 해결하는 맞춤형 AI 시스템을 구축합니다.
         </p>
@@ -439,7 +450,7 @@ const OurBusinessGraphic = () => (
 // below the intro until a graphic is agreed — an absent graphic beats a bad one.
 
 const OurBusiness = () => (
-  <section className="relative overflow-hidden pt-[140px] pb-28 bg-[#020617]">
+  <section className="relative overflow-hidden py-[86px] lg:pt-[140px] lg:pb-28 bg-[#020617]">
     {/* glossy glows — same teal/blue alternation Solution runs down its sections */}
     <div
       className="pointer-events-none absolute -left-[520px] -top-[10%] h-[1000px] w-[1120px] rounded-[50%]"
@@ -452,7 +463,14 @@ const OurBusiness = () => (
       style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.26), rgba(54,132,247,0) 72%)" }}
     />
 
-    <div className="container-custom relative">
+    {/* Mobile seam bridge. The two glows above are sized for the tall desktop section (~1087px) and
+        land inside it; on the much shorter mobile section they overflow the bottom and overflow-hidden
+        cuts them into a hard bright line against BusinessApplications. Both sections are #020617, so
+        fading the bottom to #020617 makes them read as one continuous background. Desktop is unaffected
+        (lg:hidden). z-[2] sits above the glows; the content below is lifted to z-10 so it stays lit. */}
+    <div className="lg:hidden pointer-events-none absolute inset-x-0 bottom-0 h-[140px] bg-gradient-to-b from-transparent to-[#020617] z-[2]" />
+
+    <div className="container-custom relative z-10">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -507,7 +525,7 @@ const OurBusiness = () => (
             the client does not want them spelled out at 48px (2026-07-16), so the title generalises
             and this carries the list. Do not trim the list out of the opener to "세 분야" or similar:
             with the title no longer naming them, that reference would point at nothing. */}
-        <p className="max-w-[1223px] text-center text-[#9fb0c4] text-[18px] md:text-[20px] font-normal leading-[1.6] break-keep">
+        <p className="max-w-[1223px] text-center text-[#9fb0c4] text-[16px] md:text-[20px] font-normal leading-[1.6] break-keep">
           에임위드는 에너지산업, 스마트시티, 안전·환경 분야에서 고객 현장의 시스템을 직접 구축해 왔습니다.<br /> 현장에서 검증된
           기능은 재사용 가능한 제품으로 표준화되고, AI 빌더 AIMNIS 위에서 조립되어 다음 현장에 더 빠르게 적용됩니다.
         </p>
@@ -603,7 +621,7 @@ const BusinessApplications = () => {
   const app = applications[active];
 
   return (
-    <section className="relative overflow-hidden py-28 bg-[#020617]">
+    <section className="relative overflow-hidden py-[86px] lg:py-28 bg-[#020617]">
       <div
         className="pointer-events-none absolute -right-[460px] top-[-6%] h-[1100px] w-[980px] rounded-[50%]"
         style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.22), rgba(47,212,196,0) 72%)" }}
@@ -642,7 +660,7 @@ const BusinessApplications = () => {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(i)}
-                  className={`flex-1 min-h-[150px] px-6 py-9 rounded-[10px] flex flex-col justify-between text-left border transition-all ${
+                  className={`flex-1 min-h-[88px] lg:min-h-[150px] px-6 py-5 lg:py-9 rounded-[10px] flex flex-col justify-between text-left border transition-all ${
                     isActive
                       ? "border-[#2fd4c4]/70 shadow-[0_0_24px_rgba(47,212,196,0.18)]"
                       : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06]"
@@ -665,7 +683,7 @@ const BusinessApplications = () => {
                       {a.no}
                     </span>
                     <span
-                      className={`whitespace-nowrap text-[20px] ${
+                      className={`whitespace-nowrap text-[17px] lg:text-[20px] ${
                         isActive ? "text-[#7fecec] font-semibold" : "text-white/80 font-medium"
                       }`}
                     >
@@ -678,7 +696,7 @@ const BusinessApplications = () => {
                     />
                   </div>
                   <p
-                    className={`text-[16px] font-normal tracking-[0.04em] pl-[30px] ${
+                    className={`text-[13px] lg:text-[16px] font-normal tracking-[0.04em] pl-[30px] ${
                       isActive ? "text-[#7fecec]/60" : "text-white/35"
                     }`}
                   >
@@ -695,7 +713,7 @@ const BusinessApplications = () => {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
-            className="group relative overflow-hidden rounded-[30px] border border-[#2fd4c4] bg-[rgba(10,18,30,0.5)] backdrop-blur-[10px] shadow-[0_0_40px_-6px_rgba(47,212,196,0.4)] min-h-[600px]"
+            className="group relative overflow-hidden rounded-[30px] border border-[#2fd4c4] bg-[rgba(10,18,30,0.5)] backdrop-blur-[10px] shadow-[0_0_40px_-6px_rgba(47,212,196,0.4)] lg:min-h-[600px]"
           >
             {/* Art bleeds in from the right at full height — Solution's card treatment verbatim
                 (Solution.tsx:479). NOT a grid cell: boxing the image in a column made its left edge
@@ -711,8 +729,8 @@ const BusinessApplications = () => {
 
             {/* Text sits over the art at 52%, vertically centred so spacing adapts to the height —
                 again Solution's pattern rather than a fixed 3-group justify-between. */}
-            <div className="relative z-10 flex flex-col justify-center lg:h-[600px] lg:max-w-[52%] px-8 py-12 lg:pl-[64px] lg:pr-6 lg:py-0">
-              <p className="text-[#2fd4c4] text-[15px] font-bold tracking-[0.14em] uppercase">{app.en}</p>
+            <div className="relative z-10 flex flex-col justify-center lg:h-[600px] lg:max-w-[52%] px-6 py-8 lg:pl-[64px] lg:pr-6 lg:py-0">
+              <p className="text-[#2fd4c4] text-[14px] font-bold tracking-[0.14em] uppercase">{app.en}</p>
               <h3 className="whitespace-pre-line text-white text-[26px] md:text-[36px] font-bold leading-[1.45] mt-4 break-keep">
                 {app.title}
               </h3>
@@ -724,7 +742,7 @@ const BusinessApplications = () => {
                 {app.projects.map((p) => (
                   <li key={p} className="flex items-start gap-3">
                     <span className="mt-[9px] w-[5px] h-[5px] rounded-full bg-[#22e0e0] shrink-0" aria-hidden />
-                    <span className="text-white/85 text-[16px] font-normal leading-[1.6] break-keep">{p}</span>
+                    <span className="text-white/85 text-[15px] font-normal leading-[1.6] break-keep">{p}</span>
                   </li>
                 ))}
               </ul>
@@ -733,7 +751,7 @@ const BusinessApplications = () => {
                   real project names above, a product name here was the third thing competing for the
                   same glance. */}
               <div className="mt-9">
-                <Link to="/solution" className="inline-flex items-center gap-2.5 text-[#22e0e0] text-[15px] font-semibold hover:gap-4 transition-all">
+                <Link to="/solution" className="inline-flex items-center gap-2.5 text-[#22e0e0] text-[14px] font-semibold hover:gap-4 transition-all">
                   관련 솔루션 보기
                   <ArrowRight className="w-[18px] h-[18px]" strokeWidth={1.8} />
                 </Link>
@@ -742,7 +760,7 @@ const BusinessApplications = () => {
 
             {/* phones: stacked under the text, unmasked — a mask tuned for the desktop bleed reads
                 as damage at this size */}
-            <img src={asset(app.img)} alt="" aria-hidden className="lg:hidden w-full h-auto select-none px-4 pb-6" />
+            <img src={asset(app.img)} alt="" aria-hidden className="lg:hidden block w-[calc(100%-2rem)] mx-auto h-auto select-none mb-6 rounded-2xl" />
           </motion.div>
         </div>
       </div>
@@ -953,7 +971,7 @@ const partners: { name: string; logo?: string }[] = [
 ];
 
 const BusinessPartner = () => (
-  <section className="relative min-h-[700px] flex flex-col justify-center overflow-hidden py-24 bg-[#020617]">
+  <section className="relative lg:min-h-[700px] flex flex-col justify-center overflow-hidden py-[86px] lg:py-24 bg-[#020617]">
     {/* Left blue glow, pulled UP toward the Applications seam (user: "위로, 섹션 사이로"). Centre at
         y250 (top-[-160px] + h/2), so it sits high in the section and brightens the boundary; its alpha
         is already near-zero at the top edge (centre 250 vs the ~295 alpha-0 radius), so the ~45px that
@@ -976,6 +994,25 @@ const BusinessPartner = () => (
         <BizHeading label="Business Partner" title="주요고객사 및 파트너사" align="center" />
       </motion.div>
 
+      {/* Mobile: a static 2-col grid instead of the marquee. On a phone the marquee shows only ~1
+          logo at a time with big empty gaps around it (slot 200px + 40px margins ≫ viewport); a grid
+          puts all 10 partners on screen at once, compact and even. Desktop keeps the marquee below. */}
+      <div className="lg:hidden grid grid-cols-2 gap-x-7 gap-y-11 mt-12">
+        {partners.map((p) => (
+          <div key={p.name} className="flex h-[48px] items-center justify-center">
+            {p.logo ? (
+              <img
+                src={asset(p.logo)}
+                alt={p.name}
+                className="max-h-[32px] max-w-[128px] w-auto h-auto object-contain select-none"
+              />
+            ) : (
+              <span className="text-white/45 text-[14px] font-medium">{p.name}</span>
+            )}
+          </div>
+        ))}
+      </div>
+
       {/* The row is clipped to the 1600 column, so slots appear and vanish at its edges rather than the
           window's. Something has to soften that — without it the loop reads as popping, not flowing.
           This is a MASK on the row, not a pair of overlay strips painted in the section colour. The
@@ -984,7 +1021,7 @@ const BusinessPartner = () => (
           and leaves whatever is behind untouched, so the glow carries straight through. Don't go back
           to painted strips: any solid colour here is wrong the moment the backdrop isn't flat. */}
       <div
-        className="relative mt-[100px] overflow-hidden"
+        className="relative mt-[100px] overflow-hidden hidden lg:block"
         style={{
           maskImage: "linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)",
           WebkitMaskImage: "linear-gradient(to right, transparent, #000 10%, #000 90%, transparent)",
@@ -1038,7 +1075,7 @@ const BusinessPartner = () => (
 const SCENES = [SceneVerify, SceneBuild, SceneScale];
 
 const HowWeWork = () => (
-  <section className="relative overflow-hidden py-28 bg-[#020617]">
+  <section className="relative overflow-hidden py-[86px] lg:py-28 bg-[#020617]">
     {/* Right teal glow (zigzag: Partner left → this right → Related left). Nudged up to top-[-120px]
         (was ~-37); centre y380, alpha-0 radius ~360, so it stops ~y20 — just inside the top edge, no
         clip against Partner above. Bottom (~y740) still dies inside this ~928px section. */}
@@ -1115,7 +1152,7 @@ const related = [
 ];
 
 const RelatedSolutions = () => (
-  <section className="relative overflow-hidden py-28 bg-[#020617]">
+  <section className="relative overflow-hidden py-[86px] lg:py-28 bg-[#020617]">
     {/* Left blue glow — flipped from right so the zigzag holds: How We Work (right) → this (left).
         h-[780px] top-[-60px] keeps the 72% alpha-0 stop ~y611, inside this ~677px section (the old
         h-[1200px] was clipped into the page's worst seam against the CTA below). */}
@@ -1145,18 +1182,22 @@ const RelatedSolutions = () => (
           >
             <Link
               to={r.to}
-              className="group relative block h-[290px] rounded-[14px] overflow-hidden border border-white/10 bg-[#0a1420] hover:border-[#2fd4c4]/45 transition-colors"
+              className="group relative flex flex-col lg:block lg:h-[290px] rounded-[14px] overflow-hidden border border-white/10 bg-[#0a1420] hover:border-[#2fd4c4]/45 transition-colors"
             >
+              {/* Mobile: image is a full-width top banner in normal flow. Desktop: it bleeds in from
+                  the right at 62% as an absolute overlay (the mockup's split). One <img>, positioning
+                  switches at lg — on the narrow phone column the old 62% overlay squeezed the art and
+                  ran it under the text. */}
               <img
                 src={asset(r.img)}
                 alt=""
                 aria-hidden
-                className="absolute right-0 inset-y-0 h-full w-[62%] object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-[150px] object-cover lg:absolute lg:right-0 lg:inset-y-0 lg:h-full lg:w-[62%] opacity-90 group-hover:scale-105 transition-transform duration-700"
               />
-              {/* text column reads over a solid-to-transparent wash, matching the mockup's split */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a1420] from-40% via-[#0a1420]/80 to-transparent" />
+              {/* text column reads over a solid-to-transparent wash, matching the mockup's split — desktop only (mobile stacks) */}
+              <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#0a1420] from-40% via-[#0a1420]/80 to-transparent" />
 
-              <div className="relative h-full w-[62%] p-7 flex flex-col justify-between">
+              <div className="relative w-full p-6 lg:h-full lg:w-[62%] lg:p-7 flex flex-col gap-4 lg:gap-0 lg:justify-between">
                 <div>
                   {/* 1.2× across all three marks, so the two image logos and the drawn INDUSTRY AI
                       SOLUTIONS lockup stay the same optical weight: 28→34, 26→31, 17→20. */}
@@ -1168,9 +1209,9 @@ const RelatedSolutions = () => (
                       <span className="text-white text-[20px] font-bold tracking-tight">{r.name}</span>
                     </div>
                   )}
-                  <p className="whitespace-pre-line text-white/65 text-[18px] leading-[1.7] mt-5 break-keep">{r.desc}</p>
+                  <p className="whitespace-pre-line text-white/65 text-[15px] leading-[1.7] mt-5 break-keep">{r.desc}</p>
                 </div>
-                <span className="inline-flex items-center gap-2 text-[#22e0e0] text-[16px] font-semibold group-hover:gap-3.5 transition-all">
+                <span className="inline-flex items-center gap-2 text-[#22e0e0] text-[15px] font-semibold group-hover:gap-3.5 transition-all">
                   자세히 보기
                   <ArrowRight className="w-[18px] h-[18px]" strokeWidth={1.8} />
                 </span>
@@ -1197,7 +1238,7 @@ const RelatedSolutions = () => (
 // Button LABELS are the mockup's (프로젝트 문의 / 회사소개서 다운로드), not the shared ActionButtons
 // pair (도입 상담 신청 / 소개서 다운로드) — only the geometry is shared.
 const CTA = () => (
-  <section className="py-20 bg-[#020617]">
+  <section className="py-[50px] md:py-20 bg-[#020617]">
     <div className="container-custom">
       <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#2fd4c4]/25 bg-[#04090f]">
         <img
@@ -1224,11 +1265,11 @@ const CTA = () => (
             시스템과 플랫폼 구축 방향을 함께 찾습니다.
           </p>
 
-          <div className="flex flex-wrap gap-5 justify-center mt-7">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 sm:gap-5 mt-7 w-full sm:w-auto">
             <Link
               to="/contact"
               onClick={() => window.scrollTo(0, 0)}
-              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
+              className="flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[16px] sm:text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
               style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }}
             >
               프로젝트 문의
@@ -1236,7 +1277,7 @@ const CTA = () => (
             <a
               href={asset("aimwid_brochure.pdf")}
               download="2026_AIMWID_회사소개서.pdf"
-              className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+              className="flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[16px] sm:text-[18px] font-bold hover:bg-white/30 transition-all"
             >
               회사소개서 다운로드
             </a>

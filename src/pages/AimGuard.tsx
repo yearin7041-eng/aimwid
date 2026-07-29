@@ -39,7 +39,7 @@ export const SectionHeading = ({
   className?: string;
 }) => (
   <div className={`${align === "center" ? "text-center" : ""} ${className}`}>
-    <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2] mb-4">{label}</p>
+    <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2] mb-4">{label}</p>
     <h2 className="text-[24px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
     {subtitle && (
       <p
@@ -87,7 +87,7 @@ const Hero = () => (
         className="max-w-[714px] flex flex-col"
       >
         {/* margins, not a column gap — the label sits closer to the title (16px) than the title block does to the body (28px) */}
-        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-4">AI가 위험을 감지하기 전에 대응합니다</p>
+        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-4">AI가 위험을 감지하기 전에 대응합니다</p>
         <div className="flex flex-col gap-6 mb-7">
           <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] break-keep">
             산업 현장의 안전을 지키는<br />
@@ -151,7 +151,7 @@ const problems = [
 ];
 
 const Problem = () => (
-  <section className="relative min-h-[752px] flex flex-col justify-center py-24 overflow-hidden bg-[#020617]">
+  <section className="relative lg:min-h-[752px] flex flex-col justify-center py-[86px] lg:py-24 overflow-hidden bg-[#020617]">
     <img
       src={asset("aimguard_problem_bg.png")}
       alt=""
@@ -240,7 +240,7 @@ const featureCards = [
 ];
 
 const Features = () => (
-  <section className="pt-24 pb-[196px] bg-[#020617]">
+  <section className="py-[86px] lg:pt-24 lg:pb-[196px] bg-[#020617]">
     <div className="container-custom">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -352,7 +352,7 @@ const Banner = () => (
 
 // --- 5. Solutions (GIS) ---
 const Solutions = () => (
-  <section className="pt-32 pb-16 bg-[#050914]">
+  <section className="py-[86px] lg:pt-32 lg:pb-16 bg-[#050914]">
     <div className="container-custom">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -421,7 +421,7 @@ export const boxGrad = "bg-gradient-to-b from-[#12313d] to-[#0a1420]";
 
 const ArchArrow = () => (
   <div className="flex items-center justify-center shrink-0">
-    <ChevronRight className="w-5 h-5 text-[#2fd4c4]/60" />
+    <ChevronRight className="w-5 h-5 text-[#2fd4c4]/60 rotate-90 lg:rotate-0" />
   </div>
 );
 
@@ -432,7 +432,7 @@ const Pill = ({ children }: { children: ReactNode }) => (
 );
 
 const FlowColumn = ({ title, deviceImg, items }: { title: string; deviceImg: string; items: string[] }) => (
-  <div className="flex-1 min-w-[120px] flex flex-col items-center">
+  <div className="w-full lg:flex-1 lg:min-w-[120px] flex flex-col items-center">
     <p className="text-[#2fd4c4] text-[14px] font-bold mb-3 tracking-wide shrink-0">{title}</p>
     <div className={`w-full h-[64px] rounded-lg ${boxGrad} border border-white/10 flex items-center justify-center p-2 mb-4 shrink-0`}>
       <img src={asset(deviceImg)} alt={title} className="max-h-full max-w-full object-contain" />
@@ -446,7 +446,7 @@ const FlowColumn = ({ title, deviceImg, items }: { title: string; deviceImg: str
 );
 
 const TechResult = () => (
-  <section className="py-24 bg-[#020617]">
+  <section className="py-[86px] lg:py-24 bg-[#020617]">
     <div className="container-custom grid lg:grid-cols-[minmax(0,500px)_1fr] gap-12 items-stretch">
       {/* Left: heading + feature grid */}
       <div className="min-w-0">
@@ -495,11 +495,11 @@ const TechResult = () => (
       >
         <h3 className="text-[#2fd4c4] text-[20px] font-bold mb-8 shrink-0">AIMGUARD 시스템 아키텍처</h3>
 
-        <div className="overflow-x-auto flex-1 flex flex-col">
-          <div className="min-w-[820px] flex-1 flex flex-col">
-            <div className="flex items-stretch gap-2.5 flex-1">
+        <div className="lg:overflow-x-auto flex-1 flex flex-col">
+          <div className="lg:min-w-[820px] flex-1 flex flex-col">
+            <div className="flex flex-col lg:flex-row items-stretch gap-4 lg:gap-2.5 flex-1">
               {/* Camera sources */}
-              <div className={`flex-1 min-w-[150px] rounded-xl ${boxGrad} border border-white/10 p-4 flex flex-col`}>
+              <div className={`w-full lg:flex-1 lg:min-w-[150px] rounded-xl ${boxGrad} border border-white/10 p-4 flex flex-col`}>
                 <p className="text-center text-white text-[14px] font-semibold mb-5 shrink-0">카메라 / 영상 소스</p>
                 <div className="flex flex-col gap-4 flex-1 justify-between">
                   {cameraSources.map((c) => (
@@ -530,7 +530,7 @@ const TechResult = () => (
               <ArchArrow />
 
               {/* Integrations */}
-              <div className={`flex-1 min-w-[160px] rounded-xl ${boxGrad} border border-white/10 p-4 flex flex-col`}>
+              <div className={`w-full lg:flex-1 lg:min-w-[160px] rounded-xl ${boxGrad} border border-white/10 p-4 flex flex-col`}>
                 <p className="text-center text-white text-[14px] font-semibold mb-5 shrink-0">연동 시스템</p>
                 <div className="flex flex-col gap-4 flex-1 justify-between">
                   {integrations.map((c) => (
@@ -549,13 +549,13 @@ const TechResult = () => (
             </div>
 
             {/* Bottom security bar */}
-            <div className={`mt-6 shrink-0 rounded-xl ${boxGrad} border border-white/10 py-3.5 flex items-center justify-center gap-3`}>
-              <Lock className="w-4 h-4 text-[#2fd4c4]" strokeWidth={1.6} />
-              <span className="text-white/75 text-[16px]">데이터 암호화 (TLS/SSL)</span>
+            <div className={`mt-6 shrink-0 rounded-xl ${boxGrad} border border-white/10 py-3.5 px-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1`}>
+              <Lock className="w-4 h-4 text-[#2fd4c4] shrink-0" strokeWidth={1.6} />
+              <span className="text-white/75 text-[13px] lg:text-[16px]">데이터 암호화 (TLS/SSL)</span>
               <span className="text-white/25">·</span>
-              <span className="text-white/75 text-[16px]">접근 제어</span>
+              <span className="text-white/75 text-[13px] lg:text-[16px]">접근 제어</span>
               <span className="text-white/25">·</span>
-              <span className="text-white/75 text-[16px]">보안 감사</span>
+              <span className="text-white/75 text-[13px] lg:text-[16px]">보안 감사</span>
             </div>
           </div>
         </div>
@@ -615,7 +615,7 @@ const stats = [
 ];
 
 const ImpactResult = () => (
-  <section className="py-24 bg-[#020617]">
+  <section className="py-[86px] lg:py-24 bg-[#020617]">
     <div className="container-custom">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -672,7 +672,7 @@ const ImpactResult = () => (
 
 // --- 8. CTA ---
 const CTA = () => (
-  <section className="py-20 bg-[#020617]">
+  <section className="py-[50px] md:py-20 bg-[#020617]">
     <div className="container-custom">
       <div className="relative w-full mx-auto rounded-[20px] overflow-hidden border border-[#2fd4c4]/25 bg-gradient-to-b from-[#08131c] to-[#04090f] shadow-[0_0_50px_rgba(47,212,196,0.07)]">
         {/* Particle graphic (left) */}

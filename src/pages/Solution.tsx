@@ -58,7 +58,7 @@ const ActionButtons = () => (
 // headings don't wrap mid-word (was mt-3 = 12px with no break-keep — a drift from the other three).
 const CenterHeading = ({ label, title }: { label: string; title: ReactNode }) => (
   <div className="text-center">
-    <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{label}</p>
+    <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">{label}</p>
     <h2 className="text-[24px] md:text-[50px] font-bold text-white leading-[1.5] mt-4 break-keep">{title}</h2>
   </div>
 );
@@ -93,7 +93,7 @@ const Hero = () => (
         className="max-w-[760px] flex flex-col"
       >
         {/* margins, not a column gap — the label sits closer to the title (16px) than the title does to the body (28px) */}
-        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-4">Industry AI Solutions</p>
+        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-4">Industry AI Solutions</p>
         <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7 break-keep">
           산업 현장에서 검증된<br />
           AI 솔루션 라인업

@@ -14,7 +14,7 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 // unified on 2026-07-16.
 const CoHeading = ({ label, title, align = "left" }: { label: string; title: ReactNode; align?: "left" | "center" }) => (
   <div className={`flex flex-col gap-4 ${align === "center" ? "items-center text-center" : "items-start"}`}>
-    <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{label}</p>
+    <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">{label}</p>
     <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
   </div>
 );
@@ -120,7 +120,7 @@ const Intro = () => (
         transition={{ duration: 0.6 }}
         className="mx-auto flex max-w-[820px] flex-col items-center text-center"
       >
-        <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">About Us</p>
+        <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">About Us</p>
         <h2 className="mt-6 text-[32px] md:text-[50px] font-bold leading-[1.4] text-white break-keep">
           현장을 이해하는 기술로<br />
           기업의 AI 전환을 현실로 만듭니다.
@@ -283,7 +283,7 @@ const MissionVision = () => (
             <div className={`flex-1 text-center ${p.imageLeft ? "lg:text-left" : "lg:text-right"}`}>
               {/* Label at the site's shared 20px spec (CoHeading / BizHeading …), not the big display
                   word — user, 2026-07-21. Title/body bumped 2px the same day. */}
-              <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{p.label}</p>
+              <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">{p.label}</p>
               <div
                 className={`mx-auto mt-6 h-[26px] w-px bg-gradient-to-b from-[#2fd4c4] to-transparent ${
                   p.imageLeft ? "lg:mx-0" : "lg:ml-auto lg:mr-0"
@@ -845,7 +845,7 @@ const CISection = () => (
       >
         {/* Row 1 — label + title */}
         <div>
-          <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">Corporate Identity</p>
+          <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">Corporate Identity</p>
           <h2 className="mt-5 text-[38px] md:text-[54px] font-bold leading-none text-white">AIMWID CI</h2>
         </div>
 
