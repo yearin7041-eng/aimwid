@@ -291,7 +291,7 @@ const WorkflowDetails = () => {
   const activeIcon = clockwiseOrder[stepIndex];
 
   return (
-    <section id="solution" className="relative h-[900px] flex items-center overflow-hidden">
+    <section id="process" className="relative h-[900px] flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -645,7 +645,7 @@ const VisionSection = () => {
   ];
 
   return (
-    <section id="company" style={{ height: '880px' }} className="flex flex-col justify-center my-[100px]">
+    <section id="vision" style={{ height: '880px' }} className="flex flex-col justify-center my-[100px]">
       <div className="container-custom text-center mb-16">
         <h2 className="text-[40px] font-bold font-display mb-2">Our Vision</h2>
         <p className="text-[20px] font-normal text-[#C2C2C2]">SI를 넘어, 스스로 진화하는 B2B SaaS의 미래로</p>
@@ -680,7 +680,7 @@ const NewsSection = () => {
   const news = newsContent.items;
 
   return (
-    <section id="business" className="py-32 bg-cover bg-center" style={{ backgroundImage: `url(${asset("main_news_bg.png")})` }}>
+    <section id="news" className="py-32 bg-cover bg-center" style={{ backgroundImage: `url(${asset("main_news_bg.png")})` }}>
       <div className="container-custom grid md:grid-cols-[350px_1fr] gap-20">
         <div>
           <h2 className="text-[40px] font-bold font-display mb-2">AIMWID News</h2>
@@ -715,50 +715,22 @@ const NewsSection = () => {
 };
 
 const UseCases = () => {
+  // The six industry solutions from the /solution (Industries) page (user, 2026-07-28) — keeps the home
+  // use-cases consistent with that page and drops the old placeholder tags (AIM ECO/TOOLS aren't products).
   const cases = [
-    {
-      tag: "AIM GUARD",
-      sub: "일반기업",
-      title: "TMS 대기환경 모니터링 시스템",
-      img: "use_case_01.png"
-    },
-    {
-      tag: "AIM ECO",
-      sub: "일반기업",
-      title: "배터리 화재 모니터링 시스템",
-      img: "use_case_02.png"
-    },
-    {
-      tag: "AIM GUARD",
-      sub: "일반기업",
-      title: "도시형 에너지 모니터링 시스템",
-      img: "use_case_03.png"
-    },
-    {
-      tag: "AIM TOOLS",
-      sub: "일반기업",
-      title: "실내공기질 모니터링 시스템",
-      img: "use_case_04.png"
-    },
-    {
-      tag: "AIM GUARD",
-      sub: "일반기업",
-      title: "스마트 팩토리 모니터링 시스템",
-      img: "use_case_05.png"
-    },
-    {
-      tag: "AIM TOOLS",
-      sub: "일반기업",
-      title: "스마트 물류 관제 시스템",
-      img: "use_case_01.png"
-    }
+    { tag: "에너지 운영", title: "발전·에너지 운영 최적화 솔루션", img: "solution_card_energy_v.webp" },
+    { tag: "통합환경 감시", title: "통합환경 감시시스템", img: "solution_card_tms_v.webp" },
+    { tag: "전력 데이터", title: "발전 데이터 비즈니스 연계 플랫폼", img: "solution_card_power_v6.webp" },
+    { tag: "스마트시티", title: "스마트시티 데이터 통합 플랫폼", img: "solution_card_city_v.webp" },
+    { tag: "스마트빌리지", title: "지역 맞춤형 스마트 시설 통합 운영 플랫폼", img: "solution_card_village_v.webp" },
+    { tag: "작업자 안전", title: "작업자 안전·위험성 평가 AI 솔루션", img: "solution_card_safety_v.webp" },
   ];
 
   return (
     <section className="py-32">
       <div className="container-custom text-center mb-16">
         <h2 className="text-[40px] font-bold font-display mb-2">Use case</h2>
-        <p className="text-[20px] font-normal text-[#C2C2C2]">에임위드의 AI플랫폼을 통한 성공사례를 소개합니다.</p>
+        <p className="text-[20px] font-normal text-[#C2C2C2]">산업 현장에 적용된 에임위드의 AI 솔루션을 소개합니다.</p>
       </div>
 
       <div className="w-full overflow-hidden pl-[40px]">
@@ -768,17 +740,16 @@ const UseCases = () => {
           className="flex gap-6 w-max"
         >
           {[...cases, ...cases].map((c, i) => (
-            <div key={i} className="group w-[410px]">
-              <div className="relative w-[410px] h-[280px] rounded-2xl overflow-hidden mb-6">
-                <img src={asset(c.img)} alt={c.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            <Link key={i} to="/solution" onClick={() => window.scrollTo(0, 0)} className="group w-[410px] block">
+              <div className="relative w-[410px] h-[280px] rounded-2xl overflow-hidden mb-6 border border-white/10 bg-[#0a1420] group-hover:border-brand-cyan/40 transition-colors">
+                <img src={asset(c.img)} alt={c.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent" />
               </div>
               <div className="flex gap-2 mb-3">
                 <span className="text-[14px] font-medium bg-[#1493DE] text-white px-[8px] py-[4px] rounded">{c.tag}</span>
-                <span className="text-[14px] font-medium bg-white/10 text-white/60 px-[8px] py-[4px] rounded">{c.sub}</span>
               </div>
-              <h3 className="font-bold text-lg">{c.title}</h3>
-            </div>
+              <h3 className="font-bold text-lg group-hover:text-brand-cyan transition-colors">{c.title}</h3>
+            </Link>
           ))}
         </motion.div>
       </div>
