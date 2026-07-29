@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumb";
@@ -34,11 +34,11 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 
 // Shared CTA button pair (도입 상담 신청 / 소개서 다운로드) — matches AIMNIS/AIMGUARD
 const ActionButtons = () => (
-  <div className="flex flex-wrap gap-5">
+  <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-5">
     <Link
       to="/contact"
       onClick={() => window.scrollTo(0, 0)}
-      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
+      className="flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center rounded-[8px] text-[#000028] text-[16px] sm:text-[18px] font-bold hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all"
       style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }}
     >
       도입 상담 신청
@@ -46,7 +46,7 @@ const ActionButtons = () => (
     <a
       href={asset("aimwid_brochure.pdf")}
       download="2026_AIMWID_회사소개서.pdf"
-      className="flex h-[54px] w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[18px] font-bold hover:bg-white/30 transition-all"
+      className="flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center rounded-[8px] border border-[#2fd4c4] bg-white/20 text-white text-[16px] sm:text-[18px] font-bold hover:bg-white/30 transition-all"
     >
       회사소개서 다운로드
     </a>
@@ -59,34 +59,33 @@ const ActionButtons = () => (
 const CenterHeading = ({ label, title }: { label: string; title: ReactNode }) => (
   <div className="text-center">
     <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">{label}</p>
-    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] mt-4 break-keep">{title}</h2>
+    <h2 className="text-[24px] md:text-[50px] font-bold text-white leading-[1.5] mt-4 break-keep">{title}</h2>
   </div>
 );
 
 // --- 1. Hero ---
 const Hero = () => (
-  <section className="relative min-h-[820px] overflow-hidden bg-[#040813]">
-    {/* Industrial AI solution lineup visual (right) — smart city + plant. Swapped to solution_hero_v3.webp
-        2026-07-24 (a video was briefly tried and dropped). This raster is full-bleed 16:9 with its subject
-        on the right and a dark, near-black left half (#010619, darker than the section) that the copy sits
-        over — so it is pinned to right-0 (not off-screen) to keep the far-right content, and needs no right
-        fade the way v2's baked-in dissolve did. */}
-    <div className="absolute inset-0 pointer-events-none">
-      <img
-        src={asset("solution_hero_v3.webp")}
-        alt="에너지, 스마트시티, 안전 분야의 산업 AI 솔루션 라인업"
-        className="absolute right-0 top-1/2 -translate-y-1/2 h-[104%] w-auto max-w-none object-contain"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/40 via-[34%] to-transparent to-[56%]" />
-      <div className="absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-b from-transparent to-[#020617]" />
-    </div>
-
+  <section className="relative overflow-hidden bg-[#040813] lg:min-h-[820px]">
     {/* Header → hero color bridge — kept short so it only darkens the navbar strip (readability) while the city/plant tops stay fully visible */}
     <div className="absolute top-0 inset-x-0 h-[96px] bg-gradient-to-b from-[#020617] via-[#020617]/55 to-transparent pointer-events-none z-[1]" />
+    <div className="absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-b from-transparent to-[#020617] pointer-events-none z-[1]" />
 
     <Breadcrumb />
 
-    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
+    {/* Industrial AI solution lineup visual (smart city + plant, solution_hero_v3.webp). On mobile it stacks
+        as an in-flow block above the copy — matching the AIMNIS/AIM GUARD heroes; from lg it returns to the
+        right-pinned background. The raster is 16:9 with its subject on the right and a dark left half, so on
+        desktop it pins to right-0 with the left→right darkening below keeping the copy side legible. */}
+    <div className="relative pt-[104px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none">
+      <img
+        src={asset("solution_hero_v3.webp")}
+        alt="에너지, 스마트시티, 안전 분야의 산업 AI 솔루션 라인업"
+        className="mx-auto block w-[92%] max-w-[520px] h-auto [mask-image:radial-gradient(ellipse_at_center,#000_58%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,#000_58%,transparent_100%)] lg:mx-0 lg:absolute lg:right-0 lg:top-1/2 lg:h-[104%] lg:w-auto lg:max-w-none lg:-translate-y-1/2 lg:object-contain lg:[mask-image:none] lg:[-webkit-mask-image:none]"
+      />
+      <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/40 via-[34%] to-transparent to-[56%]" />
+    </div>
+
+    <div className="container-custom relative z-10 pt-8 lg:pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -94,12 +93,12 @@ const Hero = () => (
         className="max-w-[760px] flex flex-col"
       >
         {/* margins, not a column gap — the label sits closer to the title (16px) than the title does to the body (28px) */}
-        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-4">Industry AI Solutions</p>
-        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7">
+        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-4">Industry AI Solutions</p>
+        <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7 break-keep">
           산업 현장에서 검증된<br />
           AI 솔루션 라인업
         </h1>
-        <p className="text-white text-[18px] font-normal leading-[1.5]">
+        <p className="text-white text-[16px] md:text-[18px] font-normal leading-[1.5]">
           에너지, 스마트시티, 안전·환경 분야의 실제 구축 경험을 바탕으로<br />
           데이터 통합, AI 분석, 예측 유지보수, 통합관제를 하나의 솔루션 구조로 확장합니다.
         </p>
@@ -119,7 +118,7 @@ const CategoryTabs = ({
   active: number;
   onSelect: (i: number) => void;
 }) => (
-  <section className="relative z-10 bg-[#020617] -mt-[4px]">
+  <section className="relative z-10 bg-[#020617] mt-16 lg:mt-[112px]">
     <div className="container-custom">
       <div className="flex flex-wrap md:flex-nowrap">
         {items.map((t, i) => {
@@ -172,12 +171,14 @@ const steps = [
 ];
 
 const Lifecycle = () => (
-  <section className="relative pt-[170px] pb-28 bg-[#020617] overflow-hidden">
+  <section className="relative py-[86px] lg:py-24 bg-[#020617] overflow-hidden">
     {/* ambient depth behind the row */}
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_48%_at_50%_46%,rgba(47,212,196,0.07),transparent_70%)]" />
-    {/* glossy glow — teal, bleeding in from the left (Figma: Ellipse 12) */}
+    {/* glossy glow — teal, bleeding in from the left (Figma: Ellipse 12). Centred vertically and sized to
+        fade out inside this section, so the shorter py-24 section's overflow-hidden never clips its bottom
+        into a seam (user, 2026-07-29; see the glossy-glow-seam pattern). */}
     <div
-      className="pointer-events-none absolute -left-[520px] top-0 h-[1000px] w-[1120px] rounded-[50%]"
+      className="pointer-events-none absolute -left-[520px] top-1/2 -translate-y-1/2 h-[900px] w-[1120px] rounded-[50%]"
       style={{ background: "radial-gradient(closest-side, rgba(47,212,196,0.42), rgba(47,212,196,0) 72%)" }}
     />
 
@@ -203,6 +204,10 @@ const Lifecycle = () => (
         {/* energy rail — one glowing line the three cards sit on, with a pulse flowing through it */}
         <div className="hidden md:block absolute left-[9%] right-[9%] top-[104px] h-px bg-gradient-to-r from-transparent via-[#2fd4c4]/45 to-transparent">
           <span className="absolute top-1/2 -translate-y-1/2 h-[3px] w-[90px] rounded-full bg-gradient-to-r from-transparent via-[#2fd4c4] to-transparent shadow-[0_0_14px_2px_rgba(47,212,196,0.7)] animate-[rail-flow_3.6s_linear_infinite]" />
+        </div>
+        {/* mobile: the cards stack, so the same rail runs vertically down the centre with a top→down pulse */}
+        <div className="md:hidden absolute left-1/2 -translate-x-1/2 top-[40px] bottom-[40px] w-px bg-gradient-to-b from-transparent via-[#2fd4c4]/40 to-transparent">
+          <span className="absolute left-1/2 -translate-x-1/2 w-[3px] h-[64px] rounded-full bg-gradient-to-b from-transparent via-[#2fd4c4] to-transparent shadow-[0_0_14px_2px_rgba(47,212,196,0.7)] animate-[rail-flow-v_4s_linear_infinite]" />
         </div>
 
         <div className="flex flex-col md:flex-row items-stretch justify-center gap-8 md:gap-6">
@@ -455,7 +460,7 @@ const solutionCards = [
 ];
 
 const SolutionCards = () => (
-  <section className="relative overflow-hidden pt-[110px] pb-16 bg-[#020617]">
+  <section className="relative overflow-hidden pt-[86px] pb-16 lg:pt-24 bg-[#020617]">
     {/* glossy glows — teal / blue alternating down the cards (Figma: Ellipse 13, 14) */}
     <div
       className="pointer-events-none absolute -left-[520px] top-[8%] h-[1000px] w-[1120px] rounded-[50%]"
@@ -494,7 +499,7 @@ const SolutionCards = () => (
             src={asset(c.img)}
             alt=""
             aria-hidden
-            className="hidden md:block pointer-events-none select-none absolute right-0 top-1/2 -translate-y-1/2 h-full w-auto max-w-none"
+            className="hidden md:block pointer-events-none select-none absolute right-0 top-1/2 -translate-y-1/2 h-full w-auto max-w-none transition-transform duration-500 ease-out group-hover:scale-[1.03]"
             loading={i === 0 ? "eager" : "lazy"}
           />
 
@@ -517,9 +522,11 @@ const SolutionCards = () => (
             </div>
           </div>
 
-          {/* 3D visual — stacked below text on mobile */}
+          {/* 3D visual — stacked below text on mobile (mobile-only element; desktop uses the img above). Uses
+              a pre-baked "_m" version whose edge-fade + left-band removal are burned into the file's alpha, so
+              it dissolves into the card reliably — CSS mask-image proved inconsistent here (user, 2026-07-29). */}
           <img
-            src={asset(c.img)}
+            src={asset(c.img.replace(".webp", "_m.webp"))}
             alt={`${c.en} — ${c.kr}`}
             className="md:hidden w-full h-auto select-none px-4 pb-6"
             loading="lazy"
@@ -532,7 +539,7 @@ const SolutionCards = () => (
 
 // --- 6. CTA ---
 const CTA = () => (
-  <section className="relative overflow-hidden py-20 bg-[#020617]">
+  <section className="relative overflow-hidden py-[50px] md:py-20 bg-[#020617]">
     {/* glossy glow — teal, bleeding in from the left (Figma: Ellipse 14). Sized to die inside this
         short (~600px) section: the old h-[900px] top-[-10%] was still ~half-bright at the section
         bottom and overflow-hidden cut it into a seam against the footer. At h-[700px] top-[-60px] the
@@ -556,16 +563,16 @@ const CTA = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative z-10 flex flex-col items-center text-center px-6 py-[72px]"
+          className="relative z-10 flex flex-col items-center text-center px-6 py-14 md:py-[72px]"
         >
-          <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+          <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] break-keep text-balance">
             <span className="text-white">산업 AI의 미래, </span>
             <span className="text-[#2fd4c4]">지금 바로 시작하세요</span>
           </h2>
-          <p className="text-white/70 text-[15px] md:text-[18px] mt-3">
+          <p className="text-white/70 text-[15px] md:text-[18px] mt-3 break-keep text-balance">
             전문가와 상담하고 에임위드의 AI 솔루션을 직접 경험해 보세요.
           </p>
-          <div className="mt-8">
+          <div className="mt-7 w-full sm:w-auto">
             <ActionButtons />
           </div>
         </motion.div>
@@ -585,12 +592,36 @@ export default function Solution() {
     document.getElementById(navItems[i].id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // scroll-spy: the active tab follows whichever solution card is crossing the viewport centre, so the
+  // tab bar stays in sync while the user scrolls (not only on click).
+  useEffect(() => {
+    const ids = navItems.map((n) => n.id);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const idx = ids.indexOf(visible.target.id);
+        if (idx !== -1) setActiveTab(idx);
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="pt-[80px] min-h-screen text-white bg-[#020617] font-sans overflow-hidden">
       <Hero />
-      <CategoryTabs items={navItems} active={activeTab} onSelect={goTo} />
       <Lifecycle />
       <Framework />
+      {/* Tabs sit directly above the solution cards they jump to (user, 2026-07-29) — moved up out from
+          under the hero, where they were two sections away from their target and read as disconnected. */}
+      <CategoryTabs items={navItems} active={activeTab} onSelect={goTo} />
       <SolutionCards />
       <CTA />
     </div>
