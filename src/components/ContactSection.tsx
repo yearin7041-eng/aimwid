@@ -87,7 +87,7 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
       <div className="container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10">
         <div className="flex-1">
           <h2 className="text-4xl md:text-5xl lg:text-[54px] font-bold font-display mb-8 md:whitespace-nowrap leading-tight">
-            <span className="text-brand-cyan">에임위드</span>와 미래를<br />함께할 파트너
+            기업의 AI 전환<br /> <span className="text-brand-cyan">에임위드</span>와 시작하세요
           </h2>
           <p className="text-[#9fb0c4] text-lg break-keep">문의사항을 남겨주시면 확인 후 연락드리겠습니다.</p>
         </div>
