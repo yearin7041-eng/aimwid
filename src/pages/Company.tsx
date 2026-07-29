@@ -93,9 +93,9 @@ const Hero = () => (
 // The three paragraphs are the 507:104 copy verbatim; it differs from the older approved 소개 text and
 // still leans on 현장 elsewhere on the page — flagged for the client, used as the mock has it.
 const ABOUT_BODY = [
-  <>에임위드는 AI 기술과 스마트 도시 인프라 솔루션을 결합해<br />현실의 문제를 해결하고 새로운 가치를 만드는 기술 중심 기업입니다.</>,
-  <>빅데이터, 엣지 AI, 디지털 트윈, 자동화 기술을 기반으로<br />공공기관과 민간 기업의 디지털 전환을 지원합니다.</>,
-  <>신뢰할 수 있는 기술과 지속적인 연구개발로<br />더 안전하고, 더 편리하며, 더 지속 가능한 사회를 구현합니다.</>,
+  <>에임위드는 산업 현장의 데이터와 업무를 연결해,<br />데이터 연동과 실시간 모니터링, AI 기반 분석과 업무 자동화를 하나의 환경으로 통합하고,<br /> 각 고객의 운영 방식과 브랜드에 최적화된 솔루션을 구현합니다.</>,
+  <>현장에서 축적한 경험과 지속적인 연구개발을 바탕으로<br />복잡한 기술을 누구나 쉽게 사용할 수 있는 서비스로 전환합니다.</>,
+  <>고객이 더 빠르게 판단하고, 더 안전하게 운영하며,변화에 유연하게 대응할 수 있도록 <br />AI 전환의 전 과정을 함께하는 기술 파트너가 되겠습니다.</>,
 ];
 
 // This section owns BOTH page gaps: History has no pt, so About's pb is the About→History gap; Hero has
@@ -122,8 +122,8 @@ const Intro = () => (
       >
         <p className="text-[#2fd4c4] text-[20px] font-normal leading-[1.2]">About Us</p>
         <h2 className="mt-6 text-[32px] md:text-[50px] font-bold leading-[1.4] text-white break-keep">
-          끊임없는 연구개발로<br />
-          기술경쟁력에서 앞서갑니다.
+          현장을 이해하는 기술로<br />
+          기업의 AI 전환을 현실로 만듭니다.
         </h2>
         <div className="mx-auto mt-8 h-px w-[60px] bg-[#2fd4c4]/60" />
         <div className="mt-10 flex flex-col gap-7">
