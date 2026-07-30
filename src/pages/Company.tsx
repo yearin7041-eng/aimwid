@@ -912,7 +912,7 @@ const CISection = () => (
               key={fmt}
               href={asset(file)}
               download
-              className="flex h-[54px] w-[220px] justify-center items-center gap-3 rounded-[8px] border border-white/15 bg-white/[0.04] text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
+              className="flex h-[48px] sm:h-[54px] w-[220px] justify-center items-center gap-3 rounded-[8px] border border-white/15 bg-white/[0.04] text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
             >
               <span>{fmt} 다운로드</span>
               <Download size={18} className="text-[#2fd4c4]" />

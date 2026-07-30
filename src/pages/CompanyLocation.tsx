@@ -330,7 +330,7 @@ const LocationBody = () => (
             href={KAKAO_MAP_URL}
             target="_blank"
             rel="noreferrer"
-            className="mt-8 lg:mt-auto flex h-[52px] items-center justify-center gap-2.5 rounded-[10px] border border-white/15 bg-white/[0.04] text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
+            className="mt-8 lg:mt-auto flex h-[48px] sm:h-[54px] items-center justify-center gap-2.5 rounded-[10px] border border-white/15 bg-white/[0.04] text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
           >
             <Navigation size={17} className="text-[#2fd4c4]" />
             카카오맵 길찾기
