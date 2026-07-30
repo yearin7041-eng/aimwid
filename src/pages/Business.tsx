@@ -1256,7 +1256,7 @@ const CTA = () => (
           transition={{ duration: 0.6 }}
           className="relative z-10 flex flex-col items-center text-center px-6 py-[68px]"
         >
-          <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+          <h2 className="text-[26px] md:text-[42px] font-bold leading-[1.3] drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] break-keep text-balance">
             <span className="text-white">당신의 데이터로 시작하는 </span>
             <span className="text-[#2fd4c4]">맞춤형 AI 사업</span>
           </h2>

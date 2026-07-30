@@ -561,8 +561,8 @@ const SolutionShowcase = () => {
     <section ref={targetRef} className="relative lg:h-[350vh] bg-bg-dark">
       {/* Title is now outside the sticky container so it scrolls away first */}
       <div className="container-custom text-center pt-20 lg:pt-32 mb-10 lg:mb-[72px]">
-        <h2 className="text-[28px] lg:text-[40px] font-bold mb-2">AIM Solutions</h2>
-        <p className="text-[16px] lg:text-[20px] font-normal text-[#C2C2C2] break-keep">당신의 비즈니스에 꼭 맞는 AI 솔루션을 찾아보세요.</p>
+        <h2 className="text-[28px] md:text-[40px] font-bold font-display mb-2">AIM Solutions</h2>
+        <p className="text-[16px] md:text-[20px] font-normal text-[#C2C2C2] break-keep">당신의 비즈니스에 꼭 맞는 AI 솔루션을 찾아보세요.</p>
       </div>
 
       {/* Mobile: the desktop scroll-jack (wheel-driven horizontal 1472px cards) can't work on touch, so

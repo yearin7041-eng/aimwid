@@ -86,7 +86,7 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
 
       <div className="container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10">
         <div className="flex-1">
-          <h2 className="text-[24px] md:text-[50px] font-bold text-white mb-8 md:whitespace-nowrap leading-[1.5] break-keep">
+          <h2 className="text-[24px] md:text-[50px] font-bold text-white mb-3 md:mb-8 md:whitespace-nowrap leading-[1.5] break-keep">
             기업의 AI 전환<br /> <span className="text-brand-cyan">에임위드</span>와 시작하세요
           </h2>
           <p className="text-[#9fb0c4] text-[16px] md:text-[20px] leading-[1.5] break-keep">문의사항을 남겨주시면 확인 후 연락드리겠습니다.</p>
@@ -98,38 +98,38 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[16px] font-medium text-white flex items-center gap-1">이름 <span className="text-brand-cyan">*</span></label>
+              <label className="text-[14px] font-medium text-white flex items-center gap-1">이름 <span className="text-brand-cyan">*</span></label>
               <input name="이름" type="text" required placeholder="이름" className={inputCls} />
             </div>
             <div className="space-y-2">
-              <label className="text-[16px] font-medium text-white">연락처</label>
+              <label className="text-[14px] font-medium text-white flex items-center gap-1">연락처</label>
               <input name="연락처" type="text" placeholder="000-0000-0000" className={inputCls} />
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[16px] font-medium text-white flex items-center gap-1">기업명 <span className="text-brand-cyan">*</span></label>
+              <label className="text-[14px] font-medium text-white flex items-center gap-1">기업명 <span className="text-brand-cyan">*</span></label>
               <input name="기업명" type="text" required placeholder="기업명" className={inputCls} />
             </div>
             <div className="space-y-2">
-              <label className="text-[16px] font-medium text-white">직책</label>
+              <label className="text-[14px] font-medium text-white flex items-center gap-1">직책</label>
               <input name="직책" type="text" placeholder="직책" className={inputCls} />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-[16px] font-medium text-white flex items-center gap-1">이메일 <span className="text-brand-cyan">*</span></label>
+            <label className="text-[14px] font-medium text-white flex items-center gap-1">이메일 <span className="text-brand-cyan">*</span></label>
             <input name="email" type="email" required placeholder="이메일" className={inputCls} />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[16px] font-medium text-white flex items-center gap-1">제목 <span className="text-brand-cyan">*</span></label>
+            <label className="text-[14px] font-medium text-white flex items-center gap-1">제목 <span className="text-brand-cyan">*</span></label>
             <input name="제목" type="text" required placeholder="제목" className={inputCls} />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[16px] font-medium text-white flex items-center gap-1">내용 <span className="text-brand-cyan">*</span></label>
+            <label className="text-[14px] font-medium text-white flex items-center gap-1">내용 <span className="text-brand-cyan">*</span></label>
             <textarea name="내용" required placeholder="내용을 입력하세요." rows={4} className={`${inputCls} resize-none`} />
           </div>
 

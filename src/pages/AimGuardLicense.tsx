@@ -172,7 +172,7 @@ const CustomerForm = ({
           <div key={f.name} className="space-y-2">
             {/* 16px. Home's Contact labels were moved 18px → 16px at the same time (user, 2026-07-20),
                 so this still matches the form system — change both together or they drift. */}
-            <label htmlFor={f.name} className="flex items-center gap-1 text-[16px] font-medium text-white">
+            <label htmlFor={f.name} className="flex items-center gap-1 text-[14px] font-medium text-white">
               {f.label} <span className="text-brand-cyan">*</span>
             </label>
             <input
