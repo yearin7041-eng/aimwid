@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { MapPin, Phone, Mail, Printer, Navigation } from "lucide-react";
 import Breadcrumb from "../components/Breadcrumb";
@@ -135,13 +135,16 @@ const AVE_X = MAP_COLS[4]; // 342 — the vertical avenue it turns up
 // nav route: start bottom-left, up to the avenue, along it, up a street, across to the pin
 const MAP_ROUTE = `M70 540 L70 ${AVE_Y} L${AVE_X} ${AVE_Y} L${AVE_X} ${MAP_ROWS[3]} L${PIN_X} ${MAP_ROWS[3]} L${PIN_X} ${PIN_TIP_Y}`;
 
-const MapGraphic = () => {
+const MapGraphic = ({ viewBox, fx = 1 }: { viewBox?: string; fx?: number }) => {
   const reduce = useReducedMotion();
+  // Unique per instance — desktop and mobile both render MapGraphic, so a hard-coded id collides and the
+  // pin's url(#…) fill resolves to the first (display:none desktop) gradient, leaving the pin unpainted.
+  const gradId = useId();
 
   return (
-    <svg viewBox={`${MAP_VIEW_LEFT} 0 ${572 - MAP_VIEW_LEFT} 572`} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg viewBox={viewBox ?? `${MAP_VIEW_LEFT} 0 ${572 - MAP_VIEW_LEFT} 572`} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <linearGradient id="loc-pin" x1="0" y1="0" x2="1" y2="1">
+        <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#4fe3e0" />
           <stop offset="100%" stopColor="#2f7ec9" />
         </linearGradient>
@@ -188,12 +191,12 @@ const MapGraphic = () => {
             key={i}
             cx={PIN_X}
             cy={PIN_TIP_Y}
-            r={30}
+            r={30 * fx}
             fill="none"
             stroke="#2fd4c4"
             strokeWidth={1.3}
             initial={{ opacity: 0 }}
-            animate={{ r: [30, 150], opacity: [0.5, 0] }}
+            animate={{ r: [30 * fx, 150 * fx], opacity: [0.5, 0] }}
             transition={{ duration: 3.6, repeat: Infinity, delay: i * 1.2, ease: "easeOut" }}
           />
         ))}
@@ -219,7 +222,7 @@ const MapGraphic = () => {
       >
         <path
           d={`M${PIN_X} ${PIN_TIP_Y} C ${PIN_X - 20} ${PIN_TIP_Y - 26} ${PIN_X - 34} ${PIN_TIP_Y - 42} ${PIN_X - 34} ${PIN_TIP_Y - 64} A 34 34 0 1 1 ${PIN_X + 34} ${PIN_TIP_Y - 64} C ${PIN_X + 34} ${PIN_TIP_Y - 42} ${PIN_X + 20} ${PIN_TIP_Y - 26} ${PIN_X} ${PIN_TIP_Y} Z`}
-          fill="url(#loc-pin)"
+          fill={`url(#${gradId})`}
         />
         <circle cx={PIN_X} cy={PIN_TIP_Y - 64} r="12.5" fill="#040813" />
       </motion.g>
@@ -228,14 +231,14 @@ const MapGraphic = () => {
 };
 
 const Hero = () => (
-  <section className="relative min-h-[820px] overflow-hidden bg-[#040813]">
+  <section className="relative lg:min-h-[820px] overflow-hidden bg-[#040813]">
     <div className="absolute inset-0 pointer-events-none">
       {/* Map/pin hero visual, right-anchored so the pin holds its place while the widened map mesh spreads
           left across the empty side of the hero. Three intersected fades dissolve the map's left, top and
           bottom into the section so it melts away toward the copy rather than ending on a hard edge (user,
           2026-07-22). Width tracks the now ~1.6× wider viewBox so the right/pin end keeps its on-screen size. */}
       <div
-        className="absolute right-[-2%] top-1/2 w-[80%] max-w-[1160px] -translate-y-1/2 select-none"
+        className="hidden lg:block absolute right-[-2%] top-1/2 w-[80%] max-w-[1160px] -translate-y-1/2 select-none"
         style={{
           maskImage:
             "linear-gradient(to right, transparent 0%, #000 42%), linear-gradient(to bottom, transparent 0%, #000 16%), linear-gradient(to bottom, #000 74%, transparent 97%)",
@@ -247,7 +250,7 @@ const Hero = () => (
       >
         <MapGraphic />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/55 via-[36%] to-transparent to-[62%]" />
+      <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/55 via-[36%] to-transparent to-[62%]" />
       <div className="absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-b from-transparent to-[#020617]" />
     </div>
 
@@ -255,22 +258,44 @@ const Hero = () => (
 
     <Breadcrumb />
 
-    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
+    {/* Mobile: the map graphic stacks above the copy (like the other heroes); desktop keeps it as the
+        right-side background above. pt-[92px] clears the absolute breadcrumb; bottom fade melts it into
+        the copy. */}
+    <div className="lg:hidden container-custom relative z-[2] pt-[92px] pointer-events-none">
+      <div
+        className="mx-auto w-[80%] max-w-[420px] overflow-hidden"
+        style={{
+          // Light 4-edge fade so the full map dissolves into the section; bottom fades into the copy.
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 76%, transparent)",
+          WebkitMaskComposite: "source-in",
+          maskImage:
+            "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 76%, transparent)",
+          maskComposite: "intersect",
+        }}
+      >
+        {/* Crop to a ~400-wide window so the pin renders at its desktop on-screen size (the full 912-wide
+            map shrinks the pin to ~14px on a phone). Framing keeps the route + rings, matching desktop. */}
+        <MapGraphic viewBox="130 150 340 320" />
+      </div>
+    </div>
+
+    <div className="container-custom relative z-10 pt-8 lg:pt-[200px] pb-[40px] lg:pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="max-w-[760px] flex flex-col"
       >
-        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-[27px]">Location</p>
-        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">오시는 길</h1>
+        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-[27px]">Location</p>
+        <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] break-keep">오시는 길</h1>
       </motion.div>
     </div>
   </section>
 );
 
 const LocationBody = () => (
-  <section className="relative bg-[#020617] pb-[200px] overflow-hidden">
+  <section className="relative bg-[#020617] pb-[86px] lg:pb-[200px] overflow-hidden">
     <div className="container-custom relative">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -286,10 +311,10 @@ const LocationBody = () => (
 
         {/* Contact card, sat beside the map (user, 2026-07-22) instead of stacked beneath it. flex-col with
             the 길찾기 button on mt-auto so the card fills the map's height with the button pinned to the base. */}
-        <div className="flex min-h-[440px] flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-8 lg:min-h-0 lg:p-10">
+        <div className="flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-8 lg:min-h-0 lg:p-10">
           <h3 className="text-[24px] md:text-[28px] font-bold text-white">AIMWID 본사</h3>
 
-          <dl className="mt-12 flex flex-col gap-6">
+          <dl className="mt-8 lg:mt-12 flex flex-col gap-6">
             {INFO.map(({ icon: Icon, label, value }) => (
               <div key={label} className="flex items-start gap-4">
                 <Icon size={20} className="mt-1 shrink-0 text-brand-cyan" />
@@ -305,7 +330,7 @@ const LocationBody = () => (
             href={KAKAO_MAP_URL}
             target="_blank"
             rel="noreferrer"
-            className="mt-auto flex h-[52px] items-center justify-center gap-2.5 rounded-[10px] border border-white/15 bg-white/[0.04] text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
+            className="mt-8 lg:mt-auto flex h-[52px] items-center justify-center gap-2.5 rounded-[10px] border border-white/15 bg-white/[0.04] text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
           >
             <Navigation size={17} className="text-[#2fd4c4]" />
             카카오맵 길찾기
