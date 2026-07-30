@@ -186,7 +186,7 @@ const StatsBand = () => (
       >
         {STATS.map((s) => (
           <div key={s.label} className="flex flex-col items-center gap-2.5 text-center">
-            <span className="text-[40px] md:text-[56px] font-bold leading-none text-white tabular-nums">{s.n}</span>
+            <span className="text-[32px] md:text-[56px] font-bold leading-none text-white tabular-nums">{s.n}</span>
             <span className="text-[15px] md:text-[16px] text-[#9fb0c4]">{s.label}</span>
           </div>
         ))}
