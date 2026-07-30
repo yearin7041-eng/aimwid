@@ -58,11 +58,11 @@ const INPUT =
 // only on Home, while this one repeats across every sub-page, so it is the shared component and this
 // page is a sub-page. An earlier pass here matched the pill by mistake.
 const CTA =
-  "flex h-[54px] w-[232px] items-center justify-center gap-2 rounded-[8px] text-[#000028] text-[18px] font-bold transition-all hover:shadow-[0_0_30px_rgba(0,230,219,0.5)]";
+  "flex h-[48px] w-full sm:h-[54px] sm:w-[232px] items-center justify-center gap-2 rounded-[8px] text-[#000028] text-[16px] sm:text-[18px] font-bold transition-all hover:shadow-[0_0_30px_rgba(0,230,219,0.5)]";
 const CTA_BG = { background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" };
 
 const Hero = ({ onStart }: { onStart: () => void }) => (
-  <section className="relative min-h-[620px] overflow-hidden bg-[#040813]">
+  <section className="relative lg:min-h-[620px] overflow-hidden bg-[#040813]">
     {/* Faint tech grid, drawn rather than shipped as the render's background bitmap */}
     <div
       className="pointer-events-none absolute inset-0 opacity-[0.28]"
@@ -85,7 +85,7 @@ const Hero = ({ onStart }: { onStart: () => void }) => (
         flex-1. Sizing the image as a percentage left the right side looking empty at 1600, because the
         text never grew to meet it. At the 1600 column that lands the visual near 984px, and since it is
         16:9 it is also the tallest thing here, so it — not the copy — sets the hero's height. */}
-    <div className="container-custom relative z-10 flex flex-col items-center gap-12 pt-[140px] pb-[100px] lg:flex-row lg:items-center lg:gap-14">
+    <div className="container-custom relative z-10 flex flex-col items-center gap-12 pt-[120px] pb-[64px] lg:flex-row lg:items-center lg:gap-14 lg:pt-[140px] lg:pb-[100px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -94,15 +94,15 @@ const Hero = ({ onStart }: { onStart: () => void }) => (
       >
         {/* Gray, not the render's cyan. Every hero on the site puts its eyebrow in #90a1b9 and reserves
             teal for "a section starts here" — see the hero-eyebrow convention. */}
-        <p className="mb-4 text-[20px] font-bold leading-[1.4] text-[#90a1b9]">AI 영상분석 통합관제 솔루션</p>
+        <p className="mb-4 text-[16px] md:text-[20px] font-bold leading-[1.4] text-[#90a1b9]">AI 영상분석 통합관제 솔루션</p>
         {/* Explicit break, not reflow: left to itself the line wrapped mid-word, splitting 발급 across
             two lines. break-keep is the belt to that braces at other widths. */}
-        <h1 className="text-[40px] font-bold leading-[1.2] text-white break-keep md:text-[56px]">
+        <h1 className="text-[30px] sm:text-[40px] md:text-[56px] font-bold leading-[1.2] text-white break-keep">
           AIM GUARD<br />
           <span className="text-brand-cyan">라이선스 발급</span>
         </h1>
-        <p className="mt-7 text-[18px] font-normal leading-[1.6] text-white/80">
-          고객 정보를 입력하시면 AIM GUARD 라이선스를 발급하고,<br />
+        <p className="mt-7 text-[16px] md:text-[18px] font-normal leading-[1.6] text-white/80">
+          고객 정보를 입력하시면 AIM GUARD 라이선스를 발급하고,<br className="hidden lg:block" />
           설치 파일을 다운로드할 수 있습니다.
         </p>
         <button onClick={onStart} className={`${CTA} mt-10 shrink-0`} style={CTA_BG}>
@@ -163,8 +163,8 @@ const CustomerForm = ({
   setValues: (fn: (v: Values) => Values) => void;
   locked: boolean;
 }) => (
-  <div ref={innerRef} className={`${PANEL} p-10 ${locked ? "opacity-60" : ""}`}>
-      <h2 className="text-[24px] font-bold text-white">고객 정보 입력</h2>
+  <div ref={innerRef} className={`${PANEL} p-6 md:p-10 ${locked ? "opacity-60" : ""}`}>
+      <h2 className="text-[20px] font-bold text-white">고객 정보 입력</h2>
       {/* Label ABOVE the field, not beside it — Contact's arrangement. The render put labels in a
           200px left column, which is the one layout choice dropped in favour of the site system. */}
       <div className="mt-8 space-y-6">
@@ -203,9 +203,9 @@ const Agreements = ({
   locked: boolean;
   onSubmit: () => void;
 }) => (
-    <div className={`${PANEL} p-10 ${locked ? "opacity-60" : ""}`}>
+    <div className={`${PANEL} p-6 md:p-10 ${locked ? "opacity-60" : ""}`}>
       {/* 동의 was accented in the render; it reads as one heading now, matching the other three cards */}
-      <h2 className="text-[24px] font-bold text-white">개인정보 및 라이선스 약관 동의</h2>
+      <h2 className="text-[20px] font-bold text-white break-keep">개인정보 및 라이선스 약관 동의</h2>
       <div className="mt-4">
         {AGREEMENTS.map((a, i) => (
           <div
@@ -214,17 +214,17 @@ const Agreements = ({
           >
             {/* Native checkbox with accent-color, exactly as Contact does it. The render drew a custom
                 26px outlined box; that is dropped so both forms behave and look identical. */}
-            <label className="flex cursor-pointer items-center gap-3">
+            <label className="flex min-w-0 cursor-pointer items-center gap-3">
               <input
                 type="checkbox"
-                className="h-5 w-5 cursor-pointer rounded-sm accent-brand-cyan"
+                className="h-5 w-5 shrink-0 cursor-pointer rounded-sm accent-brand-cyan"
                 checked={checked[a.id] ?? false}
                 disabled={locked}
                 onChange={(e) => setChecked((c) => ({ ...c, [a.id]: e.target.checked }))}
               />
-              <span className="select-none text-[16px] font-normal text-[#9fb0c4]">{a.label}</span>
+              <span className="select-none text-[15px] font-normal text-[#9fb0c4] break-keep">{a.label}</span>
             </label>
-            <button className="flex items-center gap-2 text-[15px] text-brand-cyan transition-opacity hover:opacity-70">
+            <button className="flex shrink-0 items-center gap-1.5 text-[14px] whitespace-nowrap text-brand-cyan transition-opacity hover:opacity-70">
               자세히 보기
               <ChevronRight size={18} />
             </button>
@@ -235,7 +235,7 @@ const Agreements = ({
       {/* The submit the render never had. Its comp drew the filled-in end state of every card at once,
           so implementing it literally produced a page that showed an issued key before anything was
           submitted. The action lives here, under the consents, because those gate it. */}
-      <div className="mt-8 flex items-center gap-5 border-t border-white/10 pt-8">
+      <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-5 border-t border-white/10 pt-8">
         <button
           onClick={onSubmit}
           disabled={!canSubmit || locked}
@@ -262,8 +262,8 @@ const LicenseKey = ({ issuedKey }: { issuedKey: string | null }) => {
   };
 
   return (
-    <div className={`${PANEL} flex-1 p-10`}>
-      <h2 className="text-[24px] font-bold text-white">라이선스 키 확인</h2>
+    <div className={`${PANEL} flex-1 p-6 md:p-10`}>
+      <h2 className="text-[20px] font-bold text-white">라이선스 키 확인</h2>
       <p className="mt-4 text-[16px] text-white/65">
         {issuedKey ? "라이선스 키를 확인하고 복사할 수 있습니다." : "신청이 완료되면 이곳에 라이선스 키가 표시됩니다."}
       </p>
@@ -276,7 +276,7 @@ const LicenseKey = ({ issuedKey }: { issuedKey: string | null }) => {
         }`}
       >
         <code
-          className={`font-mono text-[22px] tracking-[0.06em] ${issuedKey ? "text-brand-cyan" : "text-white/30"}`}
+          className={`font-mono text-[16px] md:text-[22px] tracking-[0.06em] min-w-0 break-all ${issuedKey ? "text-brand-cyan" : "text-white/30"}`}
         >
           {issuedKey ?? MASKED_KEY}
         </code>
@@ -294,8 +294,8 @@ const LicenseKey = ({ issuedKey }: { issuedKey: string | null }) => {
 };
 
 const InstallerDownload = ({ issued }: { issued: boolean }) => (
-  <div className={`${PANEL} flex-1 p-10`}>
-    <h2 className="text-[24px] font-bold text-white">설치파일 다운로드</h2>
+  <div className={`${PANEL} flex-1 p-6 md:p-10`}>
+    <h2 className="text-[20px] font-bold text-white">설치파일 다운로드</h2>
     {/* Gated on issuance for the same reason as the key: the installer is what the licence entitles
         you to, so offering it before one exists invites the download without the key. */}
     <button
@@ -316,7 +316,7 @@ const InstallerDownload = ({ issued }: { issued: boolean }) => (
           <div key={term} className="flex items-center text-[16px]">
             <Icon size={20} className="mr-4 shrink-0 text-white/45" />
             <dt className="w-[110px] shrink-0 font-bold text-white/90">{term}</dt>
-            <dd className="text-white/70">{desc}</dd>
+            <dd className="min-w-0 break-all text-white/70">{desc}</dd>
           </div>
         ))}
       </dl>
@@ -351,7 +351,7 @@ const AimGuardLicense = () => {
     <main className="bg-bg-dark">
       <Hero onStart={() => formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })} />
 
-      <section className="relative overflow-hidden pb-[130px]">
+      <section className="relative overflow-hidden pb-[86px] lg:pb-[130px]">
         <div
           className="pointer-events-none absolute -left-[380px] top-[120px] h-[860px] w-[980px] rounded-[50%]"
           style={{ background: "radial-gradient(closest-side, rgba(54,132,247,0.13), rgba(54,132,247,0) 72%)" }}
@@ -366,7 +366,7 @@ const AimGuardLicense = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative mx-auto flex w-full max-w-[1200px] flex-col gap-[46px] px-6"
+          className="relative mx-auto flex w-full max-w-[1200px] flex-col gap-8 lg:gap-[46px] px-6"
         >
           {/* Locked after issuance so the inputs can't be edited out from under a key already granted */}
           <CustomerForm innerRef={formRef} values={values} setValues={setValues} locked={!!issuedKey} />
@@ -378,7 +378,7 @@ const AimGuardLicense = () => {
             onSubmit={submit}
           />
           {/* These two are a pair in the render — equal width, side by side, stacking on narrow */}
-          <div ref={resultRef} className="flex flex-col gap-[46px] lg:flex-row">
+          <div ref={resultRef} className="flex flex-col gap-8 lg:gap-[46px] lg:flex-row">
             <LicenseKey issuedKey={issuedKey} />
             <InstallerDownload issued={!!issuedKey} />
           </div>
