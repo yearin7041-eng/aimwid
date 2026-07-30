@@ -15,7 +15,7 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 const CoHeading = ({ label, title, align = "left" }: { label: string; title: ReactNode; align?: "left" | "center" }) => (
   <div className={`flex flex-col gap-4 ${align === "center" ? "items-center text-center" : "items-start"}`}>
     <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">{label}</p>
-    <h2 className="text-[32px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
+    <h2 className="text-[24px] md:text-[50px] font-bold text-white leading-[1.5] break-keep">{title}</h2>
   </div>
 );
 
@@ -24,7 +24,7 @@ const CoHeading = ({ label, title, align = "left" }: { label: string; title: Rea
 // 96px header bridge, and a raster (company_hero_visual.webp) pinned right behind the left→right
 // darkening. The copy is the user's chosen version (2026-07-24), still worth a final client check.
 const Hero = () => (
-  <section className="relative min-h-[820px] overflow-hidden bg-[#040813]">
+  <section className="relative lg:min-h-[820px] overflow-hidden bg-[#040813]">
     <div className="absolute inset-0 pointer-events-none">
       <div
         className="absolute right-[-10%] top-[4%] h-[820px] w-[980px] rounded-[50%]"
@@ -43,7 +43,7 @@ const Hero = () => (
         src={asset("company_hero_visual.webp")}
         alt=""
         aria-hidden="true"
-        className="absolute right-[-3%] top-1/2 w-[60%] max-w-[1000px] -translate-x-[50px] -translate-y-1/2 select-none"
+        className="hidden lg:block absolute right-[-3%] top-1/2 w-[60%] max-w-[1000px] -translate-x-[50px] -translate-y-1/2 select-none"
         style={{
           maskImage:
             "linear-gradient(to right, transparent 0%, #000 18%), linear-gradient(to bottom, transparent 0%, #000 12%), linear-gradient(to bottom, #000 72%, transparent 96%)",
@@ -53,7 +53,7 @@ const Hero = () => (
           WebkitMaskComposite: "source-in",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/55 via-[36%] to-transparent to-[62%]" />
+      <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/55 via-[36%] to-transparent to-[62%]" />
       <div className="absolute inset-x-0 bottom-0 h-[180px] bg-gradient-to-b from-transparent to-[#020617]" />
     </div>
 
@@ -62,20 +62,36 @@ const Hero = () => (
 
     <Breadcrumb />
 
+    {/* Mobile: the hero render stacks above the copy (like every other hero); desktop keeps it as the
+        right-side background above. pt-[92px] clears the absolute breadcrumb; a bottom fade dissolves it
+        into the copy area. */}
+    <div className="lg:hidden relative z-[2] pt-[92px] pointer-events-none">
+      <img
+        src={asset("company_hero_visual.webp")}
+        alt=""
+        aria-hidden
+        className="mx-auto block w-[90%] max-w-[560px] h-auto select-none"
+        style={{
+          maskImage: "linear-gradient(to bottom, #000 70%, transparent)",
+          WebkitMaskImage: "linear-gradient(to bottom, #000 70%, transparent)",
+        }}
+      />
+    </div>
+
     {/* pt matches Business */}
-    <div className="container-custom relative z-10 pt-[200px] pb-[120px]">
+    <div className="container-custom relative z-10 pt-8 lg:pt-[200px] pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="max-w-[760px] flex flex-col"
       >
-        <p className="text-[#90a1b9] text-[20px] font-bold leading-[1.4] mb-[27px]">에임위드가 만드는 변화</p>
-        <h1 className="text-[40px] md:text-[64px] font-bold text-white leading-[1.2]">
+        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-[27px]">에임위드가 만드는 변화</p>
+        <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] break-keep">
           기술로 앞서가는<br />
           AI 중심 기업
         </h1>
-        <p className="text-white text-[18px] font-normal leading-[1.4] mt-6">
+        <p className="text-white text-[16px] md:text-[18px] font-normal leading-[1.4] mt-6">
           데이터와 AI를 현장의 실행으로 연결해<br />
           고객의 비즈니스를 더 효율적이고 지능적으로 바꿉니다.
         </p>
@@ -93,16 +109,16 @@ const Hero = () => (
 // The three paragraphs are the 507:104 copy verbatim; it differs from the older approved 소개 text and
 // still leans on 현장 elsewhere on the page — flagged for the client, used as the mock has it.
 const ABOUT_BODY = [
-  <>에임위드는 산업 현장의 데이터와 업무를 연결해,<br />데이터 연동과 실시간 모니터링, AI 기반 분석과 업무 자동화를 하나의 환경으로 통합하고,<br /> 각 고객의 운영 방식과 브랜드에 최적화된 솔루션을 구현합니다.</>,
-  <>현장에서 축적한 경험과 지속적인 연구개발을 바탕으로<br />복잡한 기술을 누구나 쉽게 사용할 수 있는 서비스로 전환합니다.</>,
-  <>고객이 더 빠르게 판단하고, 더 안전하게 운영하며,변화에 유연하게 대응할 수 있도록 <br />AI 전환의 전 과정을 함께하는 기술 파트너가 되겠습니다.</>,
+  <>에임위드는 산업 현장의 데이터와 업무를 연결해, <br className="hidden lg:block" />데이터 연동과 실시간 모니터링, AI 기반 분석과 업무 자동화를 하나의 환경으로 통합하고, <br className="hidden lg:block" />각 고객의 운영 방식과 브랜드에 최적화된 솔루션을 구현합니다.</>,
+  <>현장에서 축적한 경험과 지속적인 연구개발을 바탕으로 <br className="hidden lg:block" />복잡한 기술을 누구나 쉽게 사용할 수 있는 서비스로 전환합니다.</>,
+  <>고객이 더 빠르게 판단하고, 더 안전하게 운영하며, 변화에 유연하게 대응할 수 있도록 <br className="hidden lg:block" />AI 전환의 전 과정을 함께하는 기술 파트너가 되겠습니다.</>,
 ];
 
 // This section owns BOTH page gaps: History has no pt, so About's pb is the About→History gap; Hero has
 // no mb, so About's pt is the Hero→About gap. Deliberately unequal — 150 after the hero, 320 before
 // History — because the hero already carries its own pb-[120px] inside its container.
 const Intro = () => (
-  <section className="relative bg-[#020617] pt-[150px] pb-[130px] overflow-hidden">
+  <section className="relative bg-[#020617] py-[86px] lg:pt-[150px] lg:pb-[130px] overflow-hidden">
     {/* Ambient background — a drifting constellation across the whole section (user, 2026-07-21),
         replacing the two literal side-graphics that read as meaningless boxes. It's mood, not a diagram.
         A radial fade over it keeps the centre dark enough for the copy to stay legible. */}
@@ -121,7 +137,7 @@ const Intro = () => (
         className="mx-auto flex max-w-[820px] flex-col items-center text-center"
       >
         <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">About Us</p>
-        <h2 className="mt-6 text-[32px] md:text-[50px] font-bold leading-[1.4] text-white break-keep">
+        <h2 className="mt-4 text-[24px] md:text-[50px] font-bold leading-[1.4] text-white break-keep">
           현장을 이해하는 기술로<br />
           기업의 AI 전환을 현실로 만듭니다.
         </h2>
@@ -152,7 +168,7 @@ const STATS = [
 ];
 
 const StatsBand = () => (
-  <section className="relative bg-[#020617] pb-[210px]">
+  <section className="relative bg-[#020617] pb-[86px] lg:pb-[210px]">
     <div className="container-custom">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -163,7 +179,7 @@ const StatsBand = () => (
       >
         {STATS.map((s) => (
           <div key={s.label} className="flex flex-col items-center gap-2.5 text-center">
-            <span className="text-[46px] md:text-[56px] font-bold leading-none text-white tabular-nums">{s.n}</span>
+            <span className="text-[40px] md:text-[56px] font-bold leading-none text-white tabular-nums">{s.n}</span>
             <span className="text-[15px] md:text-[16px] text-[#9fb0c4]">{s.label}</span>
           </div>
         ))}
@@ -245,7 +261,7 @@ const MediaCard = ({ img, label }: { img: string; label: string }) => (
 );
 
 const MissionVision = () => (
-  <section className="relative overflow-hidden bg-[#020617] pt-[150px] pb-[180px]">
+  <section className="relative overflow-hidden bg-[#020617] py-[86px] lg:pt-[150px] lg:pb-[180px]">
     {/* Two-tone edge glows (user, 2026-07-21). Two rules that keep them clean:
         1. Contained VERTICALLY — each div sits fully inside the section (positive top/bottom insets) so
            its closest-side gradient fades to 0 before the section edge. overflow-hidden then never clips
@@ -264,7 +280,7 @@ const MissionVision = () => (
     />
 
     <div className="container-custom relative">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-[120px] lg:gap-[150px]">
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-[72px] lg:gap-[150px]">
         {PILLARS.map((p) => (
           <motion.div
             key={p.label}
@@ -285,12 +301,12 @@ const MissionVision = () => (
                   word — user, 2026-07-21. Title/body bumped 2px the same day. */}
               <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">{p.label}</p>
               <div
-                className={`mx-auto mt-6 h-[26px] w-px bg-gradient-to-b from-[#2fd4c4] to-transparent ${
+                className={`hidden lg:block mx-auto mt-6 h-[26px] w-px bg-gradient-to-b from-[#2fd4c4] to-transparent ${
                   p.imageLeft ? "lg:mx-0" : "lg:ml-auto lg:mr-0"
                 }`}
               />
-              <p className="mt-7 text-[26px] md:text-[40px] font-bold leading-[1.4] text-white break-keep">{p.title}</p>
-              <p className="mt-7 max-w-[560px] text-[18px] font-normal leading-[1.9] text-[#9fb0c4] break-keep lg:max-w-none">
+              <p className="mt-4 lg:mt-7 text-[24px] md:text-[50px] font-bold leading-[1.4] text-white break-keep">{p.title}</p>
+              <p className="mt-4 lg:mt-7 max-w-[560px] text-[16px] md:text-[18px] font-normal leading-[1.9] text-[#9fb0c4] break-keep lg:max-w-none">
                 {p.body}
               </p>
             </div>
@@ -484,7 +500,7 @@ const History = () => {
   const fillHeight = useTransform(smooth, [0, 1], ["0%", "100%"]);
 
   return (
-    <section className="relative bg-[#020617] pt-[150px] pb-[300px] overflow-hidden">
+    <section className="relative bg-[#020617] py-[86px] lg:pt-[150px] lg:pb-[300px] overflow-hidden">
     {/* Faint tech grid — the History chapter gets its own ground so it reads as distinct from the airy
         sections around it (2026-07-21 rhythm rework). Kept very low so the timeline stays the subject. */}
     <div
@@ -513,10 +529,10 @@ const History = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="flex flex-col items-center gap-6"
+        className="flex flex-col items-center gap-3"
       >
         <CoHeading label="History" title="AIMWID의 성장" align="center" />
-        <p className="max-w-[1000px] text-center text-[#9fb0c4] text-[17px] md:text-[19px] font-normal leading-[1.7] break-keep">
+        <p className="max-w-[1000px] text-center text-[#9fb0c4] text-[16px] md:text-[20px] font-normal leading-[1.7] break-keep">
           에임위드는 2023년 설립 이후 빠른 속도로 성장하며 주요 공공기관 및 에너지 기업과의 협력을 확대해 왔습니다.
         </p>
       </motion.div>
@@ -535,7 +551,7 @@ const History = () => {
 
           Below md the whole thing collapses to one left rail — a zigzag at phone width is two
           half-width columns of two-word fragments. */}
-      <div ref={railRef} className="relative mx-auto mt-[120px] max-w-[1120px]">
+      <div ref={railRef} className="relative mx-auto mt-14 lg:mt-[120px] max-w-[1120px]">
         {/* one rail for the whole run: centred on md+, hard left below it. The dim gradient is the
             unfilled TRACK; the bright motion.div nested inside is the scroll-driven fill. */}
         <div className="absolute top-2 bottom-2 left-[6px] md:left-1/2 md:-translate-x-1/2 w-[2px] bg-gradient-to-b from-[#2fd4c4]/10 via-[#2fd4c4]/45 to-[#2fd4c4]/10">
@@ -575,7 +591,7 @@ const History = () => {
 // own green→blue gradient. Redrawing it by hand would have meant approximating a logo, and recolouring
 // it to match the section's cyan would have meant modifying one — the same objection that killed the
 // partner-logo tint. It is the one raster here, and being a flat-colour mark it stays crisp.
-const ICON = { className: "h-[195px] w-[195px]", viewBox: "0 0 160 160", fill: "none" } as const;
+const ICON = { className: "h-[140px] w-[140px] md:h-[195px] md:w-[195px]", viewBox: "0 0 160 160", fill: "none" } as const;
 
 // Ambient motion, not hover: these run on their own, the way Business's SVG graphics do (framer-motion
 // with repeat: Infinity). Each movement means something about its value — a scan going out, a structure
@@ -786,7 +802,7 @@ const VALUES = [
 
 // pb-[300px] is the gap down to the CI section below (user, 2026-07-22).
 const Values = () => (
-  <section className="relative bg-[#020617] pb-[300px] overflow-hidden">
+  <section className="relative bg-[#020617] pt-[86px] pb-[86px] lg:pt-0 lg:pb-[300px] overflow-hidden">
     <div className="container-custom relative">
       {/* Label ONLY, no title (user, 2026-07-20). A title was tried and dropped for two reasons: any
           version leaned on the word 현장, which this page already overuses (it is in two of the three
@@ -798,9 +814,9 @@ const Values = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="mb-[90px] text-center"
+        className="mb-14 lg:mb-[90px] text-center"
       >
-        <p className="text-[#2fd4c4] text-[40px] font-semibold leading-[1.2]">Core Value</p>
+        <p className="text-[#2fd4c4] text-[30px] md:text-[40px] font-semibold leading-[1.2]">Core Value</p>
       </motion.div>
 
       {/* Hairline dividers BETWEEN the columns only, as drawn — divide-x gives that without a trailing
@@ -814,14 +830,14 @@ const Values = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: i * 0.1 }}
-            className="flex flex-col items-center px-10 text-center"
+            className="flex flex-col items-center px-6 md:px-10 text-center"
           >
             {/* A hover version of this existed briefly and was replaced (user, 2026-07-20): the motion
                 belongs in the icons themselves, running always, not behind a pointer — these three are
                 as much illustration as they are icons, and on touch there is no hover to find it with. */}
             <Icon />
-            <h3 className="mt-9 text-[27px] font-bold leading-[1.3] text-white">{title}</h3>
-            <p className="mt-5 text-[18px] font-normal leading-[1.8] text-[#9fb0c4] break-keep">{body}</p>
+            <h3 className="mt-9 text-[24px] md:text-[27px] font-bold leading-[1.3] text-white">{title}</h3>
+            <p className="mt-5 text-[16px] md:text-[18px] font-normal leading-[1.8] text-[#9fb0c4] break-keep">{body}</p>
           </motion.div>
         ))}
       </div>
@@ -834,7 +850,7 @@ const Values = () => (
 // download buttons. Fully wired — the buttons download the real CI files in public/ (AIMWID_logo.ai /
 // AIMWID_logo.zip).
 const CISection = () => (
-  <section className="relative bg-[#020617] pb-[160px] overflow-hidden">
+  <section className="relative bg-[#020617] pt-[86px] pb-[86px] lg:pt-0 lg:pb-[160px] overflow-hidden">
     <div className="container-custom relative">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -846,24 +862,24 @@ const CISection = () => (
         {/* Row 1 — label + title */}
         <div>
           <p className="text-[#2fd4c4] text-[17px] md:text-[20px] font-normal leading-[1.2]">Corporate Identity</p>
-          <h2 className="mt-5 text-[38px] md:text-[54px] font-bold leading-none text-white">AIMWID CI</h2>
+          <h2 className="mt-4 text-[24px] md:text-[54px] font-bold leading-none text-white">AIMWID CI</h2>
         </div>
 
         {/* Row 2 — logo previews on a fine ruled grid, no fill. Two tiles: 가로형 (horizontal lockup)
             and 세로형 (vertical lockup, dark version only — user, 2026-07-22). Each grid is two crossed
             repeating gradients; backgroundSize sets the cell (18px) and the low white alpha keeps the
             ruling faint. logo_vertical.svg was rebuilt from Figma node 515-134. */}
-        <div className="mt-[90px] flex w-full max-w-[936px] flex-col gap-8">
+        <div className="mt-14 lg:mt-[90px] flex w-full max-w-[936px] flex-col gap-8">
           {/* Heights are set so the "AIMWID" wordmark reads at the SAME cap-height (~45px) in both
               lockups, not so the boxes match — the horizontal wordmark is 0.649 of its png height, the
               vertical 0.265 of its svg height, hence 70 vs 170 (user, 2026-07-22). */}
           {[
-            { src: "logo_horizontal.png", label: "가로형 / Horizontal", cls: "h-[70px]" },
-            { src: "logo_vertical.svg", label: "세로형 / Vertical", cls: "h-[170px]" },
+            { src: "logo_horizontal.png", label: "가로형 / Horizontal", cls: "h-[43px] md:h-[70px]" },
+            { src: "logo_vertical.svg", label: "세로형 / Vertical", cls: "h-[105px] md:h-[170px]" },
           ].map((lg) => (
             <div key={lg.src}>
               <div
-                className="flex h-[286px] items-center justify-center rounded-2xl border border-white/10"
+                className="flex h-[150px] md:h-[286px] items-center justify-center rounded-2xl border border-white/10"
                 style={{
                   backgroundImage:
                     "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)",
@@ -889,7 +905,7 @@ const CISection = () => (
               key={fmt}
               href={asset(file)}
               download
-              className="flex h-[54px] items-center gap-3 rounded-[8px] border border-white/15 bg-white/[0.04] px-6 text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
+              className="flex h-[54px] w-[220px] justify-center items-center gap-3 rounded-[8px] border border-white/15 bg-white/[0.04] text-[15px] font-medium text-white transition-colors hover:border-[#2fd4c4]/50 hover:bg-white/[0.07]"
             >
               <span>{fmt} 다운로드</span>
               <Download size={18} className="text-[#2fd4c4]" />
