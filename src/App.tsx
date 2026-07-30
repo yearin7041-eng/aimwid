@@ -243,7 +243,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[70vh] md:min-h-screen flex items-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
@@ -266,9 +266,9 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="max-w-6xl"
         >
-          <h1 className="text-4xl md:text-7xl font-bold font-display leading-[1.2] mb-8 tracking-tight text-white text-center">
+          <h1 className="text-[26px] sm:text-4xl md:text-7xl font-bold font-display leading-[1.3] md:leading-[1.2] mb-8 tracking-tight text-white text-center break-keep">
             데이터 연동부터 통합관제까지,<br />
-            <span className="whitespace-nowrap">스스로 진화하는 엔터프라이즈 AI 플랫폼</span>
+            <span className="md:whitespace-nowrap">스스로 진화하는 엔터프라이즈 AI 플랫폼</span>
           </h1>
         </motion.div>
       </div>
@@ -291,7 +291,7 @@ const WorkflowDetails = () => {
   const activeIcon = clockwiseOrder[stepIndex];
 
   return (
-    <section id="process" className="relative h-[900px] flex items-center overflow-hidden">
+    <section id="process" className="relative py-20 md:py-0 md:h-[900px] flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -303,9 +303,9 @@ const WorkflowDetails = () => {
 
       <div className="container-custom relative z-10 grid md:grid-cols-2 items-center gap-10">
         {/* Left: Visual Area */}
-        <div className="relative flex items-center justify-center h-[600px]">
+        <div className="relative flex items-center justify-center w-full h-[360px] md:h-[600px]">
           {/* 500x500 Orbit Wrapper */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] z-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] z-0">
             {/* Rotating: Dashed Circle + Arrows together (clockwise) */}
             <motion.div
               animate={{ rotate: 360 }}
@@ -313,7 +313,7 @@ const WorkflowDetails = () => {
               className="absolute inset-0"
             >
               {/* Dashed Circle Border */}
-              <svg className="absolute inset-0 w-full h-full">
+              <svg viewBox="0 0 500 500" className="absolute inset-0 w-full h-full">
                 <circle
                   cx="250"
                   cy="250"
@@ -346,7 +346,7 @@ const WorkflowDetails = () => {
 
             {/* Orbiting Icons with Active Cycling */}
             {/* Top Left - icon 0 */}
-            <div className="absolute top-[73px] left-[73px] -translate-x-1/2 -translate-y-1/2">
+            <div className="absolute top-[14.6%] left-[14.6%] -translate-x-1/2 -translate-y-1/2">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
                 style={{
@@ -355,12 +355,12 @@ const WorkflowDetails = () => {
                 }}
               >
                 <img src={asset("icon_01.png")} alt="Icon 01" className="w-6 h-6" />
-                <span className="absolute right-full mr-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">구상 및 정의</span>
+                <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:left-auto md:translate-x-0 md:right-full md:mr-5 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">구상 및 정의</span>
               </div>
             </div>
 
             {/* Top Right - icon 1 */}
-            <div className="absolute top-[73px] right-[73px] translate-x-1/2 -translate-y-1/2">
+            <div className="absolute top-[14.6%] right-[14.6%] translate-x-1/2 -translate-y-1/2">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
                 style={{
@@ -369,12 +369,12 @@ const WorkflowDetails = () => {
                 }}
               >
                 <img src={asset("icon_02.png")} alt="Icon 02" className="w-6 h-6" />
-                <span className="absolute left-full ml-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">지능형 조립</span>
+                <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:translate-x-0 md:left-full md:ml-5 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">지능형 조립</span>
               </div>
             </div>
 
             {/* Bottom Left - icon 2 */}
-            <div className="absolute bottom-[73px] left-[73px] -translate-x-1/2 translate-y-1/2">
+            <div className="absolute bottom-[14.6%] left-[14.6%] -translate-x-1/2 translate-y-1/2">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
                 style={{
@@ -383,12 +383,12 @@ const WorkflowDetails = () => {
                 }}
               >
                 <img src={asset("icon_03.png")} alt="Icon 03" className="w-6 h-6" />
-                <span className="absolute right-full mr-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">코드 검증</span>
+                <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:left-auto md:translate-x-0 md:right-full md:mr-5 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">코드 검증</span>
               </div>
             </div>
 
             {/* Bottom Right - icon 3 */}
-            <div className="absolute bottom-[73px] right-[73px] translate-x-1/2 translate-y-1/2">
+            <div className="absolute bottom-[14.6%] right-[14.6%] translate-x-1/2 translate-y-1/2">
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
                 style={{
@@ -397,33 +397,33 @@ const WorkflowDetails = () => {
                 }}
               >
                 <img src={asset("icon_04.png")} alt="Icon 04" className="w-6 h-6" />
-                <span className="absolute left-full ml-5 top-1/2 -translate-y-1/2 text-lg font-bold text-white whitespace-nowrap">화이트라벨 배포</span>
+                <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:translate-x-0 md:left-full md:ml-5 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">화이트라벨 배포</span>
               </div>
             </div>
           </div>
 
           {/* Center Image & Overlay */}
-          <div className="relative z-10 w-[380px] h-[380px] rounded-full overflow-hidden border-2 border-brand-blue/30 shadow-[0_0_50px_rgba(59,130,246,0.3)] flex items-center justify-center">
+          <div className="relative z-10 w-[210px] h-[210px] md:w-[380px] md:h-[380px] rounded-full overflow-hidden border-2 border-brand-blue/30 shadow-[0_0_50px_rgba(59,130,246,0.3)] flex items-center justify-center">
             <img src={asset("img_01.png")} alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-center">
-              <h3 className="text-white text-3xl font-bold tracking-tight">AI-Native Master</h3>
-              <p className="text-white/80 text-lg font-medium mt-1">Workflow</p>
+              <h3 className="text-white text-lg md:text-3xl font-bold tracking-tight">AI-Native Master</h3>
+              <p className="text-white/80 text-sm md:text-lg font-medium mt-1">Workflow</p>
             </div>
           </div>
         </div>
 
         {/* Right: Text Content */}
-        <div className="pl-10 md:pl-20">
-          <h2 className="text-4xl md:text-[44px] font-bold leading-[1.3] mb-12 text-white">
+        <div className="md:pl-20">
+          <h2 className="text-[26px] sm:text-4xl md:text-[44px] font-bold leading-[1.3] mb-8 md:mb-12 text-white break-keep">
             복잡한 시스템 구축의 한계,<br />
             AI 통합 워크플로우로 혁신합니다.
           </h2>
           <div className="space-y-6">
-            <p className="text-white/60 text-[17px] leading-relaxed font-normal">
-              AI 에이전트를 통해 일상의 언어로 요구사항을 정의하면<br />
-              AI 위젯 시스템이 최적의 아키텍처를 즉시 조립합니다.<br />
-              AI-SDLC 기반의 철저한 보안 검증을 거쳐,<br />
-              기업 고유의 브랜드 정체성이 완벽히 반영된 완성형 플랫폼을<br />
+            <p className="text-white/60 text-[16px] md:text-[17px] leading-relaxed font-normal break-keep">
+              AI 에이전트를 통해 일상의 언어로 요구사항을 정의하면<br className="hidden md:block" />
+              AI 위젯 시스템이 최적의 아키텍처를 즉시 조립합니다.<br className="hidden md:block" />
+              AI-SDLC 기반의 철저한 보안 검증을 거쳐,<br className="hidden md:block" />
+              기업 고유의 브랜드 정체성이 완벽히 반영된 완성형 플랫폼을<br className="hidden md:block" />
               가장 빠르고 안정적으로 배포합니다.
             </p>
           </div>
@@ -459,6 +459,9 @@ const SolutionShowcase = () => {
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
+      // Desktop only — the mobile layout is a plain vertical stack (lg:hidden), so the scroll-jack /
+      // horizontal parallax must not hijack touch/narrow-width scrolling.
+      if (window.innerWidth < 1024) return;
       if (!targetRef.current || isAutoScrolling.current) return;
 
       const rect = targetRef.current.getBoundingClientRect();
@@ -555,14 +558,39 @@ const SolutionShowcase = () => {
   ];
 
   return (
-    <section ref={targetRef} className="relative h-[350vh] bg-bg-dark">
+    <section ref={targetRef} className="relative lg:h-[350vh] bg-bg-dark">
       {/* Title is now outside the sticky container so it scrolls away first */}
-      <div className="container-custom text-center pt-32 mb-[72px]">
-        <h2 className="text-[40px] font-bold mb-2">AIM Solutions</h2>
-        <p className="text-[20px] font-normal text-[#C2C2C2]">당신의 비즈니스에 꼭 맞는 AI 솔루션을 찾아보세요.</p>
+      <div className="container-custom text-center pt-20 lg:pt-32 mb-10 lg:mb-[72px]">
+        <h2 className="text-[28px] lg:text-[40px] font-bold mb-2">AIM Solutions</h2>
+        <p className="text-[16px] lg:text-[20px] font-normal text-[#C2C2C2] break-keep">당신의 비즈니스에 꼭 맞는 AI 솔루션을 찾아보세요.</p>
       </div>
 
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden pt-[120px] pb-20">
+      {/* Mobile: the desktop scroll-jack (wheel-driven horizontal 1472px cards) can't work on touch, so
+          the three solutions stack vertically as normal cards instead. */}
+      <div className="lg:hidden container-custom flex flex-col gap-6 pb-16">
+        {solutions.map((item, i) => (
+          <div key={i} className="relative overflow-hidden rounded-[24px] border-2 border-brand-blue/20 bg-[#050810] p-6 flex flex-col gap-5">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] bg-brand-blue/5 blur-[100px] rounded-full pointer-events-none" />
+            {item.logo ? (
+              <img src={asset(item.logo)} alt="Logo" className="relative z-10 w-[170px] h-auto" />
+            ) : (
+              <span className="relative z-10 text-[26px] font-bold font-display tracking-tight text-white leading-none">{item.label}</span>
+            )}
+            <img src={asset(item.img)} alt="Solution Visual" className="relative z-10 w-full h-auto object-contain" />
+            <h3 className="relative z-10 text-[22px] font-bold leading-tight break-keep">{item.title}</h3>
+            <p className="relative z-10 text-white/60 text-[15px] leading-relaxed break-keep">{item.body}</p>
+            <Link
+              to={item.to}
+              onClick={() => window.scrollTo(0, 0)}
+              className="relative z-10 mt-1 flex h-[44px] w-full items-center justify-center rounded-full bg-brand-cyan text-[16px] font-bold text-bg-dark transition-all hover:shadow-[0_0_30px_rgba(47,212,196,0.4)]"
+            >
+              자세히 보기
+            </Link>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden lg:flex sticky top-0 h-screen items-center overflow-hidden pt-[120px] pb-20">
         <div className="flex items-center px-[calc((100vw-1472px)/2)]">
           <motion.div style={{ x }} className="flex gap-20">
             {solutions.map((item, i) => (
@@ -645,10 +673,10 @@ const VisionSection = () => {
   ];
 
   return (
-    <section id="vision" style={{ height: '880px' }} className="flex flex-col justify-center my-[100px]">
-      <div className="container-custom text-center mb-16">
-        <h2 className="text-[40px] font-bold font-display mb-2">Our Vision</h2>
-        <p className="text-[20px] font-normal text-[#C2C2C2]">SI를 넘어, 스스로 진화하는 B2B SaaS의 미래로</p>
+    <section id="vision" className="flex flex-col justify-center py-16 my-0 md:h-[880px] md:py-0 md:my-[100px]">
+      <div className="container-custom text-center mb-12 md:mb-16">
+        <h2 className="text-[28px] md:text-[40px] font-bold font-display mb-2">Our Vision</h2>
+        <p className="text-[16px] md:text-[20px] font-normal text-[#C2C2C2] break-keep">SI를 넘어, 스스로 진화하는 B2B SaaS의 미래로</p>
       </div>
 
       <div className="container-custom grid md:grid-cols-3 gap-8">
@@ -661,12 +689,12 @@ const VisionSection = () => {
             transition={{ delay: i * 0.1 }}
             className="group cursor-pointer text-center"
           >
-            <div className="relative w-[500px] h-[330px] rounded-2xl overflow-hidden mb-6 mx-auto">
+            <div className="relative w-full max-w-[500px] h-[220px] md:h-[330px] rounded-2xl overflow-hidden mb-6 mx-auto">
               <img src={asset(v.img)} alt={v.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" referrerPolicy="no-referrer" />
               <div className="absolute inset-0 bg-bg-dark/40 group-hover:bg-bg-dark/10 transition-colors" />
             </div>
-            <h3 className="text-[24px] font-bold text-white mb-2">{v.title}</h3>
-            <p className="text-[17px] font-normal text-[#90A1B9] leading-relaxed">{v.desc}</p>
+            <h3 className="text-[20px] font-bold text-white mb-2">{v.title}</h3>
+            <p className="text-[15px] md:text-[17px] font-normal text-[#90A1B9] leading-relaxed break-keep">{v.desc}</p>
           </motion.div>
         ))}
       </div>
@@ -680,24 +708,24 @@ const NewsSection = () => {
   const news = newsContent.items;
 
   return (
-    <section id="news" className="py-32 bg-cover bg-center" style={{ backgroundImage: `url(${asset("main_news_bg.png")})` }}>
-      <div className="container-custom grid md:grid-cols-[350px_1fr] gap-20">
+    <section id="news" className="py-20 md:py-32 bg-cover bg-center" style={{ backgroundImage: `url(${asset("main_news_bg.png")})` }}>
+      <div className="container-custom grid md:grid-cols-[350px_1fr] gap-10 md:gap-20">
         <div>
-          <h2 className="text-[40px] font-bold font-display mb-2">AIMWID News</h2>
-          <p className="text-[20px] font-normal text-[#C2C2C2] whitespace-nowrap">에임위드의 새로운 소식을 전해드립니다.</p>
+          <h2 className="text-[28px] md:text-[40px] font-bold font-display mb-2">AIMWID News</h2>
+          <p className="text-[16px] md:text-[20px] font-normal text-[#C2C2C2] md:whitespace-nowrap break-keep">에임위드의 새로운 소식을 전해드립니다.</p>
         </div>
 
         <div className="space-y-6 flex flex-col items-end">
           {news.map((item, i) => (
             <motion.div
               key={i}
-              className="glass w-[1000px] h-[240px] p-[40px] rounded-2xl hover:!border-[#00CCCC] hover:shadow-[0_0_50px_rgba(31,94,255,0.5)] transition-all duration-300 cursor-pointer group flex flex-col justify-between"
+              className="glass w-full max-w-[1000px] h-auto md:h-[240px] p-6 md:p-[40px] rounded-2xl hover:!border-[#00CCCC] hover:shadow-[0_0_50px_rgba(31,94,255,0.5)] transition-all duration-300 cursor-pointer group flex flex-col justify-between gap-4 md:gap-0"
             >
               <div>
                 <div className="mb-1">
-                  <span className="text-[14px] font-bold text-brand-blue uppercase">{item.category}</span>
+                  <span className="text-[12px] md:text-[14px] font-bold text-brand-blue uppercase">{item.category}</span>
                 </div>
-                <h3 className="text-[20px] font-medium leading-relaxed text-white">{item.title}</h3>
+                <h3 className="text-[16px] md:text-[20px] font-medium leading-relaxed text-white">{item.title}</h3>
               </div>
               
               <div className="flex justify-between items-end mt-auto">
@@ -727,21 +755,36 @@ const UseCases = () => {
   ];
 
   return (
-    <section className="py-32">
-      <div className="container-custom text-center mb-16">
-        <h2 className="text-[40px] font-bold font-display mb-2">Use case</h2>
-        <p className="text-[20px] font-normal text-[#C2C2C2]">산업 현장에 적용된 에임위드의 AI 솔루션을 소개합니다.</p>
+    <section className="py-20 md:py-32">
+      <div className="container-custom text-center mb-12 md:mb-16">
+        <h2 className="text-[28px] md:text-[40px] font-bold font-display mb-2">Use case</h2>
+        <p className="text-[16px] md:text-[20px] font-normal text-[#C2C2C2] break-keep">산업 현장에 적용된 에임위드의 AI 솔루션을 소개합니다.</p>
       </div>
 
-      <div className="w-full overflow-hidden pl-[40px]">
+      {/* Mobile: static 2-col grid instead of the auto-marquee — moving content is hard to read/tap on
+          a phone. Desktop keeps the marquee below. */}
+      <div className="md:hidden container-custom grid grid-cols-2 gap-x-4 gap-y-8">
+        {cases.map((c, i) => (
+          <Link key={i} to="/solution" onClick={() => window.scrollTo(0, 0)} className="group block">
+            <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl border border-white/10 bg-[#0a1420] mb-3">
+              <img src={asset(c.img)} alt={c.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
+              <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent" />
+            </div>
+            <span className="mb-2 inline-block rounded bg-[#1493DE] px-2 py-1 text-[12px] font-medium text-white">{c.tag}</span>
+            <h3 className="text-[15px] font-bold leading-snug break-keep transition-colors group-hover:text-brand-cyan">{c.title}</h3>
+          </Link>
+        ))}
+      </div>
+
+      <div className="hidden md:block w-full overflow-hidden md:pl-[40px]">
         <motion.div
           animate={{ x: ["0%", "-50%"] }}
           transition={{ ease: "linear", duration: 40, repeat: Infinity }}
           className="flex gap-6 w-max"
         >
           {[...cases, ...cases].map((c, i) => (
-            <Link key={i} to="/solution" onClick={() => window.scrollTo(0, 0)} className="group w-[410px] block">
-              <div className="relative w-[410px] h-[280px] rounded-2xl overflow-hidden mb-6 border border-white/10 bg-[#0a1420] group-hover:border-brand-cyan/40 transition-colors">
+            <Link key={i} to="/solution" onClick={() => window.scrollTo(0, 0)} className="group w-[300px] md:w-[410px] block">
+              <div className="relative w-full h-[200px] md:h-[280px] rounded-2xl overflow-hidden mb-6 border border-white/10 bg-[#0a1420] group-hover:border-brand-cyan/40 transition-colors">
                 <img src={asset(c.img)} alt={c.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent" />
               </div>
@@ -781,7 +824,7 @@ const Footer = () => {
           {/* Right Content */}
           <div className="flex-1 flex flex-col justify-between w-full">
             {/* Info Text */}
-            <div className="text-[16px] text-[#c7c7c7] leading-relaxed font-normal mb-24">
+            <div className="text-[15px] md:text-[16px] text-[#c7c7c7] leading-relaxed font-normal mb-12 md:mb-24">
               <div className="flex flex-wrap gap-x-6 mb-1">
                 <span>대표이사 : 정해련</span>
                 <span>사업자 등록번호 : 733-86-03061</span>

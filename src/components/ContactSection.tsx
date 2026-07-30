@@ -76,9 +76,9 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
       )}
 
       {showHero && (
-        <div className="relative flex justify-center items-center mb-0 mt-[200px] h-[730px] w-full">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1237px] bg-center bg-no-repeat bg-contain pointer-events-none" style={{ backgroundImage: `url(${asset("main_partner_bg.png")})` }}></div>
-          <h1 className="relative z-10 text-[46px] sm:text-[72px] md:text-[110px] font-bold font-display text-center leading-[1.1] tracking-[0.16em] text-white drop-shadow-xl pl-[0.16em] -translate-y-[150px]">
+        <div className="relative flex justify-center items-center mb-0 mt-[80px] h-[380px] md:mt-[200px] md:h-[730px] w-full">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -ml-7 md:ml-0 w-[680px] h-[601px] md:w-[1400px] md:h-[1237px] bg-center bg-no-repeat bg-contain pointer-events-none" style={{ backgroundImage: `url(${asset("main_partner_bg.png")})` }}></div>
+          <h1 className="relative z-10 text-[28px] sm:text-[48px] md:text-[110px] font-bold font-display text-center leading-[1.1] tracking-[0.16em] text-white drop-shadow-xl pl-[0.16em] -translate-y-[75px] md:-translate-y-[150px]">
             YOUR<br />AI PLATFORM<br />PARTNER
           </h1>
         </div>
