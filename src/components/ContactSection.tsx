@@ -54,7 +54,7 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
     "w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors";
 
   return (
-    <section id="contact" className={`pb-32 relative overflow-hidden ${showHero ? "pt-0" : "pt-[160px]"}`}>
+    <section id="contact" className={`pb-20 lg:pb-32 relative overflow-hidden ${showHero ? "pt-0" : "pt-[120px] lg:pt-[160px]"}`}>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[600px] bg-brand-cyan/5 rounded-full blur-[140px] -z-10" />
 
       {/* Dedicated /contact page only (showHero=false): the standalone page has no big hero graphic, so
@@ -86,13 +86,13 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
 
       <div className="container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10">
         <div className="flex-1">
-          <h2 className="text-4xl md:text-5xl lg:text-[54px] font-bold font-display mb-8 md:whitespace-nowrap leading-tight">
+          <h2 className="text-[24px] md:text-[50px] font-bold text-white mb-8 md:whitespace-nowrap leading-[1.5] break-keep">
             기업의 AI 전환<br /> <span className="text-brand-cyan">에임위드</span>와 시작하세요
           </h2>
-          <p className="text-[#9fb0c4] text-lg break-keep">문의사항을 남겨주시면 확인 후 연락드리겠습니다.</p>
+          <p className="text-[#9fb0c4] text-[16px] md:text-[20px] leading-[1.5] break-keep">문의사항을 남겨주시면 확인 후 연락드리겠습니다.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="w-full lg:w-[800px] flex-shrink-0 p-10 border border-white/10 rounded-2xl space-y-6">
+        <form onSubmit={handleSubmit} className="w-full lg:w-[800px] flex-shrink-0 p-6 md:p-10 border border-white/10 rounded-2xl space-y-6">
           {/* Honeypot — bots fill hidden fields; a filled botcheck makes Web3Forms drop the submission. */}
           <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
 
@@ -139,7 +139,7 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
               <label htmlFor="terms" className="text-[16px] font-normal text-[#9fb0c4] cursor-pointer select-none">개인정보 수집 및 이용에 동의합니다.</label>
             </div>
 
-            <button type="submit" disabled={status === "sending"} style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }} className="flex items-center justify-center w-[200px] h-[50px] text-[#000028] text-[18px] font-bold rounded-[8px] hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all tracking-widest flex-shrink-0 disabled:opacity-60 disabled:cursor-not-allowed">
+            <button type="submit" disabled={status === "sending"} style={{ background: "linear-gradient(90deg, #00feb9 0%, #00e6db 100%)" }} className="flex items-center justify-center w-full sm:w-[200px] h-[50px] text-[#000028] text-[18px] font-bold rounded-[8px] hover:shadow-[0_0_30px_rgba(0,230,219,0.5)] transition-all tracking-widest flex-shrink-0 disabled:opacity-60 disabled:cursor-not-allowed">
               {status === "sending" ? "전송 중..." : "문의하기"}
             </button>
           </div>
