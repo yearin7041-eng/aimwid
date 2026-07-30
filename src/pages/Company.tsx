@@ -70,16 +70,23 @@ const Hero = () => (
         src={asset("company_hero_visual.webp")}
         alt=""
         aria-hidden
-        className="mx-auto block w-[90%] max-w-[560px] h-auto select-none"
+        className="mx-auto block w-[96%] max-w-[600px] h-auto select-none"
         style={{
-          maskImage: "linear-gradient(to bottom, #000 70%, transparent)",
-          WebkitMaskImage: "linear-gradient(to bottom, #000 70%, transparent)",
+          // Two per-axis linear masks intersected → all four edges dissolve into the section (the render
+          // is a centred subject, so a symmetric fade works); the bottom fades earlier (72%) so it melts
+          // into the copy below rather than cutting a line.
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent, #000 10%, #000 90%, transparent), linear-gradient(to bottom, transparent, #000 8%, #000 72%, transparent)",
+          WebkitMaskComposite: "source-in",
+          maskImage:
+            "linear-gradient(to right, transparent, #000 10%, #000 90%, transparent), linear-gradient(to bottom, transparent, #000 8%, #000 72%, transparent)",
+          maskComposite: "intersect",
         }}
       />
     </div>
 
     {/* pt matches Business */}
-    <div className="container-custom relative z-10 pt-8 lg:pt-[200px] pb-[120px]">
+    <div className="container-custom relative z-10 pt-8 lg:pt-[200px] pb-[86px] lg:pb-[120px]">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -175,7 +182,7 @@ const StatsBand = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="mx-auto grid max-w-[1120px] grid-cols-2 gap-y-12 border-y border-white/10 bg-white/[0.015] py-14 md:grid-cols-4 md:divide-x md:divide-white/10"
+        className="mx-auto grid max-w-[1120px] grid-cols-2 gap-x-6 gap-y-12 border-y border-white/10 bg-white/[0.015] py-14 md:grid-cols-4 md:gap-x-0 md:divide-x md:divide-white/10"
       >
         {STATS.map((s) => (
           <div key={s.label} className="flex flex-col items-center gap-2.5 text-center">
@@ -305,7 +312,7 @@ const MissionVision = () => (
                   p.imageLeft ? "lg:mx-0" : "lg:ml-auto lg:mr-0"
                 }`}
               />
-              <p className="mt-4 lg:mt-7 text-[24px] md:text-[50px] font-bold leading-[1.4] text-white break-keep">{p.title}</p>
+              <p className="mt-4 lg:mt-7 text-[24px] md:text-[40px] font-bold leading-[1.4] text-white break-keep">{p.title}</p>
               <p className="mt-4 lg:mt-7 max-w-[560px] text-[16px] md:text-[18px] font-normal leading-[1.9] text-[#9fb0c4] break-keep lg:max-w-none">
                 {p.body}
               </p>
