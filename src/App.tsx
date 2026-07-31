@@ -73,7 +73,7 @@ const Navbar = () => {
         {/* Logo (Left) */}
         <div className="flex items-center z-10">
           <Link to="/">
-            <img src={asset("logo_horizontal.png")} alt="AIMWID" className="w-[164px] h-auto" />
+            <img src={asset("logo_horizontal.png")} alt="AIMWID" className="w-[120px] md:w-[164px] h-auto" />
           </Link>
         </div>
 
@@ -159,7 +159,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button (Right) */}
         <div className="flex justify-end z-10">
-          <button className="md:hidden text-white pr-6" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>

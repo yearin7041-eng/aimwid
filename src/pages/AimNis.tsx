@@ -54,7 +54,7 @@ const Hero = () => (
         headline made the rings clash with the text and read as busy (user, 2026-07-24); from lg up it
         returns to the absolute right-side overlay. ONE <video>, only its position switches at lg, so the
         clip is never downloaded twice. The rings bleed off the clip's edges, so each edge fades to bg. */}
-    <div className="relative pt-[104px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none overflow-hidden">
+    <div className="relative pt-[64px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none overflow-hidden">
       <div className="relative mx-auto aspect-video w-[86%] max-w-[420px] lg:absolute lg:right-0 lg:top-1/2 lg:mx-0 lg:h-[62%] lg:w-auto lg:max-w-none lg:-translate-y-1/2">
         <video
           autoPlay

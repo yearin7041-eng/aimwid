@@ -239,7 +239,7 @@ const SvgDefs = () => (
 // heroes); from lg it returns to the right-pinned background. Two <img> (same file → one download): the
 // mobile one gets a simple radial edge-fade, the desktop one keeps the left+top+bottom intersect mask.
 const HeroVisual = () => (
-  <div className="relative pt-[104px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none">
+  <div className="relative pt-[64px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none">
     {/* mobile: contained block above the copy — uses a pre-baked "_m" version whose radial edge-fade is
         burned into the file's alpha so the blue scene dissolves into the dark section (CSS mask was flaky). */}
     <img

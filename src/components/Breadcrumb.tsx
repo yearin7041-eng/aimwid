@@ -35,12 +35,12 @@ const Breadcrumb = () => {
   if (!crumbs.length) return null;
 
   return (
-    <nav aria-label="Breadcrumb" className="absolute top-[60px] inset-x-0 z-20">
+    <nav aria-label="Breadcrumb" className="absolute top-[32px] md:top-[60px] inset-x-0 z-20">
       <div className="container-custom">
         {/* White is the row's base, so the current page — the one crumb without a `to` — inherits it
             and is the only white thing here. Everything that links (home, and every crumb above the
             current one) is the lighter grey, which puts the colour back to work telling them apart. */}
-        <ol className="flex items-center gap-2 h-[44px] text-[16px] font-light text-white">
+        <ol className="flex items-center gap-2 h-[20px] md:h-[44px] text-[14px] md:text-[16px] font-light text-white">
           <li className="flex items-center">
             <Link
               to="/"

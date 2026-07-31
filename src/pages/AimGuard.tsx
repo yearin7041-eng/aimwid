@@ -69,11 +69,11 @@ const Hero = () => (
         clean dark instead of over the busy dashboard — matching the AIMNIS hero (user, 2026-07-27); from
         lg it returns to the absolute right-side background overlay. Same <img>, only positioning switches.
         NOTE: aimguard_hero_main.png (the previous still) is still used by Business.tsx — do not delete. */}
-    <div className="relative pt-[104px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none">
+    <div className="relative pt-[64px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none">
       <img
         src={asset("aimguard_hero_main.webp")}
         alt="AIM GUARD Dashboard"
-        className="mx-auto block w-[90%] max-w-[460px] h-auto rounded-xl lg:mx-0 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-auto lg:max-w-none lg:rounded-none lg:object-cover lg:object-right"
+        className="mx-auto block w-[90%] max-w-[460px] h-auto [mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)] lg:mx-0 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-auto lg:max-w-none lg:object-cover lg:object-right lg:[mask-image:none] lg:[-webkit-mask-image:none]"
       />
       {/* left → right darkening so the headline stays readable — desktop only (mobile stacks, no overlap) */}
       <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/40 via-30% to-transparent to-50%" />
