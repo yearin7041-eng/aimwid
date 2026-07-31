@@ -305,7 +305,7 @@ const HexIcon = ({ icon: Icon, emphasis = false }: { icon: typeof CloudDownload;
 );
 
 const Framework = () => (
-  <section className="relative overflow-hidden py-24 bg-[#020617]">
+  <section className="relative overflow-hidden py-[86px] lg:py-24 bg-[#020617]">
     {/* glossy glow — blue, bleeding in from the right (Figma: Ellipse 11) */}
     <div
       className="pointer-events-none absolute -right-[440px] top-[-8%] h-[1200px] w-[940px] rounded-[50%]"
