@@ -134,8 +134,22 @@ const AVE_Y = MAP_ROWS[5]; // 360 — the horizontal avenue the route runs along
 const AVE_X = MAP_COLS[4]; // 342 — the vertical avenue it turns up
 // nav route: start bottom-left, up to the avenue, along it, up a street, across to the pin
 const MAP_ROUTE = `M70 540 L70 ${AVE_Y} L${AVE_X} ${AVE_Y} L${AVE_X} ${MAP_ROWS[3]} L${PIN_X} ${MAP_ROWS[3]} L${PIN_X} ${PIN_TIP_Y}`;
+// Mobile crop is tighter (x 40–560, y 170–470), so the desktop route's far-left (x=-18) and bottom
+// (y=540) legs fall outside and read as a clipped line. This compact route keeps every leg inside the
+// mobile frame, still emerging from the bottom into the pin. Desktop keeps MAP_ROUTE untouched.
+const MAP_ROUTE_MOBILE = `M110 452 L110 ${AVE_Y} L200 ${AVE_Y} L200 ${MAP_ROWS[3]} L${PIN_X} ${MAP_ROWS[3]} L${PIN_X} ${PIN_TIP_Y}`;
 
-const MapGraphic = ({ viewBox, fx = 1 }: { viewBox?: string; fx?: number }) => {
+const MapGraphic = ({
+  viewBox,
+  fx = 1,
+  route = MAP_ROUTE,
+  routeStart = { x: 70, y: 540 },
+}: {
+  viewBox?: string;
+  fx?: number;
+  route?: string;
+  routeStart?: { x: number; y: number };
+}) => {
   const reduce = useReducedMotion();
   // Unique per instance — desktop and mobile both render MapGraphic, so a hard-coded id collides and the
   // pin's url(#…) fill resolves to the first (display:none desktop) gradient, leaving the pin unpainted.
@@ -203,7 +217,7 @@ const MapGraphic = ({ viewBox, fx = 1 }: { viewBox?: string; fx?: number }) => {
 
       {/* Highlighted navigation route to the pin */}
       <path
-        d={MAP_ROUTE}
+        d={route}
         fill="none"
         stroke="#00f0e0"
         strokeWidth="4"
@@ -211,7 +225,7 @@ const MapGraphic = ({ viewBox, fx = 1 }: { viewBox?: string; fx?: number }) => {
         strokeLinejoin="round"
         style={{ filter: "drop-shadow(0 0 6px rgba(0,240,224,0.6))" }}
       />
-      <circle cx="70" cy="540" r="6" fill="#00f0e0" />
+      <circle cx={routeStart.x} cy={routeStart.y} r="6" fill="#00f0e0" />
 
       {/* Ground disc + the pin, with a gentle bob for life */}
       <ellipse cx={PIN_X} cy={PIN_TIP_Y} rx="34" ry="11" fill="#2fd4c4" fillOpacity="0.14" />
@@ -263,20 +277,20 @@ const Hero = () => (
         the copy. */}
     <div className="lg:hidden container-custom relative z-[2] pt-[92px] pointer-events-none">
       <div
-        className="mx-auto w-[60%] max-w-[340px] overflow-hidden"
+        className="mx-auto w-[85%] max-w-[520px] overflow-hidden"
         style={{
           // Light 4-edge fade so the full map dissolves into the section; bottom fades into the copy.
           WebkitMaskImage:
-            "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 76%, transparent)",
+            "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 76%, transparent)",
           WebkitMaskComposite: "source-in",
           maskImage:
-            "linear-gradient(to right, transparent, #000 15%, #000 85%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 76%, transparent)",
+            "linear-gradient(to right, transparent, #000 8%, #000 92%, transparent), linear-gradient(to bottom, transparent, #000 14%, #000 76%, transparent)",
           maskComposite: "intersect",
         }}
       >
         {/* Crop to a ~400-wide window so the pin renders at its desktop on-screen size (the full 912-wide
             map shrinks the pin to ~14px on a phone). Framing keeps the route + rings, matching desktop. */}
-        <MapGraphic viewBox="130 150 340 320" />
+        <MapGraphic viewBox="40 170 520 300" route={MAP_ROUTE_MOBILE} routeStart={{ x: 110, y: 452 }} />
       </div>
     </div>
 
