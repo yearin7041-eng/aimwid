@@ -68,7 +68,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`absolute top-0 left-0 right-0 z-50 transition-all duration-300 flex items-center h-[80px] ${scrolled ? "bg-bg-dark/80 backdrop-blur-md" : "bg-transparent"}`}>
+    <nav className={`absolute top-0 left-0 right-0 z-50 transition-all duration-300 flex items-center h-[80px] ${mobileMenuOpen ? "bg-bg-dark" : scrolled ? "bg-bg-dark/80 backdrop-blur-md" : "bg-transparent"}`}>
       <div className="w-full flex items-center justify-between container-custom relative">
         {/* Logo (Left) */}
         <div className="flex items-center z-10">
@@ -169,10 +169,21 @@ const Navbar = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
+            key="nav-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 top-[80px] z-40 bg-black/60 backdrop-blur-sm md:hidden"
+          />
+        )}
+        {mobileMenuOpen && (
+          <motion.div
+            key="nav-panel"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-bg-dark border-b border-white/10 p-6 flex flex-col gap-4 md:hidden"
+            className="absolute top-full left-0 right-0 z-50 bg-bg-dark border-b border-white/10 p-6 flex flex-col gap-4 md:hidden"
           >
             {["Solution", "Business", "Company", "Contact"].map((item) => (
               <div key={item} className="flex flex-col">
