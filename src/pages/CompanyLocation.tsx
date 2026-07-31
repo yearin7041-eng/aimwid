@@ -263,7 +263,7 @@ const Hero = () => (
         the copy. */}
     <div className="lg:hidden container-custom relative z-[2] pt-[92px] pointer-events-none">
       <div
-        className="mx-auto w-[80%] max-w-[420px] overflow-hidden"
+        className="mx-auto w-[60%] max-w-[340px] overflow-hidden"
         style={{
           // Light 4-edge fade so the full map dissolves into the section; bottom fades into the copy.
           WebkitMaskImage:
