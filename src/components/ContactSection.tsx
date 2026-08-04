@@ -54,7 +54,7 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
     "w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-[16px] font-medium placeholder:font-medium focus:border-brand-cyan outline-none transition-colors";
 
   return (
-    <section id="contact" className={`pb-20 lg:pb-32 relative overflow-hidden ${showHero ? "pt-0" : "pt-[120px] lg:pt-[160px]"}`}>
+    <section id="contact" className={`relative overflow-hidden ${showHero ? "pt-[130px] pb-[130px] lg:pt-[150px] lg:pb-[150px]" : "pt-[120px] lg:pt-[160px] pb-20 lg:pb-32"}`}>
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[600px] bg-brand-cyan/5 rounded-full blur-[140px] -z-10" />
 
       {/* Dedicated /contact page only (showHero=false): the standalone page has no big hero graphic, so
@@ -75,24 +75,40 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
         </>
       )}
 
+      {/* Home CTA (showHero): a real 3D wireframe cube that rotates slowly in one direction. Kept dim, with
+          a light veil + a right-side radial behind the glass form so the content stays the focus. Rotation
+          pauses for users who prefer reduced motion. */}
       {showHero && (
-        <div className="relative flex justify-center items-center mb-0 mt-[80px] h-[380px] md:mt-[200px] md:h-[730px] w-full">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -ml-7 md:ml-0 w-[680px] h-[601px] md:w-[1400px] md:h-[1237px] bg-center bg-no-repeat bg-contain pointer-events-none" style={{ backgroundImage: `url(${asset("main_partner_bg.png")})` }}></div>
-          <h1 className="relative z-10 text-[28px] sm:text-[48px] md:text-[110px] font-bold font-display text-center leading-[1.1] tracking-[0.16em] text-white drop-shadow-xl pl-[0.16em] -translate-y-[75px] md:-translate-y-[150px]">
-            YOUR<br />AI PLATFORM<br />PARTNER
-          </h1>
-        </div>
+        <>
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] max-w-[94%] h-[600px] bg-brand-cyan/12 blur-[150px] rounded-full" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[1250px] max-w-[98%] h-[96%]">
+            <div
+              className="w-full h-full bg-center bg-no-repeat bg-contain opacity-80"
+              style={{
+                backgroundImage: `url(${asset("main_partner_bg.png")})`,
+                WebkitMaskImage: "radial-gradient(closest-side, #000 62%, transparent 100%)",
+                maskImage: "radial-gradient(closest-side, #000 62%, transparent 100%)",
+              }}
+            />
+          </div>
+          <div className="pointer-events-none absolute inset-0 bg-[#020617]/35" />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "radial-gradient(50% 70% at 76% 52%, rgba(2,6,23,0.55) 0%, rgba(2,6,23,0) 70%)" }}
+          />
+        </>
       )}
 
-      <div className="container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10">
+      <div className={`container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10 ${showHero ? "lg:items-center" : ""}`}>
         <div className="flex-1">
+          {showHero && <span className="block text-[17px] md:text-[20px] font-semibold tracking-wide text-brand-cyan mb-4">GET STARTED</span>}
           <h2 className="text-[24px] md:text-[50px] font-bold text-white mb-3 md:mb-8 md:whitespace-nowrap leading-[1.5] break-keep">
             기업의 AI 전환<br /> <span className="text-brand-cyan">에임위드</span>와 시작하세요
           </h2>
           <p className="text-[#9fb0c4] text-[16px] md:text-[20px] leading-[1.5] break-keep">문의사항을 남겨주시면 확인 후 연락드리겠습니다.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="w-full lg:w-[800px] flex-shrink-0 p-6 md:p-10 border border-white/10 rounded-2xl space-y-6">
+        <form onSubmit={handleSubmit} className={`w-full lg:w-[800px] flex-shrink-0 p-6 md:p-10 border border-white/10 rounded-2xl space-y-6 ${showHero ? "bg-[#0a1526]/50 backdrop-blur-md shadow-2xl" : ""}`}>
           {/* Honeypot — bots fill hidden fields; a filled botcheck makes Web3Forms drop the submission. */}
           <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
 
