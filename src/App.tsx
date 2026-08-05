@@ -315,125 +315,68 @@ const WorkflowDetails = () => {
       <div className="container-custom relative z-10 grid md:grid-cols-2 items-center gap-10">
         {/* Left: Visual Area */}
         <div className="relative flex items-center justify-center w-full h-[360px] md:h-[600px]">
-          {/* 500x500 Orbit Wrapper */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] z-0">
-            {/* Rotating: Dashed Circle + Arrows together (clockwise) */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-0"
-            >
-              {/* Dashed Circle Border */}
-              <svg viewBox="0 0 500 500" className="absolute inset-0 w-full h-full">
-                <circle
-                  cx="250"
-                  cy="250"
-                  r="249"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeDasharray="1 10"
-                  strokeLinecap="round"
-                />
-              </svg>
+          {/* Dashed rounded frame (anchor). Per Figma 642-417: 456px, rounded-[120px], white dashed
+              border. The image sits inset ~11% inside it; the 4 icons ride the frame's rounded corners. */}
+          <div className="relative w-[300px] h-[300px] md:w-[456px] md:h-[456px] rounded-[78px] md:rounded-[120px] border-2 border-dashed border-white/40">
+            {/* Inset graphic image (356 in 456 → ~11% gap), rounded-[90px] */}
+            <div className="absolute inset-[11%] rounded-[58px] md:rounded-[90px] overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.25)]">
+              <img src={asset("main_workflow_hands.png")} alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center text-center px-3">
+                <h3 className="text-white text-[22px] md:text-[32px] font-bold tracking-tight leading-[1.3] drop-shadow-[0_0_3px_rgba(2,6,26,0.6)]">AI-Native Master</h3>
+                <p className="text-white text-[16px] md:text-[24px] font-medium leading-[1.3] drop-shadow-[0_0_3px_rgba(2,6,26,0.6)]">Workflow</p>
+              </div>
+            </div>
 
-              {/* Top (12 o'clock) → points right */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <img src={asset("arrow.png")} alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(0deg)' }} />
-              </div>
-              {/* Right (3 o'clock) → points down */}
-              <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2">
-                <img src={asset("arrow.png")} alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(90deg)' }} />
-              </div>
-              {/* Bottom (6 o'clock) → points left */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-                <img src={asset("arrow.png")} alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(180deg)' }} />
-              </div>
-              {/* Left (9 o'clock) → points up */}
-              <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <img src={asset("arrow.png")} alt="arrow" style={{ width: 20, height: 20, transform: 'rotate(270deg)' }} />
-              </div>
-            </motion.div>
-
-            {/* Orbiting Icons with Active Cycling */}
+            {/* Corner icons on the frame's rounded corners (active-cycling color) */}
             {/* Top Left - icon 0 */}
-            <div className="absolute top-[14.6%] left-[14.6%] -translate-x-1/2 -translate-y-1/2">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
-                style={{
-                  backgroundColor: activeIcon === 0 ? '#00CCCC' : '#3b82f6',
-                  boxShadow: activeIcon === 0 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
-                }}
-              >
+            <div className="absolute top-[7%] left-[7%] -translate-x-1/2 -translate-y-1/2 z-10">
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 0 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 0 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
                 <img src={asset("icon_01.png")} alt="Icon 01" className="w-6 h-6" />
-                <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:left-auto md:translate-x-0 md:right-full md:mr-5 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">구상 및 정의</span>
+                <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:left-auto md:translate-x-0 md:right-full md:mr-3 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">구상 및 정의</span>
               </div>
             </div>
 
             {/* Top Right - icon 1 */}
-            <div className="absolute top-[14.6%] right-[14.6%] translate-x-1/2 -translate-y-1/2">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
-                style={{
-                  backgroundColor: activeIcon === 1 ? '#00CCCC' : '#3b82f6',
-                  boxShadow: activeIcon === 1 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
-                }}
-              >
+            <div className="absolute top-[7%] right-[7%] translate-x-1/2 -translate-y-1/2 z-10">
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 1 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 1 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
                 <img src={asset("icon_02.png")} alt="Icon 02" className="w-6 h-6" />
-                <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:translate-x-0 md:left-full md:ml-5 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">지능형 조립</span>
+                <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:translate-x-0 md:left-full md:ml-3 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">지능형 조립</span>
               </div>
             </div>
 
             {/* Bottom Left - icon 2 */}
-            <div className="absolute bottom-[14.6%] left-[14.6%] -translate-x-1/2 translate-y-1/2">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
-                style={{
-                  backgroundColor: activeIcon === 2 ? '#00CCCC' : '#3b82f6',
-                  boxShadow: activeIcon === 2 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
-                }}
-              >
+            <div className="absolute bottom-[7%] left-[7%] -translate-x-1/2 translate-y-1/2 z-10">
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 2 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 2 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
                 <img src={asset("icon_03.png")} alt="Icon 03" className="w-6 h-6" />
-                <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:left-auto md:translate-x-0 md:right-full md:mr-5 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">코드 검증</span>
+                <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:left-auto md:translate-x-0 md:right-full md:mr-3 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">코드 검증</span>
               </div>
             </div>
 
             {/* Bottom Right - icon 3 */}
-            <div className="absolute bottom-[14.6%] right-[14.6%] translate-x-1/2 translate-y-1/2">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center relative transition-all duration-500"
-                style={{
-                  backgroundColor: activeIcon === 3 ? '#00CCCC' : '#3b82f6',
-                  boxShadow: activeIcon === 3 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)'
-                }}
-              >
+            <div className="absolute bottom-[7%] right-[7%] translate-x-1/2 translate-y-1/2 z-10">
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 3 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 3 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
                 <img src={asset("icon_04.png")} alt="Icon 04" className="w-6 h-6" />
-                <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:translate-x-0 md:left-full md:ml-5 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">화이트라벨 배포</span>
+                <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:translate-x-0 md:left-full md:ml-3 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap break-keep">화이트라벨 배포</span>
               </div>
             </div>
-          </div>
-
-          {/* Center core (no image) — more transparent so the background shows through; a soft dark halo
-              + blur + text-shadow keep the text readable at the center while the rim stays see-through. */}
-          <div className="relative z-10 w-[210px] h-[210px] md:w-[380px] md:h-[380px] rounded-full overflow-hidden border-2 border-brand-blue/30 shadow-[0_0_50px_rgba(59,130,246,0.3)] bg-[#050d1c]/10 backdrop-blur-md flex flex-col items-center justify-center text-center">
-            <div className="absolute inset-0 rounded-full" style={{ background: "radial-gradient(circle at 50% 50%, rgba(5,13,28,0.4) 0%, rgba(5,13,28,0) 55%)" }} />
-            <div className="absolute inset-0 rounded-full" style={{ background: "radial-gradient(circle at 50% 42%, rgba(47,212,196,0.14), transparent 65%)" }} />
-            <h3 className="relative text-white text-lg md:text-3xl font-bold tracking-tight [text-shadow:0_2px_14px_rgba(2,6,23,0.9)]">AI-Native Master</h3>
-            <p className="relative text-white/80 text-sm md:text-lg font-medium mt-1 [text-shadow:0_2px_10px_rgba(2,6,23,0.9)]">Workflow</p>
           </div>
         </div>
 
         {/* Right: Text Content */}
         <div className="md:pl-20">
-          <h2 className="text-[26px] sm:text-4xl md:text-[44px] font-bold leading-[1.3] mb-8 md:mb-10 text-white break-keep">
+          <h2 className="text-[26px] sm:text-4xl md:text-[44px] font-bold leading-[1.3] mb-8 md:mb-12 text-white break-keep">
             복잡한 시스템 구축의 한계,<br />
             AI 통합 워크플로우로 혁신합니다.
           </h2>
-          <p className="text-white/60 text-[16px] md:text-[17px] leading-relaxed font-normal break-keep">
-            AI 에이전트가 요구사항을 구조화하고, AI 위젯 시스템이<br className="hidden md:block" />
-            최적의 아키텍처를 즉시 조립합니다. 보안 검증을 거쳐<br className="hidden md:block" />
-            브랜드가 반영된 완성형 플랫폼을 배포합니다.
-          </p>
+          <div className="space-y-6">
+            <p className="text-white/60 text-[16px] md:text-[17px] leading-relaxed font-normal break-keep">
+              AI 에이전트를 통해 일상의 언어로 요구사항을 정의하면<br className="hidden md:block" />
+              AI 위젯 시스템이 최적의 아키텍처를 즉시 조립합니다.<br className="hidden md:block" />
+              AI-SDLC 기반의 철저한 보안 검증을 거쳐,<br className="hidden md:block" />
+              기업 고유의 브랜드 정체성이 완벽히 반영된 완성형 플랫폼을<br className="hidden md:block" />
+              가장 빠르고 안정적으로 배포합니다.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -753,12 +696,12 @@ const UseCases = () => {
   // The six industry solutions from the /solution (Industries) page (user, 2026-07-28) — keeps the home
   // use-cases consistent with that page and drops the old placeholder tags (AIM ECO/TOOLS aren't products).
   const cases = [
-    { tag: "에너지 운영", title: "발전·에너지 운영 최적화 솔루션", img: "solution_card_energy_v.webp" },
-    { tag: "통합환경 감시", title: "통합환경 감시시스템", img: "solution_card_tms_v.webp" },
-    { tag: "전력 데이터", title: "발전 데이터 비즈니스 연계 플랫폼", img: "solution_card_power_v6.webp" },
-    { tag: "스마트시티", title: "스마트시티 데이터 통합 플랫폼", img: "solution_card_city_v.webp" },
-    { tag: "스마트빌리지", title: "지역 맞춤형 스마트 시설 통합 운영 플랫폼", img: "solution_card_village_v.webp" },
-    { tag: "작업자 안전", title: "작업자 안전·위험성 평가 AI 솔루션", img: "solution_card_safety_v.webp" },
+    { tag: "에너지 운영", title: "발전·에너지 운영 최적화 솔루션", img: "use_case_01.png" },
+    { tag: "통합환경 감시", title: "통합환경 감시시스템", img: "use_case_02.png" },
+    { tag: "전력 데이터", title: "발전 데이터 비즈니스 연계 플랫폼", img: "use_case_03.png" },
+    { tag: "스마트시티", title: "스마트시티 데이터 통합 플랫폼", img: "use_case_04.png" },
+    { tag: "스마트빌리지", title: "지역 맞춤형 스마트 시설 통합 운영 플랫폼", img: "use_case_05.png" },
+    { tag: "작업자 안전", title: "작업자 안전·위험성 평가 AI 솔루션", img: "use_case_01.png" },
   ];
 
   return (
@@ -906,415 +849,11 @@ const ScrollToTopButton = () => {
   );
 };
 
-// COMPARISON candidate: LG CNS-style hero layout — left headline + right 2x2 bento cards (one per step).
-// No background particle graphic. Sits under WorkflowDetails to compare.
-const WorkflowBento = () => {
-  const steps = [
-    { icon: "icon_01.png", label: "구상 및 정의", desc: "일상의 언어로 요구사항 정의", n: "STEP 01" },
-    { icon: "icon_02.png", label: "지능형 조립", desc: "AI 위젯으로 최적 아키텍처 조립", n: "STEP 02" },
-    { icon: "icon_03.png", label: "코드 검증", desc: "AI-SDLC 기반 보안·품질 검증", n: "STEP 03" },
-    { icon: "icon_04.png", label: "화이트라벨 배포", desc: "브랜드 반영 완성형 배포", n: "STEP 04" },
-  ];
-  const [active, setActive] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setActive((p) => (p + 1) % 4), 2400);
-    return () => clearInterval(id);
-  }, []);
-
-  return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-[#040813]">
-        <div
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(59,130,246,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.5) 1px, transparent 1px)",
-            backgroundSize: "52px 52px",
-            maskImage: "radial-gradient(ellipse 85% 75% at 50% 45%, #000 45%, transparent 100%)",
-            WebkitMaskImage: "radial-gradient(ellipse 85% 75% at 50% 45%, #000 45%, transparent 100%)",
-          }}
-        />
-      </div>
-
-      <div className="container-custom relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        {/* left: headline */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-xl"
-        >
-          <span className="mb-4 inline-block rounded-full border border-brand-cyan/40 px-3 py-1 font-mono text-[11px] tracking-widest text-brand-cyan">비교안 · BENTO</span>
-          <span className="block text-[17px] md:text-[20px] font-semibold tracking-wide text-[#2fd4c4] mb-3">AI-NATIVE WORKFLOW</span>
-          <h2 className="text-[26px] sm:text-4xl md:text-[44px] font-bold leading-[1.3] text-white break-keep">
-            복잡한 시스템 구축의 한계,<br />
-            AI 통합 워크플로우로 혁신합니다.
-          </h2>
-          <p className="mt-6 text-white/60 text-[16px] md:text-[17px] leading-relaxed break-keep">
-            AI 에이전트로 요구사항을 정의하면, AI 위젯 시스템이 최적의 아키텍처를 즉시 조립하고,
-            AI-SDLC 기반 보안 검증을 거쳐 완성형 플랫폼을 가장 빠르게 배포합니다.
-          </p>
-          <div className="mt-9 flex items-center gap-4">
-            <span className="font-mono text-[13px] tabular-nums text-brand-cyan">{`0${active + 1}`}</span>
-            <div className="h-[2px] w-full max-w-[180px] overflow-hidden rounded-full bg-white/10">
-              <motion.div className="h-full bg-brand-cyan" animate={{ width: `${((active + 1) / 4) * 100}%` }} transition={{ duration: 0.5, ease: "easeInOut" }} />
-            </div>
-            <span className="font-mono text-[13px] tabular-nums text-white/35">04</span>
-          </div>
-        </motion.div>
-
-        {/* right: 2x2 bento */}
-        <div className="grid grid-cols-2 gap-5">
-          {steps.map((s, i) => {
-            const on = i === active;
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 22 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                className={`group relative flex min-h-[210px] flex-col justify-between overflow-hidden rounded-2xl border p-6 transition-[border-color,box-shadow,background-color] duration-500 ${on ? "border-brand-cyan/60 bg-[#0b1a2e] shadow-[0_0_44px_rgba(47,212,196,0.18)]" : "border-white/10 bg-[#0a1526] hover:border-brand-cyan/40"}`}
-              >
-                <span
-                  className="pointer-events-none absolute -bottom-5 right-2 select-none font-mono font-black leading-none transition-colors duration-500"
-                  style={{ fontSize: "96px", color: on ? "rgba(47,212,196,0.13)" : "rgba(255,255,255,0.04)" }}
-                >
-                  {`0${i + 1}`}
-                </span>
-                <div className={`pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-brand-cyan/10 blur-[60px] transition-opacity duration-500 ${on ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
-                <div className="relative z-10 flex items-start justify-between">
-                  <div
-                    className="flex h-11 w-11 items-center justify-center rounded-xl border transition-all duration-500"
-                    style={{
-                      backgroundColor: on ? "#00CCCC" : "rgba(255,255,255,0.04)",
-                      borderColor: on ? "rgba(47,212,196,0.8)" : "rgba(255,255,255,0.10)",
-                      boxShadow: on ? "0 0 22px rgba(47,212,196,0.5)" : "none",
-                    }}
-                  >
-                    <img src={asset(s.icon)} alt="" className="h-6 w-6" />
-                  </div>
-                  <span className={`flex h-8 w-8 items-center justify-center rounded-full border transition-colors duration-500 ${on ? "border-brand-cyan/50 text-brand-cyan" : "border-white/10 text-white/50 group-hover:border-brand-cyan/40 group-hover:text-brand-cyan"}`}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14" /></svg>
-                  </span>
-                </div>
-                <div className="relative z-10">
-                  <div className="flex items-end justify-between gap-3">
-                    <h3 className="text-[19px] font-bold leading-snug text-white break-keep">{s.label}</h3>
-                    <span className={`shrink-0 font-mono text-[11px] tracking-widest transition-colors duration-500 ${on ? "text-brand-cyan" : "text-white/35"}`}>{s.n}</span>
-                  </div>
-                  <p className="mt-2 text-[13px] text-white/50 break-keep">{s.desc}</p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// COMPARISON candidate: editorial vertical timeline — giant step numbers on a lit spine, no cards.
-// A deliberately non-card layout to break the page's card rhythm. Sits under WorkflowBento to compare.
-const WorkflowTimeline = () => {
-  const steps = [
-    { icon: "icon_01.png", label: "구상 및 정의", desc: "일상의 언어로 요구사항을 정의하면 AI 에이전트가 즉시 구조화합니다.", points: ["자연어 요구사항 입력", "즉시 구조화", "아키텍처 초안 생성"] },
-    { icon: "icon_02.png", label: "지능형 조립", desc: "규격화된 AI 위젯을 조합해 최적의 아키텍처를 즉시 조립합니다.", points: ["그리드 위젯 조립", "구축 시간 60%↓", "최적 아키텍처"] },
-    { icon: "icon_03.png", label: "코드 검증", desc: "AI-SDLC 기반의 철저한 보안·품질 검증을 자동으로 수행합니다.", points: ["AI-SDLC 자동 검증", "보안 취약점 차단", "품질 게이트 통과"] },
-    { icon: "icon_04.png", label: "화이트라벨 배포", desc: "기업 고유의 브랜드 정체성을 완벽히 반영해 완성형으로 배포합니다.", points: ["헤드리스 SDK", "브랜드 주권 유지", "빠른 배포"] },
-  ];
-  const [active, setActive] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setActive((p) => (p + 1) % 4), 2600);
-    return () => clearInterval(id);
-  }, []);
-
-  return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-[#040813]">
-        <div
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage: "linear-gradient(rgba(59,130,246,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.5) 1px, transparent 1px)",
-            backgroundSize: "52px 52px",
-            maskImage: "radial-gradient(ellipse 85% 75% at 50% 40%, #000 45%, transparent 100%)",
-            WebkitMaskImage: "radial-gradient(ellipse 85% 75% at 50% 40%, #000 45%, transparent 100%)",
-          }}
-        />
-      </div>
-
-      <div className="container-custom relative z-10">
-        <div className="max-w-3xl mb-14 md:mb-16">
-          <span className="mb-4 inline-block rounded-full border border-brand-cyan/40 px-3 py-1 font-mono text-[11px] tracking-widest text-brand-cyan">비교안 · FLOW</span>
-          <span className="block text-[17px] md:text-[20px] font-semibold tracking-wide text-[#2fd4c4] mb-3">AI-NATIVE WORKFLOW</span>
-          <h2 className="text-[26px] sm:text-4xl md:text-[44px] font-bold leading-[1.3] text-white break-keep">
-            복잡한 시스템 구축의 한계,<br />
-            AI 통합 워크플로우로 혁신합니다.
-          </h2>
-        </div>
-
-        {/* Full-width horizontal flow — fills the whole width (no right-side gap) */}
-        <div className="relative">
-          {/* giant numbers */}
-          <div className="grid grid-cols-4 gap-4 md:gap-8">
-            {steps.map((s, i) => {
-              const on = i === active;
-              return (
-                <div key={i} className="text-center">
-                  <span className="font-display font-bold leading-none transition-colors duration-500" style={{ fontSize: "clamp(36px,6vw,88px)", color: on ? "#2fd4c4" : "rgba(255,255,255,0.08)" }}>{`0${i + 1}`}</span>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* spine + nodes */}
-          <div className="relative grid grid-cols-4 my-7">
-            <div className="absolute left-[12.5%] right-[12.5%] top-1/2 -translate-y-1/2 h-[2px] overflow-hidden rounded-full bg-white/10">
-              <motion.div className="h-full bg-brand-cyan" animate={{ width: `${(active / 3) * 100}%` }} transition={{ duration: 0.5, ease: "easeInOut" }} />
-            </div>
-            {steps.map((s, i) => {
-              const on = i === active;
-              const done = i < active;
-              return (
-                <div key={i} className="flex justify-center">
-                  <div className="relative w-4 h-4 rounded-full border-2 transition-all duration-500" style={{ backgroundColor: on ? "#00CCCC" : "#0b1220", borderColor: on ? "rgba(47,212,196,0.9)" : done ? "rgba(47,212,196,0.5)" : "rgba(255,255,255,0.2)", boxShadow: on ? "0 0 18px rgba(47,212,196,0.7)" : "none" }} />
-                </div>
-              );
-            })}
-          </div>
-
-          {/* content */}
-          <div className="grid grid-cols-4 gap-4 md:gap-8">
-            {steps.map((s, i) => {
-              const on = i === active;
-              return (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  className={`flex flex-col items-center text-center transition-opacity duration-500 ${on ? "opacity-100" : "opacity-55"}`}
-                >
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center border transition-all duration-500" style={{ backgroundColor: on ? "#00CCCC" : "rgba(255,255,255,0.04)", borderColor: on ? "rgba(47,212,196,0.8)" : "rgba(255,255,255,0.10)", boxShadow: on ? "0 0 18px rgba(47,212,196,0.5)" : "none" }}>
-                    <img src={asset(s.icon)} alt="" className="w-6 h-6" />
-                  </div>
-                  <span className="mt-3 font-mono text-[11px] tracking-widest text-brand-cyan">{`STEP 0${i + 1}`}</span>
-                  <h3 className="mt-1 text-[17px] md:text-[20px] font-bold text-white break-keep">{s.label}</h3>
-                  <p className="mt-2 max-w-[240px] text-[13px] md:text-[14px] leading-relaxed text-white/60 break-keep">{s.desc}</p>
-                  <ul className="mt-3 flex flex-col items-center gap-1.5">
-                    {s.points.map((pt, idx) => (
-                      <li key={idx} className="flex items-center gap-2 text-[12px] md:text-[13px] text-white/65">
-                        <span className="text-brand-cyan">✓</span>{pt}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// COMPARISON candidate: step selector (left) + detail panel (right). Restored alongside BENTO / FLOW.
-const WorkflowSteps = () => {
-  const steps = [
-    {
-      icon: "icon_01.png",
-      label: "구상 및 정의",
-      desc: "일상의 언어로 요구사항을 정의하면 AI 에이전트가 즉시 구조화합니다.",
-      points: ["자연어 요구사항 입력", "AI 에이전트가 즉시 구조화", "아키텍처 초안 자동 생성"],
-    },
-    {
-      icon: "icon_02.png",
-      label: "지능형 조립",
-      desc: "규격화된 AI 위젯을 조합해 최적의 아키텍처를 즉시 조립합니다.",
-      points: ["그리드 기반 위젯 조립", "최적 아키텍처 자동 구성", "구축 시간 60% 이상 단축"],
-    },
-    {
-      icon: "icon_03.png",
-      label: "코드 검증",
-      desc: "AI-SDLC 기반의 철저한 보안·품질 검증을 자동으로 수행합니다.",
-      points: ["AI-SDLC 자동 검증", "보안 취약점 사전 차단", "품질 게이트 통과"],
-    },
-    {
-      icon: "icon_04.png",
-      label: "화이트라벨 배포",
-      desc: "기업 고유의 브랜드 정체성을 완벽히 반영해 완성형으로 배포합니다.",
-      points: ["헤드리스 SDK 화이트라벨", "브랜드 디자인 주권 유지", "빠르고 안정적인 배포"],
-    },
-  ];
-  const [activeStep, setActiveStep] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % 4);
-    }, 2400);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-[#040813]">
-        <div
-          className="absolute inset-0 opacity-[0.13]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(59,130,246,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.5) 1px, transparent 1px)",
-            backgroundSize: "52px 52px",
-            maskImage: "radial-gradient(ellipse 85% 75% at 50% 45%, #000 45%, transparent 100%)",
-            WebkitMaskImage: "radial-gradient(ellipse 85% 75% at 50% 45%, #000 45%, transparent 100%)",
-          }}
-        />
-        <div className="absolute left-1/2 top-1/3 -translate-x-1/2 w-[1000px] h-[520px] bg-brand-cyan/10 blur-[170px] rounded-full pointer-events-none" />
-      </div>
-
-      <div className="container-custom relative z-10">
-        <div className="max-w-3xl mb-16 md:mb-20">
-          <span className="mb-4 inline-block rounded-full border border-brand-cyan/40 px-3 py-1 font-mono text-[11px] tracking-widest text-brand-cyan">비교안 · STEPS</span>
-          <span className="block text-[17px] md:text-[20px] font-semibold tracking-wide text-[#2fd4c4] mb-3">AI-NATIVE WORKFLOW</span>
-          <h2 className="text-[26px] sm:text-4xl md:text-[44px] font-bold leading-[1.3] text-white break-keep">
-            복잡한 시스템 구축의 한계,<br />
-            AI 통합 워크플로우로 혁신합니다.
-          </h2>
-          <p className="mt-6 text-white/60 text-[16px] md:text-[17px] leading-relaxed break-keep">
-            AI 에이전트로 요구사항을 정의하면, AI 위젯 시스템이 최적의 아키텍처를 즉시 조립하고,
-            AI-SDLC 기반 보안 검증을 거쳐 기업 고유의 브랜드가 완벽히 반영된 완성형 플랫폼을 가장 빠르게 배포합니다.
-          </p>
-        </div>
-
-        {/* Desktop: step selector (left) + rich detail panel (right) */}
-        <div className="hidden md:grid grid-cols-[280px_1fr] gap-8 lg:gap-12 items-stretch">
-          <div className="flex flex-col justify-between gap-3">
-            {steps.map((step, i) => {
-              const active = i === activeStep;
-              return (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setActiveStep(i)}
-                  className={`flex flex-1 items-center gap-4 rounded-xl border p-4 text-left transition-all duration-300 ${
-                    active ? "border-brand-cyan/60 bg-[#0a1526]" : "border-white/10 hover:border-white/25"
-                  }`}
-                >
-                  <div
-                    className="w-11 h-11 shrink-0 rounded-lg flex items-center justify-center border transition-all duration-300"
-                    style={{
-                      backgroundColor: active ? "#00CCCC" : "#0b1220",
-                      borderColor: active ? "rgba(47,212,196,0.7)" : "rgba(59,130,246,0.4)",
-                      boxShadow: active ? "0 0 20px rgba(47,212,196,0.5)" : "none",
-                    }}
-                  >
-                    <img src={asset(step.icon)} alt="" className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <span className={`font-mono text-[11px] tracking-widest ${active ? "text-brand-cyan" : "text-white/40"}`}>{`STEP 0${i + 1}`}</span>
-                    <div className={`font-bold transition-colors ${active ? "text-white text-[17px]" : "text-white/70 text-[16px]"}`}>{step.label}</div>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="relative overflow-hidden rounded-2xl border border-brand-cyan/30 bg-[#0a1526] p-10 min-h-[400px]">
-            <div className="absolute -top-16 -right-10 w-[360px] h-[360px] bg-brand-cyan/10 blur-[120px] rounded-full pointer-events-none" />
-            <span className="absolute top-6 right-8 font-mono font-bold text-[130px] leading-none text-brand-cyan/10 pointer-events-none select-none">{`0${activeStep + 1}`}</span>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeStep}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.35 }}
-                className="relative z-10"
-              >
-                <span className="font-mono text-[13px] tracking-widest text-brand-cyan">{`STEP 0${activeStep + 1}`}</span>
-                <h3 className="mt-2 text-[30px] font-bold text-white break-keep">{steps[activeStep].label}</h3>
-                <p className="mt-4 max-w-[560px] text-[17px] leading-relaxed text-white/65 break-keep">{steps[activeStep].desc}</p>
-                <ul className="mt-8 flex flex-col gap-4">
-                  {steps[activeStep].points.map((pt, idx) => (
-                    <li key={idx} className="flex items-center gap-3 text-[16px] text-white/80">
-                      <span className="flex w-6 h-6 shrink-0 items-center justify-center rounded-full bg-brand-cyan/15 text-brand-cyan text-[12px] font-bold">✓</span>
-                      {pt}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Mobile: accordion */}
-        <div className="md:hidden flex flex-col gap-3">
-          {steps.map((step, i) => {
-            const active = i === activeStep;
-            return (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setActiveStep(i)}
-                className={`w-full text-left rounded-xl border p-5 transition-all duration-300 ${
-                  active ? "border-brand-cyan/60 bg-[#0a1526]" : "border-white/10 bg-[#070c16]"
-                }`}
-              >
-                <div className="flex items-center gap-4">
-                  <div
-                    className="w-10 h-10 shrink-0 rounded-lg flex items-center justify-center border transition-all duration-300"
-                    style={{
-                      backgroundColor: active ? "#00CCCC" : "#0b1220",
-                      borderColor: active ? "rgba(47,212,196,0.7)" : "rgba(59,130,246,0.4)",
-                      boxShadow: active ? "0 0 18px rgba(47,212,196,0.5)" : "none",
-                    }}
-                  >
-                    <img src={asset(step.icon)} alt="" className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className={`font-mono text-[11px] tracking-widest ${active ? "text-brand-cyan" : "text-white/40"}`}>{`STEP 0${i + 1}`}</span>
-                    <div className="font-bold text-white text-[16px]">{step.label}</div>
-                  </div>
-                </div>
-                <AnimatePresence initial={false}>
-                  {active && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.35 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="mt-4 text-[14px] leading-relaxed text-white/60 break-keep">{step.desc}</p>
-                      <ul className="mt-4 flex flex-col gap-2.5">
-                        {step.points.map((pt, idx) => (
-                          <li key={idx} className="flex items-center gap-2.5 text-[14px] text-white/80">
-                            <span className="flex w-5 h-5 shrink-0 items-center justify-center rounded-full bg-brand-cyan/15 text-brand-cyan text-[11px] font-bold">✓</span>
-                            {pt}
-                          </li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const Home = () => {
   return (
     <>
       <Hero />
       <WorkflowDetails />
-      <WorkflowSteps />
-      <WorkflowBento />
-      <WorkflowTimeline />
       <SolutionShowcase />
       <VisionSection />
       <NewsSection />

@@ -75,31 +75,40 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
         </>
       )}
 
-      {/* Home CTA (showHero): a real 3D wireframe cube that rotates slowly in one direction. Kept dim, with
-          a light veil + a right-side radial behind the glass form so the content stays the focus. Rotation
-          pauses for users who prefer reduced motion. */}
+      {/* Home CTA (showHero): carry the planet card's "space" ambient down into the form area so the two
+          read as one scene — drifting stars fill the dark form background, and a soft blue glow bleeds the
+          planet's horizon light downward. Both sit behind the content (z-0); the opaque planet card hides
+          them where it overlaps. */}
       {showHero && (
         <>
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] max-w-[94%] h-[600px] bg-brand-cyan/12 blur-[150px] rounded-full" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[1250px] max-w-[98%] h-[96%]">
-            <div
-              className="w-full h-full bg-center bg-no-repeat bg-contain opacity-80"
-              style={{
-                backgroundImage: `url(${asset("main_partner_bg.png")})`,
-                WebkitMaskImage: "radial-gradient(closest-side, #000 62%, transparent 100%)",
-                maskImage: "radial-gradient(closest-side, #000 62%, transparent 100%)",
-              }}
-            />
-          </div>
-          <div className="pointer-events-none absolute inset-0 bg-[#020617]/35" />
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{ background: "radial-gradient(50% 70% at 76% 52%, rgba(2,6,23,0.55) 0%, rgba(2,6,23,0) 70%)" }}
-          />
+          <ConstellationField className="pointer-events-none absolute inset-0 h-full w-full select-none opacity-40" />
+          <div className="pointer-events-none absolute left-1/2 top-[60%] -translate-x-1/2 -translate-y-1/2 w-[1050px] max-w-[93%] h-[400px] bg-brand-blue/[0.11] blur-[140px] rounded-full" />
         </>
       )}
 
-      <div className={`container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10 ${showHero ? "lg:items-center" : ""}`}>
+      {/* Home CTA (showHero): a rounded planet card (main_cta_bg.png, supplied by the user) with the
+          wordmark on its upper area, per Figma 642-775. The image aspect (1519/1139) is matched so the
+          full planet shows without cropping; the form sits below on the dark section background. Title
+          style from Figma: Pretendard Bold, letter-spacing 0.16em (19.2px @120px), line-height 1.1,
+          white, centered. Pretendard is the project default sans. */}
+      {showHero && (
+        <div className="container-custom relative z-10">
+          <div
+            className="relative rounded-t-[24px] overflow-hidden aspect-[1519/960] bg-cover bg-bottom"
+            style={{
+              backgroundImage: `url(${asset("main_cta_bg.png")})`,
+              WebkitMaskImage: "linear-gradient(to bottom, #000 68%, transparent 100%)",
+              maskImage: "linear-gradient(to bottom, #000 68%, transparent 100%)",
+            }}
+          >
+            <h2 className="absolute inset-x-0 top-[7%] text-white font-bold tracking-[0.16em] leading-[1.1] text-center px-4 text-[20px] sm:text-[30px] md:text-[52px] lg:text-[100px]">
+              LEADING<br />THE AI FUTURE<br />WITH US
+            </h2>
+          </div>
+        </div>
+      )}
+
+      <div className={`container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10 ${showHero ? "lg:items-center -mt-24 md:-mt-36 lg:-mt-[220px]" : ""}`}>
         <div className="flex-1">
           {showHero && <span className="block text-[17px] md:text-[20px] font-semibold tracking-wide text-brand-cyan mb-4">GET STARTED</span>}
           <h2 className="text-[24px] md:text-[50px] font-bold text-white mb-3 md:mb-8 md:whitespace-nowrap leading-[1.5] break-keep">
