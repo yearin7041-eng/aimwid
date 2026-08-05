@@ -288,7 +288,7 @@ const Hero = () => {
   );
 };
 
-const WorkflowDetails = () => {
+const WorkflowDetails = ({ image = "main_workflow_hands.png" }: { image?: string }) => {
   const clockwiseOrder = [0, 1, 3, 2]; // 구상및정의 → 지능형조립 → 화이트라벨배포 → 코드검증
   const [stepIndex, setStepIndex] = useState(0);
 
@@ -320,7 +320,7 @@ const WorkflowDetails = () => {
           <div className="relative w-[300px] h-[300px] md:w-[456px] md:h-[456px] rounded-[78px] md:rounded-[120px] border-2 border-dashed border-white/40">
             {/* Inset graphic image (356 in 456 → ~11% gap), rounded-[90px] */}
             <div className="absolute inset-[11%] rounded-[58px] md:rounded-[90px] overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.25)]">
-              <img src={asset("main_workflow_hands.png")} alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
+              <img src={asset(image)} alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center text-center px-3">
                 <h3 className="text-white text-[22px] md:text-[32px] font-bold tracking-tight leading-[1.3] drop-shadow-[0_0_3px_rgba(2,6,26,0.6)]">AI-Native Master</h3>
                 <p className="text-white text-[16px] md:text-[24px] font-medium leading-[1.3] drop-shadow-[0_0_3px_rgba(2,6,26,0.6)]">Workflow</p>
@@ -863,6 +863,23 @@ const Home = () => {
   );
 };
 
+// Alternate Home ("B" version) for side-by-side comparison at /home-b. Starts as an exact copy of Home,
+// reusing the same section components so A and B render identically. As B diverges, fork just the sections
+// that change into dedicated "…B" components and swap them in here — Home (A) must stay untouched.
+const HomeB = () => {
+  return (
+    <>
+      <Hero />
+      <WorkflowDetails image="main_workflow_orb.png" />
+      <SolutionShowcase />
+      <VisionSection />
+      <NewsSection />
+      <UseCases />
+      <ContactSection variant="b" />
+    </>
+  );
+};
+
 // Helper component to scroll to top on route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -879,6 +896,7 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/home-b" element={<HomeB />} />
         <Route path="/aimguard" element={<AimGuard />} />
         <Route path="/aimguard/license" element={<AimGuardLicense />} />
         <Route path="/aimnis" element={<AimNis />} />
