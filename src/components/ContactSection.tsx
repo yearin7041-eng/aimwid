@@ -17,7 +17,7 @@ import ConstellationField from "../pages/ConstellationField";
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
 const WEB3FORMS_ACCESS_KEY = "63314580-f017-4c4d-b632-4af1fda92647"; // public key (safe to ship); delivers to the address it was issued for
 
-const ContactSection = ({ showHero = true, variant = "a" }: { showHero?: boolean; variant?: "a" | "b" }) => {
+const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
   const handleSubmit = async (e: { preventDefault: () => void; currentTarget: HTMLFormElement }) => {
@@ -79,20 +79,19 @@ const ContactSection = ({ showHero = true, variant = "a" }: { showHero?: boolean
           read as one scene — drifting stars fill the dark form background, and a soft blue glow bleeds the
           planet's horizon light downward. Both sit behind the content (z-0); the opaque planet card hides
           them where it overlaps. */}
-      {showHero && variant === "a" && (
+      {showHero && (
         <>
           <ConstellationField className="pointer-events-none absolute inset-0 h-full w-full select-none opacity-40" />
           <div className="pointer-events-none absolute left-1/2 top-[60%] -translate-x-1/2 -translate-y-1/2 w-[1050px] max-w-[93%] h-[400px] bg-brand-blue/[0.11] blur-[140px] rounded-full" />
         </>
       )}
 
-
       {/* Home CTA (showHero): a rounded planet card (main_cta_bg.png, supplied by the user) with the
           wordmark on its upper area, per Figma 642-775. The image aspect (1519/1139) is matched so the
           full planet shows without cropping; the form sits below on the dark section background. Title
           style from Figma: Pretendard Bold, letter-spacing 0.16em (19.2px @120px), line-height 1.1,
           white, centered. Pretendard is the project default sans. */}
-      {showHero && variant === "a" && (
+      {showHero && (
         <div className="container-custom relative z-10">
           <div
             className="relative rounded-t-[24px] overflow-hidden aspect-[1519/960] bg-cover bg-bottom"
@@ -109,26 +108,7 @@ const ContactSection = ({ showHero = true, variant = "a" }: { showHero?: boolean
         </div>
       )}
 
-      {/* "B" variant (/home-b): a full-bleed hands photo band behind the wordmark ONLY (Figma 654-919).
-          The band breaks out of the section's top padding to sit edge-to-edge, and its bottom is masked so
-          the photo melts into the dark form area below — the form gets no image behind it. */}
-      {showHero && variant === "b" && (
-        <div
-          className="relative z-10 w-full h-[440px] md:h-[640px] lg:h-[780px] bg-cover bg-center -mt-[80px] lg:-mt-[100px] mb-12 lg:mb-16"
-          style={{
-            backgroundImage: `url(${asset("main_cta_bg_b.jpg")})`,
-            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, #000 18%, #000 78%, transparent 100%)",
-            maskImage: "linear-gradient(to bottom, transparent 0%, #000 18%, #000 78%, transparent 100%)",
-          }}
-        >
-          <div className="absolute inset-0 bg-black/30" />
-          <h2 className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-white font-bold tracking-[0.16em] leading-[1.1] text-center px-4 text-[24px] sm:text-[34px] md:text-[60px] lg:text-[92px] drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
-            LEADING<br />THE AI FUTURE<br />WITH US
-          </h2>
-        </div>
-      )}
-
-      <div className={`container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10 ${showHero ? "lg:items-center" : ""} ${showHero && variant === "a" ? "-mt-24 md:-mt-36 lg:-mt-[220px]" : ""}`}>
+      <div className={`container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10 ${showHero ? "lg:items-center -mt-24 md:-mt-36 lg:-mt-[220px]" : ""}`}>
         <div className="flex-1">
           {showHero && <span className="block text-[17px] md:text-[20px] font-semibold tracking-wide text-brand-cyan mb-4">GET STARTED</span>}
           <h2 className="text-[24px] md:text-[50px] font-bold text-white mb-3 md:mb-8 md:whitespace-nowrap leading-[1.5] break-keep">

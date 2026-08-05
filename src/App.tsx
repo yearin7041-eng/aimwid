@@ -28,7 +28,7 @@ import {
   CloudLightning,
   Settings
 } from "lucide-react";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring, animate } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, animate, useMotionValue, useAnimationFrame } from "motion/react";
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import AimGuard from "./pages/AimGuard";
 import AimGuardLicense from "./pages/AimGuardLicense";
@@ -288,7 +288,7 @@ const Hero = () => {
   );
 };
 
-const WorkflowDetails = ({ image = "main_workflow_hands.png" }: { image?: string }) => {
+const WorkflowDetails = () => {
   const clockwiseOrder = [0, 1, 3, 2]; // 구상및정의 → 지능형조립 → 화이트라벨배포 → 코드검증
   const [stepIndex, setStepIndex] = useState(0);
 
@@ -320,7 +320,7 @@ const WorkflowDetails = ({ image = "main_workflow_hands.png" }: { image?: string
           <div className="relative w-[300px] h-[300px] md:w-[456px] md:h-[456px] rounded-[78px] md:rounded-[120px] border-2 border-dashed border-white/40">
             {/* Inset graphic image (356 in 456 → ~11% gap), rounded-[90px] */}
             <div className="absolute inset-[11%] rounded-[58px] md:rounded-[90px] overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.25)]">
-              <img src={asset(image)} alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
+              <img src={asset("main_workflow_hands.png")} alt="AI-Native Master Workflow" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center text-center px-3">
                 <h3 className="text-white text-[22px] md:text-[32px] font-bold tracking-tight leading-[1.3] drop-shadow-[0_0_3px_rgba(2,6,26,0.6)]">AI-Native Master</h3>
                 <p className="text-white text-[16px] md:text-[24px] font-medium leading-[1.3] drop-shadow-[0_0_3px_rgba(2,6,26,0.6)]">Workflow</p>
@@ -696,13 +696,29 @@ const UseCases = () => {
   // The six industry solutions from the /solution (Industries) page (user, 2026-07-28) — keeps the home
   // use-cases consistent with that page and drops the old placeholder tags (AIM ECO/TOOLS aren't products).
   const cases = [
-    { tag: "에너지 운영", title: "발전·에너지 운영 최적화 솔루션", img: "use_case_01.png" },
+    { tag: "에너지 운영", title: "발전·에너지 운영 최적화 솔루션", img: "usecase_energy.jpg" },
     { tag: "통합환경 감시", title: "통합환경 감시시스템", img: "use_case_02.png" },
     { tag: "전력 데이터", title: "발전 데이터 비즈니스 연계 플랫폼", img: "use_case_03.png" },
-    { tag: "스마트시티", title: "스마트시티 데이터 통합 플랫폼", img: "use_case_04.png" },
-    { tag: "스마트빌리지", title: "지역 맞춤형 스마트 시설 통합 운영 플랫폼", img: "use_case_05.png" },
-    { tag: "작업자 안전", title: "작업자 안전·위험성 평가 AI 솔루션", img: "use_case_01.png" },
+    { tag: "스마트시티", title: "스마트시티 데이터 통합 플랫폼", img: "usecase_smartcity.jpg" },
+    { tag: "스마트빌리지", title: "지역 맞춤형 스마트 시설 통합 운영 플랫폼", img: "usecase_village.jpg" },
+    { tag: "작업자 안전", title: "작업자 안전·위험성 평가 AI 솔루션", img: "usecase_safety.jpg" },
   ];
+
+  // Smooth marquee: advance the track each frame and EASE the speed (0..1) rather than hard-pausing —
+  // hover glides it to a stop, leaving glides it back up to full speed. Loops seamlessly at -50% because
+  // the card list is rendered twice.
+  const trackX = useMotionValue(0);
+  const speed = useMotionValue(1);
+  const reduce = useRef(false);
+  useEffect(() => {
+    reduce.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce.current) speed.set(0);
+  }, [speed]);
+  useAnimationFrame((_, delta) => {
+    const next = trackX.get() - (delta / 1000) * (50 / 40) * speed.get(); // 40s per -50% at full speed
+    trackX.set(next <= -50 ? next + 50 : next);
+  });
+  const trackXPercent = useTransform(trackX, (v) => `${v}%`);
 
   return (
     <section className="py-20 md:py-32">
@@ -728,8 +744,9 @@ const UseCases = () => {
 
       <div className="hidden md:block w-full overflow-hidden md:pl-[40px]">
         <motion.div
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ ease: "linear", duration: 40, repeat: Infinity }}
+          style={{ x: trackXPercent }}
+          onMouseEnter={() => { if (!reduce.current) animate(speed, 0, { duration: 0.35, ease: "easeOut" }); }}
+          onMouseLeave={() => { if (!reduce.current) animate(speed, 1, { duration: 0.9, ease: "easeInOut" }); }}
           className="flex gap-6 w-max"
         >
           {[...cases, ...cases].map((c, i) => (
@@ -863,23 +880,6 @@ const Home = () => {
   );
 };
 
-// Alternate Home ("B" version) for side-by-side comparison at /home-b. Starts as an exact copy of Home,
-// reusing the same section components so A and B render identically. As B diverges, fork just the sections
-// that change into dedicated "…B" components and swap them in here — Home (A) must stay untouched.
-const HomeB = () => {
-  return (
-    <>
-      <Hero />
-      <WorkflowDetails image="main_workflow_orb.png" />
-      <SolutionShowcase />
-      <VisionSection />
-      <NewsSection />
-      <UseCases />
-      <ContactSection variant="b" />
-    </>
-  );
-};
-
 // Helper component to scroll to top on route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -896,7 +896,6 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/home-b" element={<HomeB />} />
         <Route path="/aimguard" element={<AimGuard />} />
         <Route path="/aimguard/license" element={<AimGuardLicense />} />
         <Route path="/aimnis" element={<AimNis />} />
