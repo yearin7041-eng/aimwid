@@ -769,10 +769,10 @@ const TierGraphic = ({ i, lifted }: { i: number; lifted: boolean }) => {
 
 const Architecture = () => {
   const [active, setActive] = useState(0);
-  // Below lg the hover-driven tier interaction has no touch equivalent AND the tower sits above the cards,
-  // so a tap's effect would be off-screen (user, 2026-07-24). There we DECOUPLE: the tower AND the cards
-  // auto-cycle together off the shared `active` interval below, so one card is lit at a time just like the
-  // desktop hover state (user, 2026-08-06). Desktop keeps the original hover behaviour.
+  // Below lg the hover-driven tier interaction has no touch equivalent, AND the tower sits far above the
+  // cards so a synced highlight would never be seen with its card. So on touch (isTouch) the TOWER auto-
+  // cycles through the tiers as a living decorative sequence, while the CARDS stay static/un-lit (only the
+  // number badge keeps a static cyan accent). Desktop keeps the original hover-to-light behaviour.
   const [isTouch, setIsTouch] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
@@ -783,7 +783,7 @@ const Architecture = () => {
   }, []);
   useEffect(() => {
     if (!isTouch) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % tiers.length), 2800);
+    const id = setInterval(() => setActive((a) => (a + 1) % tiers.length), 2200);
     return () => clearInterval(id);
   }, [isTouch]);
   return (
@@ -897,7 +897,7 @@ const Architecture = () => {
               one-active-at-a-time look instead of lighting all four (user, 2026-08-06). */}
           <div className="flex flex-col gap-3">
             {tiers.map((t, i) => {
-              const lifted = active === i;
+              const lifted = isTouch ? false : active === i;
               return (
                 <div
                   key={i}
@@ -909,7 +909,7 @@ const Architecture = () => {
                   {/* number */}
                   <div
                     className={`w-11 h-11 rounded-full border-2 flex items-center justify-center shrink-0 text-[16px] font-bold transition-colors ${
-                      lifted
+                      isTouch || lifted
                         ? "border-[#2fd4c4] text-[#2fd4c4] bg-[#2fd4c4]/10"
                         : "border-white/20 text-white/60 bg-white/[0.03]"
                     }`}
