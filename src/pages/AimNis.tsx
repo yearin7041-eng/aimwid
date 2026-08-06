@@ -770,9 +770,9 @@ const TierGraphic = ({ i, lifted }: { i: number; lifted: boolean }) => {
 const Architecture = () => {
   const [active, setActive] = useState(0);
   // Below lg the hover-driven tier interaction has no touch equivalent AND the tower sits above the cards,
-  // so a tap's effect would be off-screen (user, 2026-07-24). There we DECOUPLE: the tower auto-cycles as a
-  // living decorative graphic, and every card renders lit (see `lifted` below) so all four read as equal,
-  // self-contained content instead of one cyan + three dimmed. Desktop keeps the original hover behaviour.
+  // so a tap's effect would be off-screen (user, 2026-07-24). There we DECOUPLE: the tower AND the cards
+  // auto-cycle together off the shared `active` interval below, so one card is lit at a time just like the
+  // desktop hover state (user, 2026-08-06). Desktop keeps the original hover behaviour.
   const [isTouch, setIsTouch] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
@@ -892,11 +892,12 @@ const Architecture = () => {
             </div>
           </div>
 
-          {/* RIGHT — upright layer details. Hover-synced on desktop; on touch every card is lit (isTouch)
-              so all four read equally rather than one cyan + three dimmed (user, 2026-07-24). */}
+          {/* RIGHT — upright layer details. Hover-synced on desktop; on touch there is no hover, so the
+              active tier auto-cycles (interval above) and only that one card is lit — matching the desktop
+              one-active-at-a-time look instead of lighting all four (user, 2026-08-06). */}
           <div className="flex flex-col gap-3">
             {tiers.map((t, i) => {
-              const lifted = isTouch || active === i;
+              const lifted = active === i;
               return (
                 <div
                   key={i}
