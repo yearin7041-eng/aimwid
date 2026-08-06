@@ -332,7 +332,7 @@ const WorkflowDetails = () => {
             <div className="absolute top-[7%] left-[7%] -translate-x-1/2 -translate-y-1/2 z-10">
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 0 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 0 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
                 <img src={asset("icon_01.png")} alt="Icon 01" className="w-6 h-6" />
-                <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:left-auto md:translate-x-0 md:right-full md:mr-3 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">구상 및 정의</span>
+                <span className="absolute hidden md:block bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:left-auto md:translate-x-0 md:right-full md:mr-3 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">구상 및 정의</span>
               </div>
             </div>
 
@@ -340,7 +340,7 @@ const WorkflowDetails = () => {
             <div className="absolute top-[7%] right-[7%] translate-x-1/2 -translate-y-1/2 z-10">
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 1 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 1 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
                 <img src={asset("icon_02.png")} alt="Icon 02" className="w-6 h-6" />
-                <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:translate-x-0 md:left-full md:ml-3 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">지능형 조립</span>
+                <span className="absolute hidden md:block bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:translate-x-0 md:left-full md:ml-3 md:top-1/2 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">지능형 조립</span>
               </div>
             </div>
 
@@ -348,7 +348,7 @@ const WorkflowDetails = () => {
             <div className="absolute bottom-[7%] left-[7%] -translate-x-1/2 translate-y-1/2 z-10">
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 2 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 2 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
                 <img src={asset("icon_03.png")} alt="Icon 03" className="w-6 h-6" />
-                <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:left-auto md:translate-x-0 md:right-full md:mr-3 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">코드 검증</span>
+                <span className="absolute hidden md:block top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:left-auto md:translate-x-0 md:right-full md:mr-3 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap">코드 검증</span>
               </div>
             </div>
 
@@ -356,7 +356,7 @@ const WorkflowDetails = () => {
             <div className="absolute bottom-[7%] right-[7%] translate-x-1/2 translate-y-1/2 z-10">
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 3 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 3 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
                 <img src={asset("icon_04.png")} alt="Icon 04" className="w-6 h-6" />
-                <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:translate-x-0 md:left-full md:ml-3 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap break-keep">화이트라벨 배포</span>
+                <span className="absolute hidden md:block top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:translate-x-0 md:left-full md:ml-3 md:-translate-y-1/2 text-[15px] md:text-xl font-bold text-white whitespace-nowrap break-keep">화이트라벨 배포</span>
               </div>
             </div>
           </div>
@@ -696,12 +696,12 @@ const UseCases = () => {
   // The six industry solutions from the /solution (Industries) page (user, 2026-07-28) — keeps the home
   // use-cases consistent with that page and drops the old placeholder tags (AIM ECO/TOOLS aren't products).
   const cases = [
-    { tag: "에너지 운영", title: "발전·에너지 운영 최적화 솔루션", img: "usecase_energy.jpg" },
-    { tag: "통합환경 감시", title: "통합환경 감시시스템", img: "use_case_02.png" },
-    { tag: "전력 데이터", title: "발전 데이터 비즈니스 연계 플랫폼", img: "use_case_03.png" },
+    { tag: "작업자 안전", title: "작업자 안전·위험성 평가 AI 솔루션", img: "usecase_safety.jpg" },
+    { tag: "전력 데이터", title: "발전 데이터 비즈니스 연계 플랫폼", img: "usecase_power.jpg" },
     { tag: "스마트시티", title: "스마트시티 데이터 통합 플랫폼", img: "usecase_smartcity.jpg" },
     { tag: "스마트빌리지", title: "지역 맞춤형 스마트 시설 통합 운영 플랫폼", img: "usecase_village.jpg" },
-    { tag: "작업자 안전", title: "작업자 안전·위험성 평가 AI 솔루션", img: "usecase_safety.jpg" },
+    { tag: "에너지 운영", title: "발전·에너지 운영 최적화 솔루션", img: "usecase_energy.jpg" },
+    { tag: "통합환경 감시", title: "통합환경 감시시스템", img: "usecase_env.jpg" },
   ];
 
   // Smooth marquee: advance the track each frame and EASE the speed (0..1) rather than hard-pausing —
@@ -737,28 +737,28 @@ const UseCases = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent" />
             </div>
             <span className="mb-2 inline-block rounded bg-[#1493DE] px-2 py-1 text-[12px] font-medium text-white">{c.tag}</span>
-            <h3 className="text-[15px] font-bold leading-snug break-keep transition-colors group-hover:text-brand-cyan">{c.title}</h3>
+            <h3 className="text-[15px] font-bold leading-snug break-keep">{c.title}</h3>
           </Link>
         ))}
       </div>
 
       <div className="hidden md:block w-full overflow-hidden md:pl-[40px]">
         <motion.div
-          style={{ x: trackXPercent }}
+          style={{ x: trackXPercent, z: 0, willChange: "transform", backfaceVisibility: "hidden" }}
           onMouseEnter={() => { if (!reduce.current) animate(speed, 0, { duration: 0.35, ease: "easeOut" }); }}
           onMouseLeave={() => { if (!reduce.current) animate(speed, 1, { duration: 0.9, ease: "easeInOut" }); }}
-          className="flex gap-6 w-max"
+          className="flex gap-6 w-max transform-gpu"
         >
           {[...cases, ...cases].map((c, i) => (
             <Link key={i} to="/solution" onClick={() => window.scrollTo(0, 0)} className="group w-[300px] md:w-[410px] block">
-              <div className="relative w-full h-[200px] md:h-[280px] rounded-2xl overflow-hidden mb-6 border border-white/10 bg-[#0a1420] group-hover:border-brand-cyan/40 transition-colors">
+              <div className="relative w-full h-[200px] md:h-[280px] rounded-2xl overflow-hidden mb-6 border border-white/10 bg-[#0a1420]">
                 <img src={asset(c.img)} alt={c.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent" />
               </div>
               <div className="flex gap-2 mb-3">
                 <span className="text-[14px] font-medium bg-[#1493DE] text-white px-[8px] py-[4px] rounded">{c.tag}</span>
               </div>
-              <h3 className="font-bold text-lg group-hover:text-brand-cyan transition-colors">{c.title}</h3>
+              <h3 className="font-bold text-lg">{c.title}</h3>
             </Link>
           ))}
         </motion.div>

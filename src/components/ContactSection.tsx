@@ -101,16 +101,15 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
               maskImage: "linear-gradient(to bottom, #000 68%, transparent 100%)",
             }}
           >
-            <h2 className="absolute inset-x-0 top-[7%] text-white font-bold tracking-[0.16em] leading-[1.1] text-center px-4 text-[20px] sm:text-[30px] md:text-[52px] lg:text-[100px]">
+            <h2 className="absolute inset-x-0 top-[7%] text-white font-bold tracking-[0.16em] leading-[1.1] text-center px-4 text-[28px] sm:text-[42px] md:text-[52px] lg:text-[100px]">
               LEADING<br />THE AI FUTURE<br />WITH US
             </h2>
           </div>
         </div>
       )}
 
-      <div className={`container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10 ${showHero ? "lg:items-center -mt-24 md:-mt-36 lg:-mt-[220px]" : ""}`}>
+      <div className={`container-custom relative z-10 flex flex-col lg:flex-row justify-between gap-10 ${showHero ? "lg:items-center mt-8 md:-mt-36 lg:-mt-[220px]" : ""}`}>
         <div className="flex-1">
-          {showHero && <span className="block text-[17px] md:text-[20px] font-semibold tracking-wide text-brand-cyan mb-4">GET STARTED</span>}
           <h2 className="text-[24px] md:text-[50px] font-bold text-white mb-3 md:mb-8 md:whitespace-nowrap leading-[1.5] break-keep">
             기업의 AI 전환<br /> <span className="text-brand-cyan">에임위드</span>와 시작하세요
           </h2>
