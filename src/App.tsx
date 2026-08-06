@@ -26,7 +26,11 @@ import {
   ShieldAlert,
   Flame,
   CloudLightning,
-  Settings
+  Settings,
+  Lightbulb,
+  SquareMousePointer,
+  CheckCheck,
+  UploadCloud
 } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, animate, useMotionValue, useAnimationFrame } from "motion/react";
 import { Routes, Route, useLocation, Link } from "react-router-dom";
@@ -331,7 +335,7 @@ const WorkflowDetails = () => {
             {/* Top Left - icon 0 */}
             <div className="absolute top-[7%] left-[7%] -translate-x-1/2 -translate-y-1/2 z-10">
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 0 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 0 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
-                <img src={asset("icon_01.png")} alt="Icon 01" className="w-6 h-6" />
+                <Lightbulb className="w-6 h-6 text-white" strokeWidth={2} />
                 <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:left-auto md:translate-x-0 md:right-full md:mr-3 md:top-1/2 md:-translate-y-1/2 text-[12px] md:text-xl font-medium md:font-bold text-white whitespace-nowrap">구상 및 정의</span>
               </div>
             </div>
@@ -339,7 +343,7 @@ const WorkflowDetails = () => {
             {/* Top Right - icon 1 */}
             <div className="absolute top-[7%] right-[7%] translate-x-1/2 -translate-y-1/2 z-10">
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 1 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 1 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
-                <img src={asset("icon_02.png")} alt="Icon 02" className="w-6 h-6" />
+                <SquareMousePointer className="w-6 h-6 text-white" strokeWidth={2} />
                 <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 md:bottom-auto md:mb-0 md:translate-x-0 md:left-full md:ml-3 md:top-1/2 md:-translate-y-1/2 text-[12px] md:text-xl font-medium md:font-bold text-white whitespace-nowrap">지능형 조립</span>
               </div>
             </div>
@@ -347,7 +351,7 @@ const WorkflowDetails = () => {
             {/* Bottom Left - icon 2 */}
             <div className="absolute bottom-[7%] left-[7%] -translate-x-1/2 translate-y-1/2 z-10">
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 2 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 2 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
-                <img src={asset("icon_03.png")} alt="Icon 03" className="w-6 h-6" />
+                <CheckCheck className="w-6 h-6 text-white" strokeWidth={2} />
                 <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:left-auto md:translate-x-0 md:right-full md:mr-3 md:-translate-y-1/2 text-[12px] md:text-xl font-medium md:font-bold text-white whitespace-nowrap">코드 검증</span>
               </div>
             </div>
@@ -355,7 +359,7 @@ const WorkflowDetails = () => {
             {/* Bottom Right - icon 3 */}
             <div className="absolute bottom-[7%] right-[7%] translate-x-1/2 translate-y-1/2 z-10">
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-[10px] flex items-center justify-center relative transition-all duration-500" style={{ backgroundColor: activeIcon === 3 ? '#00CCCC' : '#3b82f6', boxShadow: activeIcon === 3 ? '0 0 20px rgba(47,212,196,0.7)' : '0 0 15px rgba(59,130,246,0.6)' }}>
-                <img src={asset("icon_04.png")} alt="Icon 04" className="w-6 h-6" />
+                <UploadCloud className="w-6 h-6 text-white" strokeWidth={2} />
                 <span className="absolute top-full mt-1 left-1/2 -translate-x-1/2 md:top-1/2 md:mt-0 md:translate-x-0 md:left-full md:ml-3 md:-translate-y-1/2 text-[12px] md:text-xl font-medium md:font-bold text-white whitespace-nowrap break-keep">화이트라벨 배포</span>
               </div>
             </div>
