@@ -1192,8 +1192,11 @@ const RelatedSolutions = () => (
                 src={asset(r.img)}
                 alt=""
                 aria-hidden
-                className="w-full h-[150px] object-cover lg:absolute lg:right-0 lg:inset-y-0 lg:h-full lg:w-[62%] opacity-90 group-hover:scale-105 transition-transform duration-700"
+                className={`${r.img === "solution_hero_v2.webp" ? "w-[128%] max-w-none object-left" : "w-full"} h-[150px] object-cover lg:absolute lg:right-0 lg:inset-y-0 lg:h-full lg:w-[62%] lg:object-center opacity-90 group-hover:scale-105 transition-transform duration-700`}
               />
+              {/* Mobile: feather the banner's bottom edge into the card bg so the image isn't a hard
+                  rectangle where it meets the text (desktop uses the right-bleed + left wash below). */}
+              <div className="lg:hidden pointer-events-none absolute inset-x-0 top-0 h-[150px] bg-[linear-gradient(to_bottom,transparent_58%,#0a1420_100%)]" />
               {/* text column reads over a solid-to-transparent wash, matching the mockup's split — desktop only (mobile stacks) */}
               <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#0a1420] from-40% via-[#0a1420]/80 to-transparent" />
 

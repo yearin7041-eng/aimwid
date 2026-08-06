@@ -349,7 +349,7 @@ const Framework = () => (
                   {l.tags.map((t) => (
                     <span
                       key={t}
-                      className="rounded-full border border-[#2fd4c4]/20 bg-[#2fd4c4]/[0.05] text-white/75 text-[13.5px] font-medium leading-none px-3.5 py-2 whitespace-nowrap transition-colors group-hover:border-[#2fd4c4]/35"
+                      className="rounded-full border border-[#2fd4c4]/20 bg-[#2fd4c4]/[0.05] text-white/75 text-[12px] md:text-[13.5px] font-medium leading-none px-3.5 py-2 whitespace-nowrap transition-colors group-hover:border-[#2fd4c4]/35"
                     >
                       {t}
                     </span>
