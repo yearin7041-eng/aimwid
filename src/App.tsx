@@ -254,7 +254,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[70vh] md:min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[90dvh] md:min-h-screen flex items-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
