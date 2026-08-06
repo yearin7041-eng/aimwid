@@ -94,7 +94,7 @@ const ContactSection = ({ showHero = true }: { showHero?: boolean }) => {
       {showHero && (
         <div className="container-custom relative z-10">
           <div
-            className="relative rounded-t-[24px] overflow-hidden aspect-[1519/960] bg-cover bg-bottom"
+            className="relative rounded-t-[24px] overflow-hidden h-[320px] md:h-auto md:aspect-[1519/960] bg-cover bg-bottom"
             style={{
               backgroundImage: `url(${asset("main_cta_bg.png")})`,
               WebkitMaskImage: "linear-gradient(to bottom, #000 68%, transparent 100%)",
