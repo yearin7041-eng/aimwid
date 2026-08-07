@@ -194,7 +194,7 @@ const Navbar = () => {
                 {ROUTED[item] || item === "Company" || item === "Solution" ? (
                   <Link
                     to={item === "Company" ? "/company" : item === "Solution" ? "/solution" : ROUTED[item]}
-                    className={`text-lg font-medium py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
+                    className={`text-[20px] font-semibold py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
                     onClick={() => {
                       setMobileMenuOpen(false);
                       window.scrollTo(0, 0);
@@ -205,7 +205,7 @@ const Navbar = () => {
                 ) : (
                   <a
                     href={`#${item.toLowerCase()}`}
-                    className={`text-lg font-medium py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
+                    className={`text-[20px] font-semibold py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item}
@@ -258,7 +258,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[90dvh] md:min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[100dvh] md:min-h-screen flex items-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
