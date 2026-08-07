@@ -308,7 +308,7 @@ const Hero = () => {
         >
           <h1 className="text-[26px] sm:text-4xl md:text-7xl font-bold font-display leading-[1.3] md:leading-[1.2] mb-8 tracking-tight text-white text-center break-keep">
             데이터 연동부터 통합관제까지,<br />
-            <span className="md:whitespace-nowrap">스스로 진화하는 엔터프라이즈 AI 플랫폼</span>
+            <span className="md:whitespace-nowrap">스스로 진화하는 <br className="md:hidden" />엔터프라이즈 AI 플랫폼</span>
           </h1>
         </motion.div>
       </div>
@@ -809,9 +809,9 @@ const Footer = () => {
     window.setTimeout(() => setNotice(false), 2000);
   };
   return (
-    <footer className="py-20 border-t border-white/5 bg-[#020617]">
+    <footer className="py-16 md:py-20 border-t border-white/5 bg-[#020617]">
       <div className="container-custom">
-        <div className="flex flex-col md:flex-row items-start gap-16 md:gap-32">
+        <div className="flex flex-col md:flex-row items-start gap-10 md:gap-32">
           {/* Logo */}
           <div className="flex-shrink-0">
             <img src={asset("logo_horizontal.png")} alt="AIMWID" className="w-[164px] h-auto" />
@@ -836,9 +836,9 @@ const Footer = () => {
             </div>
 
             {/* Bottom Links & Copyright */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[16px] text-[#c7c7c7] font-normal">
-              <p>© 2023. AIMWID All rights reserved.</p>
-              <div className="flex items-center gap-6 mt-4 sm:mt-0">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[14px] md:text-[16px] text-[#c7c7c7] font-normal">
+              <p className="order-2 sm:order-1 mt-4 sm:mt-0">© 2023. AIMWID All rights reserved.</p>
+              <div className="order-1 sm:order-2 flex items-center gap-6">
                 <button type="button" onClick={showNotice} className="font-semibold text-[#c7c7c7] hover:text-white transition-colors">개인정보처리방침</button>
                 <button type="button" onClick={showNotice} className="font-normal hover:text-white transition-colors">이용약관</button>
                 <span className={`text-[14px] text-brand-cyan transition-opacity duration-300 ${notice ? "opacity-100" : "opacity-0"}`}>준비 중입니다</span>

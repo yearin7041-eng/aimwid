@@ -104,7 +104,7 @@ const Hero = () => (
         className="max-w-[714px] flex flex-col"
       >
         {/* margins, not a column gap — the label sits closer to the title (16px) than the title block does to the body (28px) */}
-        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-4">AI가 위험을 감지하기 전에 대응합니다</p>
+        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-2 md:mb-4">AI가 위험을 감지하기 전에 대응합니다</p>
         <div className="flex flex-col gap-6 mb-7">
           <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] break-keep">
             산업 현장의 안전을 지키는<br />

@@ -288,7 +288,7 @@ const Hero = () => (
         className="max-w-[760px] flex flex-col"
       >
         {/* same rhythm as the Solution-menu heroes: label 16px off the title, title 28px off the body */}
-        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-4">산업 AI 전환의 시작</p>
+        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-2 md:mb-4">산업 AI 전환의 시작</p>
         <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7 break-keep">
           고객의 데이터로,<br />
           현장에 맞는 AI를 만듭니다.

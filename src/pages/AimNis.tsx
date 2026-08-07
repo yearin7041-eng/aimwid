@@ -86,7 +86,7 @@ const Hero = () => (
         className="max-w-[714px] flex flex-col"
       >
         {/* margins, not a column gap — the label sits closer to the title (16px) than the title does to the body (28px) */}
-        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-4">데이터 연동부터 통합관제까지,</p>
+        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-2 md:mb-4">데이터 연동부터 통합관제까지,</p>
         <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] mb-7 break-keep">
           엔터프라이즈를 위한 <br />
           단 하나의 화이트 라벨 <br /> AI 빌더

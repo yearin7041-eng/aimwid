@@ -93,7 +93,7 @@ const Hero = () => (
         transition={{ duration: 0.8 }}
         className="max-w-[760px] flex flex-col"
       >
-        <p className="text-[#90a1b9] text-[16px] md:text-[20px] font-bold leading-[1.4] mb-[27px]">에임위드가 만드는 변화</p>
+        <p className="text-[#90a1b9] text-[14px] md:text-[20px] font-bold leading-[1.4] mb-2 md:mb-[27px]">에임위드가 만드는 변화</p>
         <h1 className="text-[30px] sm:text-[40px] md:text-[64px] font-bold text-white leading-[1.2] break-keep">
           기술로 앞서가는<br />
           AI 중심 기업

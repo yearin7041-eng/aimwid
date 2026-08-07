@@ -94,7 +94,7 @@ const Hero = ({ onStart }: { onStart: () => void }) => (
       >
         {/* Gray, not the render's cyan. Every hero on the site puts its eyebrow in #90a1b9 and reserves
             teal for "a section starts here" — see the hero-eyebrow convention. */}
-        <p className="mb-4 text-[16px] md:text-[20px] font-bold leading-[1.4] text-[#90a1b9]">AI 영상분석 통합관제 솔루션</p>
+        <p className="mb-2 md:mb-4 text-[14px] md:text-[20px] font-bold leading-[1.4] text-[#90a1b9]">AI 영상분석 통합관제 솔루션</p>
         {/* Explicit break, not reflow: left to itself the line wrapped mid-word, splitting 발급 across
             two lines. break-keep is the belt to that braces at other widths. */}
         <h1 className="text-[30px] sm:text-[40px] md:text-[56px] font-bold leading-[1.2] text-white break-keep">
