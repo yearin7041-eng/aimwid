@@ -75,7 +75,7 @@ const Hero = () => (
       <img
         src={asset("aimguard_hero_main_m.webp")}
         alt="AIM GUARD Dashboard"
-        className="lg:hidden mx-auto block h-[200px] w-auto max-w-full [mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)]"
+        className="lg:hidden mx-auto block h-[200px] w-auto max-w-full [mask-image:radial-gradient(ellipse_closest-side_at_center,#000_40%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_closest-side_at_center,#000_40%,transparent_100%)]"
       />
       {/* Desktop: the full still, bled in from the right as an absolute background overlay. */}
       <img
