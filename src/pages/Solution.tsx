@@ -82,7 +82,15 @@ const Hero = () => (
       <img
         src={asset("solution_hero_v3_m.webp")}
         alt="에너지, 스마트시티, 안전 분야의 산업 AI 솔루션 라인업"
-        className="lg:hidden mx-auto block h-[200px] w-auto max-w-full [mask-image:radial-gradient(ellipse_closest-side_at_center,#000_40%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_closest-side_at_center,#000_40%,transparent_100%)]"
+        className="lg:hidden mx-auto block h-[200px] w-auto max-w-full"
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%)",
+          WebkitMaskComposite: "source-in",
+          maskComposite: "intersect",
+        }}
       />
       {/* Desktop: the full still pinned to the right. */}
       <img

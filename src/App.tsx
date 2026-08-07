@@ -259,14 +259,47 @@ const Navbar = () => {
 const Hero = () => {
   return (
     <section className="relative min-h-[100dvh] md:min-h-screen flex items-center overflow-hidden">
-      {/* Video Background */}
-      <div className="absolute inset-0 z-0">
+      {/* Video Background. The clip is 2.4:1 ultra-wide, so object-cover on a portrait phone zooms in
+          hard. Mobile: a blurred cover copy fills the frame, and a slightly pulled-back (scale) sharp copy
+          sits on top so more of the scene reads (zoomed out) with the gaps filled by blur, not black bars.
+          Desktop keeps a single object-cover video. `scale-[…]` is the mobile zoom knob (smaller = more out). */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Mobile: blurred fill behind */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover"
+          aria-hidden="true"
+          className="md:hidden absolute inset-0 w-full h-full object-cover scale-110 blur-lg opacity-80"
+        >
+          <source src={asset("main_hero_video.mp4")} type="video/mp4" />
+        </video>
+        {/* Mobile: sharp, pulled back; its edges fade so it merges into the blur (no hard boundary) */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="md:hidden absolute inset-0 w-full h-full object-cover scale-[0.72]"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%)",
+            WebkitMaskComposite: "source-in",
+            maskComposite: "intersect",
+          }}
+        >
+          <source src={asset("main_hero_video.mp4")} type="video/mp4" />
+        </video>
+        {/* Desktop: full cover */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="hidden md:block w-full h-full object-cover"
         >
           <source src={asset("main_hero_video.mp4")} type="video/mp4" />
         </video>
