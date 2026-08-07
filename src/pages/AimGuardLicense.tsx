@@ -90,7 +90,7 @@ const Hero = ({ onStart }: { onStart: () => void }) => (
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="flex w-full flex-col lg:w-[560px] lg:shrink-0"
+        className="order-2 lg:order-1 flex w-full flex-col lg:w-[560px] lg:shrink-0"
       >
         {/* Gray, not the render's cyan. Every hero on the site puts its eyebrow in #90a1b9 and reserves
             teal for "a section starts here" — see the hero-eyebrow convention. */}
@@ -121,7 +121,7 @@ const Hero = ({ onStart }: { onStart: () => void }) => (
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.15 }}
-        className="w-full min-w-0 lg:flex-1"
+        className="order-1 lg:order-2 w-full min-w-0 lg:flex-1"
         style={{
           maskImage: "linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%)",
