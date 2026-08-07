@@ -70,10 +70,19 @@ const Hero = () => (
         lg it returns to the absolute right-side background overlay. Same <img>, only positioning switches.
         NOTE: aimguard_hero_main.png (the previous still) is still used by Business.tsx — do not delete. */}
     <div className="relative pt-[64px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none">
+      {/* Mobile/tablet: the laptop-centred crop (aimguard_hero_main_m) so it sits dead-centre with the
+          radial fade — the full still has the laptop on the right, which read off-centre when centred. */}
+      <img
+        src={asset("aimguard_hero_main_m.webp")}
+        alt="AIM GUARD Dashboard"
+        className="lg:hidden mx-auto block h-[250px] w-auto max-w-full [mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)]"
+      />
+      {/* Desktop: the full still, bled in from the right as an absolute background overlay. */}
       <img
         src={asset("aimguard_hero_main.webp")}
         alt="AIM GUARD Dashboard"
-        className="mx-auto block w-[90%] max-w-[460px] h-auto [mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)] lg:mx-0 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-auto lg:max-w-none lg:object-cover lg:object-right lg:[mask-image:none] lg:[-webkit-mask-image:none]"
+        aria-hidden="true"
+        className="hidden lg:block absolute inset-y-0 right-0 h-full w-auto max-w-none object-cover object-right"
       />
       {/* left → right darkening so the headline stays readable — desktop only (mobile stacks, no overlap) */}
       <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/40 via-30% to-transparent to-50%" />

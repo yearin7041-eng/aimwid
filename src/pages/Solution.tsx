@@ -77,10 +77,19 @@ const Hero = () => (
         right-pinned background. The raster is 16:9 with its subject on the right and a dark left half, so on
         desktop it pins to right-0 with the left→right darkening below keeping the copy side legible. */}
     <div className="relative pt-[64px] lg:pt-0 lg:absolute lg:inset-0 pointer-events-none">
+      {/* Mobile/tablet: the subject-centred crop (solution_hero_v3_m) so the lineup sits dead-centre with
+          the radial fade — the full still is right-heavy and read off-centre when centred. */}
+      <img
+        src={asset("solution_hero_v3_m.webp")}
+        alt="에너지, 스마트시티, 안전 분야의 산업 AI 솔루션 라인업"
+        className="lg:hidden mx-auto block h-[250px] w-auto max-w-full [mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)]"
+      />
+      {/* Desktop: the full still pinned to the right. */}
       <img
         src={asset("solution_hero_v3.webp")}
-        alt="에너지, 스마트시티, 안전 분야의 산업 AI 솔루션 라인업"
-        className="mx-auto block w-[92%] max-w-[520px] h-auto [mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)] [-webkit-mask-image:radial-gradient(ellipse_closest-side_at_center,#000_60%,transparent_100%)] lg:mx-0 lg:absolute lg:right-0 lg:top-1/2 lg:h-[104%] lg:w-auto lg:max-w-none lg:-translate-y-1/2 lg:object-contain lg:[mask-image:none] lg:[-webkit-mask-image:none]"
+        alt=""
+        aria-hidden="true"
+        className="hidden lg:block absolute right-0 top-1/2 h-[104%] w-auto max-w-none -translate-y-1/2 object-contain"
       />
       <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-[#040813] from-6% via-[#040813]/40 via-[34%] to-transparent to-[56%]" />
     </div>
