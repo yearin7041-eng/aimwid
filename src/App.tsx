@@ -197,29 +197,19 @@ const Navbar = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            key="nav-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setMobileMenuOpen(false)}
-            className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
-          />
-        )}
-        {mobileMenuOpen && (
-          <motion.div
             key="nav-panel"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
-            className="fixed inset-y-0 right-0 z-40 h-[100dvh] w-[80%] max-w-[320px] overflow-y-auto bg-bg-dark border-l border-white/10 px-6 pt-24 pb-8 flex flex-col gap-4 md:hidden"
+            className="fixed inset-0 z-40 h-[100dvh] w-full overflow-y-auto bg-bg-dark px-6 pt-24 pb-8 flex flex-col gap-4 md:hidden"
           >
             {["Solution", "Business", "Company", "Contact"].map((item) => (
               <div key={item} className="flex flex-col">
                 {ROUTED[item] || item === "Company" || item === "Solution" ? (
                   <Link
                     to={item === "Company" ? "/company" : item === "Solution" ? "/solution" : ROUTED[item]}
-                    className={`text-[20px] font-semibold py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
+                    className={`text-[28px] font-semibold py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
                     onClick={() => {
                       setMobileMenuOpen(false);
                       window.scrollTo(0, 0);
@@ -230,19 +220,19 @@ const Navbar = () => {
                 ) : (
                   <a
                     href={`#${item.toLowerCase()}`}
-                    className={`text-[20px] font-semibold py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
+                    className={`text-[28px] font-semibold py-2 flex items-center justify-between transition-colors ${isActive(item) ? "text-brand-cyan" : "text-white"}`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item}
                   </a>
                 )}
                 {item === "Solution" && (
-                  <div className="flex flex-col pl-4 border-l-2 border-brand-cyan/30 ml-2 mt-1 mb-2 gap-3 py-2">
+                  <div className="flex flex-col pl-4 ml-2 mt-1 mb-2 gap-3 py-2">
                     {SOLUTION_SUBS.map((subItem) => (
                       <Link
                         key={subItem}
                         to={subRoute(subItem)}
-                        className={`text-base transition-colors hover:text-brand-cyan ${pathname === subRoute(subItem) ? "text-brand-cyan" : "text-white/70"}`}
+                        className={`text-[20px] transition-colors hover:text-brand-cyan ${pathname === subRoute(subItem) ? "text-brand-cyan" : "text-white/70"}`}
                         onClick={() => {
                           setMobileMenuOpen(false);
                           if (subItem !== "AIM GUARD") {
@@ -256,12 +246,12 @@ const Navbar = () => {
                   </div>
                 )}
                 {item === "Company" && (
-                  <div className="flex flex-col pl-4 border-l-2 border-brand-cyan/30 ml-2 mt-1 mb-2 gap-3 py-2">
+                  <div className="flex flex-col pl-4 ml-2 mt-1 mb-2 gap-3 py-2">
                     {COMPANY_SUBS.map((subItem) => (
                       <Link
                         key={subItem}
                         to={companySubRoute(subItem)}
-                        className={`text-base transition-colors hover:text-brand-cyan ${pathname === companySubRoute(subItem) ? "text-brand-cyan" : "text-white/70"}`}
+                        className={`text-[20px] transition-colors hover:text-brand-cyan ${pathname === companySubRoute(subItem) ? "text-brand-cyan" : "text-white/70"}`}
                         onClick={() => {
                           setMobileMenuOpen(false);
                           window.scrollTo(0, 0);
