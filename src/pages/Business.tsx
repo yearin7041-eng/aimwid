@@ -246,7 +246,7 @@ const HeroVisual = () => (
       src={asset("business_hero_m.webp")}
       alt=""
       aria-hidden
-      className="lg:hidden mx-auto block w-[82%] max-w-[480px] h-auto select-none"
+      className="lg:hidden mx-auto block h-[200px] w-auto max-w-full select-none"
     />
     {/* desktop: right-pinned. Below 100% height the raster no longer covers the hero, so its top and bottom
         edges would cut against the section too — left + top + bottom fades are intersected to dissolve them. */}

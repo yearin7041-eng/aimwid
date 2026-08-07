@@ -70,7 +70,7 @@ const Hero = () => (
         src={asset("company_hero_visual.webp")}
         alt=""
         aria-hidden
-        className="mx-auto block w-[96%] max-w-[600px] h-auto select-none"
+        className="mx-auto block h-[200px] w-auto max-w-full select-none"
         style={{
           // Two per-axis linear masks intersected → all four edges dissolve into the section (the render
           // is a centred subject, so a symmetric fade works); the bottom fades earlier (72%) so it melts
