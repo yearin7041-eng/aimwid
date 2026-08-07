@@ -162,9 +162,33 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Button (Right) */}
-        <div className="flex justify-end z-10">
-          <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        <div className="flex justify-end z-50">
+          <button className="md:hidden text-white relative w-6 h-6" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="메뉴 열기/닫기">
+            <AnimatePresence mode="wait" initial={false}>
+              {mobileMenuOpen ? (
+                <motion.span
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <X size={24} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <Menu size={24} />
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
       </div>
@@ -178,16 +202,17 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setMobileMenuOpen(false)}
-            className="fixed inset-0 top-[80px] z-40 bg-black/60 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden"
           />
         )}
         {mobileMenuOpen && (
           <motion.div
             key="nav-panel"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 z-50 bg-bg-dark border-b border-white/10 p-6 flex flex-col gap-4 md:hidden"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween", ease: "easeInOut", duration: 0.3 }}
+            className="fixed inset-y-0 right-0 z-40 h-[100dvh] w-[80%] max-w-[320px] overflow-y-auto bg-bg-dark border-l border-white/10 px-6 pt-24 pb-8 flex flex-col gap-4 md:hidden"
           >
             {["Solution", "Business", "Company", "Contact"].map((item) => (
               <div key={item} className="flex flex-col">
@@ -259,47 +284,14 @@ const Navbar = () => {
 const Hero = () => {
   return (
     <section className="relative min-h-[100dvh] md:min-h-screen flex items-center overflow-hidden">
-      {/* Video Background. The clip is 2.4:1 ultra-wide, so object-cover on a portrait phone zooms in
-          hard. Mobile: a blurred cover copy fills the frame, and a slightly pulled-back (scale) sharp copy
-          sits on top so more of the scene reads (zoomed out) with the gaps filled by blur, not black bars.
-          Desktop keeps a single object-cover video. `scale-[…]` is the mobile zoom knob (smaller = more out). */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* Mobile: blurred fill behind */}
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
         <video
           autoPlay
           loop
           muted
           playsInline
-          aria-hidden="true"
-          className="md:hidden absolute inset-0 w-full h-full object-cover scale-110 blur-lg opacity-80"
-        >
-          <source src={asset("main_hero_video.mp4")} type="video/mp4" />
-        </video>
-        {/* Mobile: sharp, pulled back; its edges fade so it merges into the blur (no hard boundary) */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="md:hidden absolute inset-0 w-full h-full object-cover scale-[0.72]"
-          style={{
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%)",
-            maskImage:
-              "linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%)",
-            WebkitMaskComposite: "source-in",
-            maskComposite: "intersect",
-          }}
-        >
-          <source src={asset("main_hero_video.mp4")} type="video/mp4" />
-        </video>
-        {/* Desktop: full cover */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="hidden md:block w-full h-full object-cover"
+          className="w-full h-full object-cover"
         >
           <source src={asset("main_hero_video.mp4")} type="video/mp4" />
         </video>
@@ -401,7 +393,7 @@ const WorkflowDetails = () => {
 
         {/* Right: Text Content */}
         <div className="md:pl-20">
-          <h2 className="text-[26px] sm:text-4xl md:text-[44px] font-bold leading-[1.3] mb-8 md:mb-12 text-white break-keep">
+          <h2 className="text-[26px] sm:text-4xl md:text-[44px] font-bold leading-[1.3] mb-4 md:mb-12 text-white break-keep">
             복잡한 시스템 구축의 한계,<br />
             AI 통합 워크플로우로 혁신합니다.
           </h2>
